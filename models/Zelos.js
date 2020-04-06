@@ -24,7 +24,8 @@ class Zelos {
     }
     async init() {
         const config = await ConfigModel.findOne();
-        if (config.zelos && config.zelos.tokens) {
+        console.log(`[d] Config: ${config}`)
+        if (config && config.zelos && config.zelos.tokens) {
             console.log(`[d] Found Zelos config`);
             this.tokens = config.zelos.tokens;
             if (isTokenValid(this.tokens.access.expired_at)) {
@@ -42,9 +43,8 @@ class Zelos {
             config.zelos = {
                 tokens: this.tokens
             }
-            await config.save();
-
         }
+        await config.save(); // remove await?
         axios.defaults.headers.common['Authorization'] = `Bearer ${this.tokens.access.token}`;
         const status = await axios.get(`${this.url}/api/status`);
         console.log(`[i] Authenticated to "${status.data.event_name}"`);
@@ -56,8 +56,6 @@ class Zelos {
     async getAccessToken() {
         const res = await axios.put('https://app.zelos.space/api/auth', { refresh_token: this.tokens.refresh.token });
         this.tokens = res.data.data;
-        const status = await axios.get(`${this.url}/api/status`);
-        console.log(`[i] Authenticated to "${status.data.event_name}"`);
     }
     async getTasks() {
         const res = await axios.get(`${this.url}/api/task`);

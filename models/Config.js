@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
 
 const configSchema = new mongoose.Schema({
-    zelos: Object
+    zelos: {
+        type: Object,
+        default: {}
+    }
 }, {
-    strict: false
+    strict: false,
+    minimize: false
 });
 
 const ConfigModel = mongoose.model('Config', configSchema)
