@@ -26,13 +26,12 @@ areas.post('/', checkSchema(validation.newArea), async (req, res) => {
             console.log(`[d] Adding a new group to Zelos "${req.body.name}"`)
             const desc = req.body.description;
             const groupId = await zelos.newGroup(req.body.name, desc);
+            response.zelosGroupId = groupId;
             if (groupId) {
                 response.status = "ok"
-                response.zelosGroupId = groupId;
                 response.message = "Added area and created a new group on Zelos"
             } else {
                 response.status = "warning"
-                response.zelosGroupId = groupId;
                 response.message = "Added area, but failed to create group on Zelos (limit reached)"
             }
             

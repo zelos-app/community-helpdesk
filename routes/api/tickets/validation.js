@@ -34,11 +34,12 @@ const validation = {
             optional: true
         },
         phone: {
-            isInt: true,
-            trim: true,
-            isLength: {
-                min: process.env.PHONE_MINLENGTH,
-                max: process.env.PHONE_MAXLENGTH
+            isString: true,
+            whitelist: {
+                chars: "\\+0123456789"
+            },
+            matches: {
+                pattern: new RegExp(`^\\+${process.env.PHONE_PREFIX}\\d\{${process.env.PHONE_MINLENGTH},${process.env.PHONE_MAXLENGTH}}\$`)
             },
             optional: true
         },

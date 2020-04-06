@@ -62,7 +62,7 @@ class Zelos {
         url = encodeURI(url);
         const res = await axios.get(url);
         if (res.data.data == "") {
-            return false;
+            return null;
         } else {
             const group = res.data.data
             return group[0].data.id
@@ -81,7 +81,7 @@ class Zelos {
             return res.data.id;
         } catch (err) {
             if (err.response.status = 403) {
-                return false;
+                return null;
             }
         }     
     }
