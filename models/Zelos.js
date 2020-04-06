@@ -1,16 +1,6 @@
 const axios = require('axios');
 const {ConfigModel} = require('./Config');
 
-
-function isTokenValid(exp) {
-    now = Math.floor(new Date().getTime() / 1000)
-    if (now > exp) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
 class Zelos {
     constructor() {
         this.url = `https://${process.env.ZELOS_WORKSPACE}.zelos.space`;
@@ -22,47 +12,46 @@ class Zelos {
     }
     async init() {
         const config = await ConfigModel.findOne();
-        console.log(`[d] Config: ${config}`)
         if (config && config.zelos && config.zelos.tokens) {
-            console.log(`[d] Found Zelos config`);
             this.tokens = config.zelos.tokens;
             if (isTokenValid(this.tokens.access.expired_at)) {
-                console.log(`[d] Access token is valid`);
+                console.log(`[d] Zelos: Access token is valid`);
             } else if (isTokenValid(this.tokens.refresh.expired_at)) {
-                console.log(`[d] Requesting new access token`);
-                await this.getAccessToken();
+                console.log(`[d] Zelos: Requesting new access token`);
+                this.tokens = await this.getAccessToken();
+                saveTokens(config, this.tokens);
             } else {
-                console.log(`[d] Re-authenticating`);
-                await this.login();
+                console.log(`[d] Zelos: Re-authenticating`);
+                this.tokens = await this.login();
+                saveTokens(config, this.tokens);
             }
         } else {
-            console.log(`[d] No Zelos tokens found, initializing`);
-            await this.login();
+            console.log(`[d] Zelos: no tokens found, initializing`);
+            this.tokens = await this.login();
+            saveTokens(config, this.tokens);
         }
-        config.zelos = {
-            tokens: this.tokens
-        }
-        await config.save(); // remove await?
         axios.defaults.headers.common['Authorization'] = `Bearer ${this.tokens.access.token}`;
         const status = await axios.get(`${this.url}/api/status`);
         console.log(`[i] Authenticated to "${status.data.event_name}"`);
     }
     async login() {
         const res = await axios.post('https://app.zelos.space/api/auth', this.credentials);
-        this.tokens = res.data.data;
+        const tokens = res.data.data;
+        return tokens
     }
     async getAccessToken() {
         const res = await axios.put('https://app.zelos.space/api/auth', {
             refresh_token: this.tokens.refresh.token
         });
-        this.tokens = res.data.data;
+        const tokens = res.data.data;
+        return tokens;
     }
     async getTasks() {
         const res = await axios.get(`${this.url}/api/task`);
         this.tasks = res.data.data;
         console.log(`[i] Found ${this.tasks.length} tasks`)
     }
-    async getGroups(name = "") {
+    async getGroups() {
         const res = await axios.get(`${this.url}/api/group`);
         this.groups = res.data.data;
         console.log(`[i] Loaded ${this.groups.length} groups`);
@@ -73,11 +62,22 @@ class Zelos {
         url = encodeURI(url);
         const res = await axios.get(url);
         if (res.data.data == "") {
-            return "";
+            return false;
         } else {
             const group = res.data.data
             return group[0].data.id
         }
+    }
+    async newGroup(name, desc, closed = false, secret = false, noScore = true) {
+        const fields = {
+            "name": name,
+            "description": desc,
+            "closed": closed,
+            "secret": secret,
+            "hide_from_scoreboards": noScore
+        }
+        const res = await axios.post(`${this.url}/api/group`, fields);
+        return res.data.id;
     }
 
     async newTask(details, groups = []) {
@@ -125,6 +125,22 @@ class Zelos {
         }
 
     }
+}
+
+function isTokenValid(exp) {
+    now = Math.floor(new Date().getTime() / 1000)
+    if (now > exp) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function saveTokens(config, tokens) {
+    config.zelos = {
+        tokens: tokens
+    }
+    config.save();
 }
 
 String.prototype.capitalize = function () {
