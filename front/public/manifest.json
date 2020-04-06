@@ -1,0 +1,11 @@
+{
+  "short_name": "Covid Request Portal",
+  "name": "Covid Request Portal",
+  "icons": [
+
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
