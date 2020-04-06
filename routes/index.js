@@ -9,6 +9,6 @@ routes.get('/', (req, res) => {
 
 routes.use('/api', api);
 routes.use('/auth', auth);
-routes.use('/app', app);
+routes.use('/app', app); // back office 
 
 module.exports = routes;

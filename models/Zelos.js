@@ -1,7 +1,5 @@
-const axios = require('axios')
-const mongoose = require('mongoose');
-const createError = require('http-errors');
-const { ConfigModel } = require('./Config');
+const axios = require('axios');
+const {ConfigModel} = require('./Config');
 
 
 function isTokenValid(exp) {
@@ -40,9 +38,9 @@ class Zelos {
         } else {
             console.log(`[d] No Zelos tokens found, initializing`);
             await this.login();
-            config.zelos = {
-                tokens: this.tokens
-            }
+        }
+        config.zelos = {
+            tokens: this.tokens
         }
         await config.save(); // remove await?
         axios.defaults.headers.common['Authorization'] = `Bearer ${this.tokens.access.token}`;
@@ -54,7 +52,9 @@ class Zelos {
         this.tokens = res.data.data;
     }
     async getAccessToken() {
-        const res = await axios.put('https://app.zelos.space/api/auth', { refresh_token: this.tokens.refresh.token });
+        const res = await axios.put('https://app.zelos.space/api/auth', {
+            refresh_token: this.tokens.refresh.token
+        });
         this.tokens = res.data.data;
     }
     async getTasks() {
