@@ -76,8 +76,14 @@ class Zelos {
             "secret": secret,
             "hide_from_scoreboards": noScore
         }
-        const res = await axios.post(`${this.url}/api/group`, fields);
-        return res.data.id;
+        try {
+            const res = await axios.post(`${this.url}/api/group`, fields);
+            return res.data.id;
+        } catch (err) {
+            if (err.response.status = 403) {
+                return false;
+            }
+        }     
     }
 
     async newTask(details, groups = []) {

@@ -14,27 +14,34 @@ areas.post('/', checkSchema(validation.newArea), async (req, res) => {
     }
     try {
         const area = new Area();
-        const res = await area.add(req.body);
+        const newArea = await area.add(req.body);
         const response = {
-            status: "ok",
-            id: res.id
+            id: newArea.id
         }
         // find or create a group on Zelos
         const zelos = new Zelos();
         await zelos.init();
-        let group = await zelos.findGroup(req.body.name);
+        const group = await zelos.findGroup(req.body.name);
         if (!group) {
             console.log(`[d] Adding a new group to Zelos "${req.body.name}"`)
             const desc = req.body.description;
-            const id = await zelos.newGroup(req.body.name, desc);
-            response.zelosGroupId = id;
-            response.message = "Added area and created a new group on Zelos"
+            const groupId = await zelos.newGroup(req.body.name, desc);
+            if (groupId) {
+                response.status = "ok"
+                response.zelosGroupId = groupId;
+                response.message = "Added area and created a new group on Zelos"
+            } else {
+                response.status = "warning"
+                response.zelosGroupId = groupId;
+                response.message = "Added area, but failed to create group on Zelos (limit reached)"
+            }
+            
         } else {
             console.log(`[d] Linking new area to "${req.body.name}" on Zelos`)
+            response.status = "ok"
             response.zelosGroupId = group;
             response.message = "Added area and linked an existing group on Zelos"
         }
-        response.status = "ok"
         res.status(201).send(response);
     } catch (err) {
         handleError(err, res);
