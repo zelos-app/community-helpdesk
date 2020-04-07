@@ -91,6 +91,7 @@ class Ticket {
     // Get a single ticket
     async get() {
         const ticket = await TicketModel.findById(this.id);
+        if (ticket) {
         return ticket;
     }
 
