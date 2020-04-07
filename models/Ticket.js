@@ -13,6 +13,15 @@ const ticketSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
+    comments: [
+        {
+            comment: String,
+            creator: {
+                system: Boolean,
+                id: String
+            }
+        }
+    ],
     status: {
         rejected: {
             type: Boolean,
@@ -139,7 +148,51 @@ class Ticket {
             throw err;
         }
     }
-}
 
+    // Comments
+    async addComment(comment, user = null) {
+        const ticket = await TicketModel.findById(this.id);
+        const newComment = {
+            comment: comment,
+            creator: {}
+        }
+        if (!user) {
+            newComment.creator.system = true;
+        } else {
+            newComment.creator.id = user;
+        }
+        ticket.comments.push(newComment);
+        const result = await ticket.save();
+        return {
+            status: "ok",
+            id: result.comments[result.comments.length -1]._id
+        }
+    }
+
+    async removeComment(commentId) {
+        const ticket = await TicketModel.findById(this.id);
+        console.log(`Comments before:\n${ticket.comments}`);
+        let count = 0;
+        ticket.comments = ticket.comments.filter(obj => {
+            if (obj._id != commentId) {
+                return true
+            } else {
+                count++
+            }
+        })
+        if (count === 1) {
+            await ticket.save();
+            return {
+                status: "ok"
+            }
+        } else {
+            const err = createError(404, {
+                status: "error",
+                message: "Not found"
+            });
+            throw err;
+        }
+    }
+}
 
 module.exports = Ticket;

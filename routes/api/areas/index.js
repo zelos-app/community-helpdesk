@@ -3,7 +3,6 @@ const { checkSchema, validationResult } = require('express-validator');
 const validation = require('./validation.js');
 const appRoot = require('app-root-path');
 const handleError = require(appRoot + '/middleware/HandleError');
-const Zelos = require(appRoot + '/models/Zelos');
 
 const Area = require(appRoot + '/models/Area');
 
@@ -14,33 +13,7 @@ areas.post('/', checkSchema(validation.newArea), async (req, res) => {
     }
     try {
         const area = new Area();
-        const newArea = await area.add(req.body);
-        const response = {
-            id: newArea.id
-        }
-        // find or create a group on Zelos
-        const zelos = new Zelos();
-        await zelos.init();
-        const group = await zelos.findGroup(req.body.name);
-        if (!group) {
-            console.log(`[d] Adding a new group to Zelos "${req.body.name}"`)
-            const desc = req.body.description;
-            const groupId = await zelos.newGroup(req.body.name, desc);
-            response.zelosGroupId = groupId;
-            if (groupId) {
-                response.status = "ok"
-                response.message = "Added area and created a new group on Zelos"
-            } else {
-                response.status = "warning"
-                response.message = "Added area, but failed to create group on Zelos (limit reached)"
-            }
-            
-        } else {
-            console.log(`[d] Linking new area to "${req.body.name}" on Zelos`)
-            response.status = "ok"
-            response.zelosGroupId = group;
-            response.message = "Added area and linked an existing group on Zelos"
-        }
+        const response = await area.add(req.body);
         res.status(201).send(response);
     } catch (err) {
         handleError(err, res);

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const createError = require('http-errors');
+const Zelos = require('./Zelos')
 
 const areaSchema = new mongoose.Schema({
     name: String,
@@ -38,10 +39,30 @@ class Area {
         // todo: fields.createdBy = current user
         const area = new AreaModel(this.data);
         const newArea = await area.save();
-        console.log(`[i] New area: ${newArea._id}`);
-        return {
+        const response = {
             id: newArea._id
         }
+        // create or link a group on Zelos
+        const zelos = new Zelos();
+        await zelos.init();
+        const group = await zelos.findGroup(req.body.name);
+        if (!group) {
+            const desc = req.body.description;
+            const groupId = await zelos.newGroup(req.body.name, desc);
+            response.zelosGroupId = groupId;
+            if (groupId) {
+                response.status = "ok"
+                response.message = "Added area and created a new group on Zelos"
+            } else {
+                response.status = "warning"
+                response.message = "Added area, but failed to create group on Zelos (limit reached)"
+            }    
+        } else {
+            response.status = "ok"
+            response.zelosGroupId = group;
+            response.message = "Added area and linked an existing group on Zelos"
+        }
+        return response
     }
     // Get all areas
     async list() {

@@ -73,4 +73,27 @@ tickets.delete('/:id', async (req, res) => {
     }
 })
 
+tickets.post('/:id/comments', async (req, res) => {
+    try {
+        // unvalidated
+        const ticket = new Ticket(req.params.id);
+        const user = null; // todo: add user ID
+        result = await ticket.addComment(req.body.comment, user);
+        res.send(result);
+    } catch (err) {
+        handleError(err, res);
+    }
+})
+
+tickets.delete('/:id/comments/:commentId', async (req, res) => {
+    try {
+        // unvalidated
+        const ticket = new Ticket(req.params.id);
+        result = await ticket.removeComment(req.params.commentId);
+        res.send(result);
+    } catch (err) {
+        handleError(err, res);
+    }
+})
+
 module.exports = tickets;
