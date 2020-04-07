@@ -33,8 +33,8 @@ async function init() {
   try {
     const config = new Config();
     await config.init();
-    const zelos = new Zelos(); // debug
-    await zelos.init(); // debug
+    // const zelos = new Zelos(); // debug
+    // await zelos.init(); // debug
   } catch (err) {
     console.error(err.stack);
   }

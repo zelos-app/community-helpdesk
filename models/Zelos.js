@@ -30,29 +30,32 @@ class Zelos {
             this.tokens = await this.login();
             saveTokens(config, this.tokens);
         }
-        axios.defaults.headers.common['Authorization'] = `Bearer ${this.tokens.access.token}`;
-        const status = await axios.get(`${this.url}/api/status`);
+        this.headers = {
+            Authorization: `Bearer ${this.tokens.access.token}`
+        }
+        // axios.defaults.headers.common['Authorization'] = `Bearer ${this.tokens.access.token}`;
+        const status = await axios.get(`${this.url}/api/status`, this.headers);
         console.log(`[i] Authenticated to "${status.data.event_name}"`);
     }
     async login() {
-        const res = await axios.post('https://app.zelos.space/api/auth', this.credentials);
+        const res = await axios.post('https://app.zelos.space/api/auth', this.credentials, this.headers);
         const tokens = res.data.data;
         return tokens
     }
     async getAccessToken() {
         const res = await axios.put('https://app.zelos.space/api/auth', {
             refresh_token: this.tokens.refresh.token
-        });
+        }, this.headers);
         const tokens = res.data.data;
         return tokens;
     }
     async getTasks() {
-        const res = await axios.get(`${this.url}/api/task`);
+        const res = await axios.get(`${this.url}/api/task`, {headers});
         this.tasks = res.data.data;
         console.log(`[i] Found ${this.tasks.length} tasks`)
     }
     async getGroups() {
-        const res = await axios.get(`${this.url}/api/group`);
+        const res = await axios.get(`${this.url}/api/group`, {headers});
         this.groups = res.data.data;
         console.log(`[i] Loaded ${this.groups.length} groups`);
     }
@@ -77,7 +80,7 @@ class Zelos {
             "hide_from_scoreboards": noScore
         }
         try {
-            const res = await axios.post(`${this.url}/api/group`, fields);
+            const res = await axios.post(`${this.url}/api/group`, {fields, headers});
             return res.data.id;
         } catch (err) {
             if (err.response.status = 403) {
@@ -121,7 +124,7 @@ class Zelos {
             "user_ids": []
         }
         try {
-            const res = await axios.post(`${this.url}/api/task/regular`, body)
+            const res = await axios.post(`${this.url}/api/task/regular`, {body, ...this.headers})
             const taskUrl = this.url + "/tasks/" + res.data.data.id;
             console.log(`[i] Created ${taskUrl}`);
             return taskUrl;

@@ -92,7 +92,14 @@ class Ticket {
     async get() {
         const ticket = await TicketModel.findById(this.id);
         if (ticket) {
-        return ticket;
+            return ticket;
+        } else {
+            const err = createError(404, {
+                status: "error",
+                message: "Not found"
+            });
+            throw err;
+        }
     }
 
     // Add a new request ticket

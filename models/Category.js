@@ -4,6 +4,7 @@ const createError = require('http-errors');
 const categorySchema = new mongoose.Schema({
     name: String,
     description: String,
+    needsAddress: Boolean,
     createdAt: {
         type: Date,
         default: Date.now()
