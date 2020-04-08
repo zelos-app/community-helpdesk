@@ -8,13 +8,30 @@ Inputs:
 
 Method: `POST /api/auth`
 
+## /login/reset
+
+For requesting a password reset. 
+
+Inputs:
+- email
+
+Method: `POST /api/auth/reset?email=email@domain.com` (always returns 200 "ok")
+
 ## /users
 
 User management dashboard for admin. Lists users and has button for inviting.
 
+**Back end**
+
+Method: `GET /api/users` (`?limit=int&skip=int`)
+
 ## /users/:id
 
-Individual user
+Get individual user details
+
+**Back end**
+
+Method: `GET /api/users/:id`
 
 ## /users/invite
 
@@ -22,6 +39,7 @@ Invite a new user via email.
 
 Inputs:
 - email
+- admin (bool, default false)
 
 Method: `POST /api/users`
 
@@ -34,9 +52,9 @@ Inputs:
 - lastName
 - password
 
-Check if token is valid: `GET /api/users/reset/:token`
+Check if token is valid first: `GET /api/auth/reset/:token`
 
-Create account: `PUT /api/users/register/:token`
+Create account: `PUT /api/auth/register/:token`
 
 ## /reset/:token
 
@@ -45,7 +63,7 @@ Landing for password reset email link.
 Input:
 - password
 
-Check if token is valid: `GET /api/users/reset/:token`
+Check if token is valid first: `GET /api/auth/reset/:token`
 
-Reset password: `PUT /api/users/reset/:token`
+Reset password: `PUT /api/auth/reset/:token`
 
