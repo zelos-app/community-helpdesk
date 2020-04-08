@@ -54,17 +54,24 @@ class User {
     // create an account
     async register(token, firstName, lastName, password) {
         const user = await UserModel.findOne({credentials: {resetToken: token}});
-        if (user) {
+        if (user && !user.status.registered) {
             user.credentials.password = await bcrypt.hash(password, 10);
             user.firstName = firstName;
             user.lastName = lastName;
             // clear the reset token
-            user.credentials.resetToken = ""
+            user.credentials.resetToken = "";
+            user.status.registered = true;
             await user.save();
             return {
                 status: "ok",
                 message: "User created"
             }
+        } else if (user && user.status.registered) {
+            const err = createError(409, {
+                status: "error",
+                message: "User account exists"
+            });
+            throw err;
         } else {
             const err = createError(404, {
                 status: "error",
@@ -94,13 +101,15 @@ class User {
     async newReset(email) {
         try {
             const user = await UserModel.findOne({email: email})
-            if (user !== null) {
+            if (user && user.status.registered) {
                 user.credentials.resetToken = newToken();
                 const invite = new Mailgun(user.email);
                 await invite.send(`Password reset`, `Hello,\n\nA password reset has been requested for your account at ${process.env.APP_DOMAIN}.\nYou can set a new password here: ${process.env.APP_URL}/reset/${user.credentials.resetToken}\n\nIf you didn't ask for this reset you can safely ignore this letter`);
                 user.save();
+            } else if (user && !user.status.registered) {
+                console.log(`[w] Got Password reset request for non-activated account: ${email}`);
             } else {
-                console.log(`[w] Password reset request for non-existing email: ${email}`);
+                console.log(`[w] Got Password reset request for non-existing email: ${email}`);
             }
         } catch (err) {
 
@@ -167,7 +176,7 @@ class User {
         return result;
     }
     
-    // get user details
+    // get user details as an object
     async get(id) {
         const user = await UserModel.findById(id);
         if (user) {
@@ -197,7 +206,18 @@ class User {
         }
     }
 
-    // search for a user
+    async getUserByField(fields) {
+        const user = await UserModel.findOne(fields);
+        if (user) {
+            console.log(`Found user: ${user}`)
+            return user;
+        } else {
+            return false;
+        }
+    }
+
+
+    // search for users
     async find(fields = {}) {
         if (fields) {
             let result;

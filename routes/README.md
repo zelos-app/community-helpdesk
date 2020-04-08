@@ -15,7 +15,9 @@ For requesting a password reset.
 Inputs:
 - email
 
-Method: `POST /api/auth/reset?email=email@domain.com` (always returns 200 "ok")
+Method: `POST /api/auth/reset?email=email@domain.com`*
+
+*Always returns 200
 
 ## /users
 
