@@ -3,7 +3,9 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const routes = require('./routes');
-const { Config } = require('./models/Config');
+const rateLimit = require("express-rate-limit");
+const getDuration = require('./middleware/Timer');
+const {Config} = require('./models/Config');
 
 const Zelos = require('./models/Zelos');
 
@@ -40,11 +42,34 @@ async function init() {
   }
 }
 
+// Rate limiting
+const resetLimit = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 3
+});
+
 // Setup Express
 app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(bodyParser.json());
+app.use("/auth/reset", resetLimit);
+// Enable response time logging
+if (process.env.LOG_RESPONSE_TIME) {
+  app.use((req, res, next) => {
+    const start = process.hrtime()
+    res.on('finish', () => {
+      const duration = getDuration(start)
+      console.log(`[d] ${req.method} ${req.originalUrl} [FINISHED] ${duration .toLocaleString()} ms`)
+    })
+    res.on('close', () => {
+      const duration = getDuration(start)
+      console.log(`[d] ${req.method} ${req.originalUrl} [CLOSED] ${duration .toLocaleString()} ms`)
+    })
+    next()
+  })
+}
+
 app.use((err, req, res, next) => {
   if (err) {
     res.status(400).send('Bad request')

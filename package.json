@@ -9,14 +9,15 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@hapi/joi": "^17.1.1",
     "app-root-path": "^3.0.0",
     "axios": "^0.19.2",
+    "bcrypt": "^4.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-rate-limit": "^5.1.1",
     "express-validator": "^6.4.0",
     "http-errors": "^1.7.3",
-    "mongoose": "^5.9.6"
+    "mongoose": "^5.9.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
