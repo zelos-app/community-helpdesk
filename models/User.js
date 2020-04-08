@@ -219,7 +219,7 @@ class User {
 }
 
 function newToken() {
-    const token = user.credentials.resetToken = crypto.createHash('md5').update(`${Date.now() + Math.floor(Math.random() * 10000)}`).digest("hex");
+    const token = crypto.createHash('md5').update(`${Date.now() + Math.floor(Math.random() * 10000)}`).digest("hex");
     return token;
 }
 
