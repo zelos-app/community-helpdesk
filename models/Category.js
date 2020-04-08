@@ -50,7 +50,15 @@ class Category {
     // Get a single category
     async get() {
         const category = await CategoryModel.findById(this.id);
-        return category;
+        if (category) {
+            return category;
+        } else {
+            const err = createError(404, {
+                status: "error",
+                message: "Not found"
+            });
+            throw err;
+        }
     }
 
     // Update category
