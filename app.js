@@ -7,8 +7,6 @@ const rateLimit = require("express-rate-limit");
 const getDuration = require('./middleware/Timer');
 const {Config} = require('./models/Config');
 
-const Zelos = require('./models/Zelos');
-
 // Check environment
 if (process.env.NODE_ENV !== "production") {
   require('dotenv').config();
@@ -35,8 +33,6 @@ async function init() {
   try {
     const config = new Config();
     await config.init();
-    // const zelos = new Zelos(); // debug
-    // await zelos.init(); // debug
   } catch (err) {
     console.error(err.stack);
   }

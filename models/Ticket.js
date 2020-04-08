@@ -126,10 +126,27 @@ class Ticket {
             message: "Updated",
             fields: {...this.data}
         }
+    }
+
+    // Assign ownership to ticket
+    async assign(userId) {
+        await TicketModel.updateOne({ _id: this.id }, {owner: userId});
+        return {
+            status: "ok",
+            message: "Assigned"
         }
+    }
+    // Clear ownership
+    async unassign() {
+        await TicketModel.updateOne({ _id: this.id }, {owner: null});
+        return {
+            status: "ok",
+            message: "Unassigned"
+        }
+    }
 
     // Remove a ticket
-    async delete(id) {
+    async delete(id = this.id) {
         console.log(`[d] Trying to remove ticket "${id}"`);
         if (id) {
             const res = await TicketModel.deleteOne({
