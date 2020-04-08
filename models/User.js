@@ -36,8 +36,13 @@ class User {
             // create a password reset token
             user.credentials.resetToken = newToken();
             // email an invite
-            const invite = new Mailgun(user.email);
-            await invite.send(`Invitation to ${process.env.APP_NAME}`, `Hello,\n\nYou have been invited to join the team at ${process.env.APP_DOMAIN}.\nGet started by finish creating your account at ${process.env.APP_URL}/confirm/${user.credentials.resetToken}`);
+            if (process.env.INVITE_SEND_EMAIL) {
+                const invite = new Mailgun(user.email);
+                invite.send(`Invitation to ${process.env.APP_NAME}`, `Hello,\n\nYou have been invited to join the team at ${process.env.APP_DOMAIN}.\nGet started by finish creating your account at ${process.env.APP_URL}/confirm/${user.credentials.resetToken}`);
+            }
+            if (process.env.INVITE_LOG_CONSOLE) {
+                console.log(`[d] Invite token for ${user.email}: "${user.credentials.resetToken}"`);
+            }
             const result = await user.save();
             return {
                 id: result._id
