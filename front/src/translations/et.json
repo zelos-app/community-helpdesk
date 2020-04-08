@@ -1,3 +1,18 @@
 {
-  "welcome": "Teree"
+  "iNeedHelp": "Vajan abi",
+  "iWantToHelp": "Tahan aidata",
+  "introHead": "Welcome, lorem ipsum dummy text. EST",
+  "introBody": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. EST",
+  "categoryHead": "What do you need help with?",
+  "categoryBody": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+  "shopping": "Poes käik",
+  "walkingAPet": "Koeraga jalutamine",
+  "pleaseDescribeYourProblem": "Palun kirjelda probleemi",
+  "describeYourRequest": "Describe your request",
+  "enterYourDetails": "Sisesta enda andmed",
+  "next": "Edasi",
+  "fullName": "Täisnimi",
+  "phone": "Telefon",
+  "address": "Address",
+  "area": "Piirkond"
 }

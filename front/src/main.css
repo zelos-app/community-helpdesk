@@ -1,0 +1,84 @@
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background .2s ease-in-out;
+}
+
+h1, h2, h3, h4, h5, h6, p, a {
+  margin: 0;
+  padding: 0;
+  font-weight: 500;
+}
+
+a {
+  text-decoration: none;
+}
+
+.request {}
+
+  .request-wrapper {
+    max-width: 600px;
+    margin: 0 auto;}
+
+.input-container .input {
+  margin-top: 20px;
+}
+
+.action-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 40px;}
+
+  .action-wrapper div:not(:first-child) {
+    padding-left: 20px;}
+
+
+
+
+h1.text-alpha {
+  font-size: 32pt;
+  line-height: 42pt;
+  font-weight: 700;
+  margin-bottom: 24px;}
+
+  @media only screen and (max-width : 900px) {
+    h1.text-alpha {
+      line-height: 30pt;
+      font-weight: 700;
+      font-size: 22pt;
+      margin-bottom: 16px;}} 
+
+
+h2.text-alpha {
+  font-size: 18pt;
+  line-height: 1.5;
+  font-weight: 500;
+  margin-bottom: 28px;}
+
+  @media only screen and (max-width : 900px) {
+    h2.text-alpha {
+    font-size: 16pt;
+    margin-bottom: 20px;}} 
+
+
+h3.text-alpha {
+  font-size: 15pt;
+  line-height: 1.5;
+  font-weight: 400;
+  margin-bottom: 28px;}
+
+  @media only screen and (max-width : 900px) {
+    h3.text-alpha {
+      font-size: 14pt;
+      font-weight: 400;
+      margin-bottom: 20px;}} 
