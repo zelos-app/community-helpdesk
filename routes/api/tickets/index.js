@@ -5,6 +5,7 @@ const appRoot = require('app-root-path');
 const Ticket = require(appRoot + '/models/Ticket');
 const handleError = require(appRoot + '/middleware/HandleError');
 
+// List all tickets
 tickets.get('/', checkSchema(validation.listTickets), async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -26,6 +27,7 @@ tickets.get('/', checkSchema(validation.listTickets), async (req, res) => {
     }
 })
 
+// Create a ticket
 tickets.post('/', async (req, res) => {
     const ticket = new Ticket();
     try {
@@ -39,6 +41,31 @@ tickets.post('/', async (req, res) => {
     }
 })
 
+// Assign user to ticket
+tickets.put('/:id/assign', async (req, res) => {
+    try {
+        // unvalidated
+        const ticket = new Ticket(req.params.id);
+        result = await ticket.assign(req.query.id);
+        res.send(result);
+    } catch (err) {
+        handleError(err, res);
+    }
+})
+
+// Clear ticket owner
+tickets.delete('/:id/assign', async (req, res) => {
+    try {
+        // unvalidated
+        const ticket = new Ticket(req.params.id);
+        result = await ticket.unassign();
+        res.send(result);
+    } catch (err) {
+        handleError(err, res);
+    }
+})
+
+// Get a single ticket
 tickets.get('/:id', async (req, res) => {
     try {
         // unvalidated
@@ -50,6 +77,7 @@ tickets.get('/:id', async (req, res) => {
     }
 })
 
+// Update a ticket
 tickets.put('/:id', async (req, res) => {
     try {
         // unvalidated
@@ -59,20 +87,21 @@ tickets.put('/:id', async (req, res) => {
     } catch (err) {
         handleError(err, res);
     }
-
 })
 
+// Delete a ticket
 tickets.delete('/:id', async (req, res) => {
     try {
         // unvalidated
-        const ticket = new Ticket();
-        const result = await ticket.delete(req.params.id);
+        const ticket = new Ticket(req.params.id);
+        const result = await ticket.delete();
         res.send(result);
     } catch (err) {
         handleError(err, res);
     }
 })
 
+// Add a comment to a ticket
 tickets.post('/:id/comments', async (req, res) => {
     try {
         // unvalidated
@@ -85,6 +114,7 @@ tickets.post('/:id/comments', async (req, res) => {
     }
 })
 
+// Delete a comment
 tickets.delete('/:id/comments/:commentId', async (req, res) => {
     try {
         // unvalidated
