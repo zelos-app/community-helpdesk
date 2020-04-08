@@ -32,6 +32,10 @@ export default createGlobalStyle`
         cursor: pointer;
         transition: all .12s ease-in-out;}
 
+        .input-wrapper textarea {
+          padding-top: 10pt ;
+          line-height: 1.6em;}
+
         .primary .input-wrapper input,
         .primary .input-wrapper textarea {
           color: ${({ theme }) => theme.input.primary.color.main};
@@ -54,7 +58,7 @@ export default createGlobalStyle`
             border: solid ${({ theme }) => theme.input.primary.borderColor.focus} 2px;}
 
         .secondary .input-wrapper input,
-        .secondary .inputtextareawrapper input {
+        .secondary .input-wrapper textarea {
           color: ${({ theme }) => theme.input.secondary.color.main};
           background: ${({ theme }) => theme.input.secondary.background.main};
           border: solid ${({ theme }) => theme.input.secondary.borderColor.main} 2px;}

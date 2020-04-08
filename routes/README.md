@@ -1,6 +1,6 @@
 # Front end routes
 
-## /login
+## /login DONE
 
 Inputs:
 - email
@@ -8,7 +8,7 @@ Inputs:
 
 Method: `POST /api/auth`
 
-## /login/reset
+## /login/reset DONE
 
 For requesting a password reset. 
 
@@ -43,7 +43,7 @@ Inputs:
 
 Method: `POST /api/users`
 
-## /register/:token
+## /register/:token DONE
 
 Landing for signup invite email link.
 
@@ -56,7 +56,7 @@ Check if token is valid first: `GET /api/auth/reset/:token`
 
 Create account: `PUT /api/auth/register/:token`
 
-## /reset/:token
+## /reset/:token DONE
 
 Landing for password reset email link.
 

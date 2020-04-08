@@ -1,9 +1,9 @@
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
 import {useHistory} from "react-router-dom"
-import {requestStore} from '../../../store'
-import CustomButton from '../../../components/CustomButton/CustomButton'
-import CustomInput from '../../../components/CustomInput/CustomInput'
+import {requestStore} from '../../store'
+import CustomButton from '../../components/CustomButton/CustomButton'
+import CustomInput from '../../components/CustomInput/CustomInput'
 
 function Request () {
   const history = useHistory()

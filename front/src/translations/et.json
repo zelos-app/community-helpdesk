@@ -14,5 +14,12 @@
   "fullName": "Täisnimi",
   "phone": "Telefon",
   "address": "Address",
-  "area": "Piirkond"
+  "area": "Piirkond",
+  "email": "Email",
+  "password": "Parool",
+  "login": "Logi sisse",
+  "firstName": "Eesnimi",
+  "lastName": "Perekonnanimi",
+  "register": "Registeeri",
+  "sendEmail": "Saada email"
 }

@@ -1,16 +1,18 @@
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
 import {useHistory} from "react-router-dom"
-import CustomButton from '../../../components/CustomButton/CustomButton'
-import CustomInput from '../../../components/CustomInput/CustomInput'
-import {requestStore} from '../../../store'
+import CustomButton from '../../components/CustomButton/CustomButton'
+import CustomInput from '../../components/CustomInput/CustomInput'
+import {requestStore} from '../../store'
 
 
 function Details () {
   const history = useHistory()
 
   function next () {
-    history.push('/confirmed')
+    
+    
+    // history.push('/confirmed')
   }
 
   function handleInputChange ({target}) {

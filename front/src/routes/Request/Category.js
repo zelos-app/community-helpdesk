@@ -1,8 +1,8 @@
 import React from 'react'
-import CustomButton from '../../../components/CustomButton/CustomButton'
+import CustomButton from '../../components/CustomButton/CustomButton'
 import {FormattedMessage} from 'react-intl'
 import {useHistory} from "react-router-dom"
-import {requestStore} from '../../../store'
+import {requestStore} from '../../store'
 
 function Category () {
   const history = useHistory()

@@ -1,9 +1,7 @@
 import React from 'react'
-import {requestStore} from '../../../store'
+import {requestStore} from '../../store'
 
 function Confirmed () {
-
-
   
   return (
     <div className="request">

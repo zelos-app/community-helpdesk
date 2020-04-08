@@ -14,5 +14,12 @@
   "fullName": "Full name",
   "phone": "Phone",
   "address": "Address",
-  "area": "Area"
+  "area": "Area",
+  "email": "Email",
+  "password": "Password",
+  "login": "Login",
+  "firstName": "First name",
+  "lastName": "Last name",
+  "register": "Register",
+  "sendEmail": "Send Email"
 }
