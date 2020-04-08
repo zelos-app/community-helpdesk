@@ -6,7 +6,7 @@ Inputs:
 - email
 - password
 
-Backend method: `POST /api/auth`
+Method: `POST /api/auth`
 
 ## /users
 
@@ -23,6 +23,8 @@ Invite a new user via email.
 Inputs:
 - email
 
+Method: `POST /api/users`
+
 ## /register/:token
 
 Landing for signup invite email link.
@@ -33,6 +35,7 @@ Inputs:
 - password
 
 Check if token is valid: `GET /api/users/reset/:token`
+
 Create account: `PUT /api/users/register/:token`
 
 ## /reset/:token
@@ -43,5 +46,6 @@ Input:
 - password
 
 Check if token is valid: `GET /api/users/reset/:token`
+
 Reset password: `PUT /api/users/reset/:token`
 
