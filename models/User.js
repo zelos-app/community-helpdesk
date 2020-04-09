@@ -287,7 +287,7 @@ class User {
     // create default user
     async initDefault() {
         const user = await this.getUserByField({email: process.env.ADMIN_EMAIL});
-        if (!user.status && !user.status.registered) {
+        if (!user) {
             const user = new UserModel();
             user.email = process.env.ADMIN_EMAIL
             user.firstName = "Default";
