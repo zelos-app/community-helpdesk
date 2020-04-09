@@ -287,15 +287,14 @@ class User {
     // create default user
     async initDefault() {
         const user = await this.getUserByField({email: process.env.ADMIN_EMAIL});
-        if (!user.status.registered) {
+        if (!user) {
             const user = new UserModel();
-            const password = process.env.ADMIN_PASSWORD
             user.email = process.env.ADMIN_EMAIL
             user.firstName = "Default";
             user.lastName = "Admin";
             user.status.admin = true;
             user.status.registered = true;
-            user.credentials.password = await bcrypt.hash(password, 10);
+            user.credentials.password = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
             console.log(`[i] Created default user`)
             await user.save();
         }
