@@ -20,10 +20,12 @@ h1, h2, h3, h4, h5, h6, p, a {
 
 a {
   text-decoration: none;
+  color: inherit;
 }
 
 main > .auth,
-main > .request {
+main > .request,
+main > .settings {
   padding: 0 5vw;
 }
 

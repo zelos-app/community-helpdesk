@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl'
 import CustomButton from '../../components/CustomButton/CustomButton'
 import CustomInput from '../../components/CustomInput/CustomInput'
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner'
+import DashboardNavigation from '../../components/DashboardNavigation/DashboardNavigation'
 
 export default function Main () {
   const FILTER_KEYS = ['rejected', 'accepted', 'solved', 'archived', 'notified']
@@ -64,7 +65,7 @@ export default function Main () {
     const activeFilters = Object
       .keys(filterStates)
       .filter((key) => !!filterStates[key])
-    
+
     return activeFilters.filter((oneFilter) => {
       return oneTicket.status[oneFilter] === false
     }).length === 0
@@ -81,9 +82,9 @@ export default function Main () {
     const displayedDate = date !== 'invalid date'
       ? date
       : ''
-    
+
     return (
-      <div 
+      <div
         onClick={() => selectTicket(ticket)}
         className="ticket">
         <div className="ticket-wrapper">
@@ -94,27 +95,17 @@ export default function Main () {
             <h5>{ticket.category}</h5>
             <h5>{ticket.area}</h5>
           </div>
-          
+
         </div>
       </div>
     )
   }
-  
+
   return (
     <div className="dashboard-children main">
       <div className="dashboard-children-wrapper">
+        <DashboardNavigation />
 
-        <div className="header">
-          <div className="nav">
-            <Link to="/dashboard">
-              <FormattedMessage id="tickets"/>
-            </Link>
-            <Link to="/dashboard/settings">
-              <FormattedMessage id="settings"/>
-            </Link>
-          </div>
-        </div>
-    
         <div className="tickets">
           <div className="ticket-list">
 
@@ -139,8 +130,8 @@ export default function Main () {
 
             {/* TICKETS */}
             <div className="ticket-list-wrapper">
-              {isLoadingTickets 
-                ? <LoadingSpinner /> 
+              {isLoadingTickets
+                ? <LoadingSpinner />
                 : tickets.filter(ticketFilters).map((ticket) => <Ticket {...ticket} />)
               }
             </div>
@@ -150,7 +141,7 @@ export default function Main () {
           <div className="task-manager">
 
             <div className="flex-end action-wrapper">
-              <CustomButton 
+              <CustomButton
                 titleId="newTask"
                 modifier="secondary"
                 onClick={createTask}/>
@@ -164,53 +155,53 @@ export default function Main () {
                   name="request"
                   modifier="secondary"
                   layout="textarea"
-                  value={ticketDetails.request}  
+                  value={ticketDetails.request}
                   onChange={handleInputChange}/>
 
                 <CustomInput
                   labelId="requesterName"
                   name="name"
                   modifier="secondary"
-                  value={ticketDetails.name}  
+                  value={ticketDetails.name}
                   onChange={handleInputChange}/>
 
                 <CustomInput
                   labelId="category"
                   name="category"
                   modifier="secondary"
-                  value={ticketDetails.category}  
+                  value={ticketDetails.category}
                   onChange={handleInputChange}/>
 
                 <CustomInput
                   labelId="phone"
                   name="phone"
                   modifier="secondary"
-                  value={ticketDetails.phone}  
+                  value={ticketDetails.phone}
                   onChange={handleInputChange}/>
 
                 <CustomInput
                   labelId="address"
                   name="address"
                   modifier="secondary"
-                  value={ticketDetails.address}  
+                  value={ticketDetails.address}
                   onChange={handleInputChange}/>
 
                 <CustomInput
                   labelId="area"
                   name="area"
                   modifier="secondary"
-                  value={ticketDetails.area}  
+                  value={ticketDetails.area}
                   onChange={handleInputChange}/>
 
                 <CustomInput
                   labelId="assignee"
                   name="assignee"
                   modifier="primary"
-                  value={ticketDetails.assignee}  
+                  value={ticketDetails.assignee}
                   onChange={handleInputChange}/>
 
                 <div className="flex-end action-wrapper">
-                  <CustomButton 
+                  <CustomButton
                     titleId="createTask"
                     modifier="primary"
                     onClick={createTask}/>
@@ -218,10 +209,10 @@ export default function Main () {
               </div>
             </div>
           </div>
-          
+
         </div>
-      
-        
+
+
       </div>
     </div>
   )
