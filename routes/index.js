@@ -7,6 +7,6 @@ routes.get('/', (req, res) => {
     // app public page with info and form
 });
 
-routes.use('/api', authorize, api);
+routes.use('/api', api);
 
 module.exports = routes;
