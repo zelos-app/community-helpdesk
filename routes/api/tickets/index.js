@@ -77,13 +77,28 @@ tickets.get('/:id', async (req, res) => {
     }
 })
 
-// Update a ticket
+// Update ticket details
 tickets.put('/:id', async (req, res) => {
     try {
         // unvalidated
         const ticket = new Ticket(req.params.id);
         result = await ticket.update(req.body);
         res.send(result);
+    } catch (err) {
+        handleError(err, res);
+    }
+})
+
+// Moderate ticket
+tickets.post('/:id/:status', async (req, res) => {
+    try {
+        // unvalidated
+        const ticket = new Ticket(req.params.id);
+        if (req.params.status === "approve") {
+            ticket.approve(req.query);
+        } else if (req.params.status === "reject") {
+            ticket.reject(req.query)
+        }
     } catch (err) {
         handleError(err, res);
     }

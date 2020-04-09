@@ -24,7 +24,8 @@ const configSchema = new mongoose.Schema({
             type: String,
             default: "Unfortunately we can't accept your request. It maybe have not met the requirements or was missing crucial details"
         }
-    }
+    },
+    
 }, {
     strict: false,
     minimize: false

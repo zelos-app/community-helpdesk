@@ -4,7 +4,7 @@ const Mailgun = require('./Mailgun');
 const crypto = require('crypto');
 const bcrypt = require("bcrypt");
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     firstName: String,
     lastName: String,
     email: String,  
@@ -20,7 +20,12 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-const UserModel = mongoose.model('User', userSchema)
+UserSchema.methods.generateAuthToken = function() { 
+    const token = jwt.sign({ _id: this._id, admin: this.admin }, process.env.PRIVATE_KEY);
+    return token;
+  }
+
+const UserModel = mongoose.model('User', UserSchema)
 
 class User {
     constructor() {

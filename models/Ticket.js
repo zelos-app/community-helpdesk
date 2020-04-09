@@ -146,6 +146,14 @@ class Ticket {
     }
 
     // Approve a ticket
+    async approve(query) {
+        const ticket = this.get();
+        // Create a task on Zelos
+        
+        // Store task info
+        // Send a notification request
+        // Update ticket
+    }
 
     // Reject a ticket
 
