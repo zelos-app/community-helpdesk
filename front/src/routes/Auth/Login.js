@@ -21,7 +21,7 @@ export default function Login () {
     }
 
     try {
-      await axios.post(`/api/auth`, payload)
+      await axios.post(`/api/auth/login`, payload)
     } catch (error) {
 
     }

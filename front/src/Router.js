@@ -10,7 +10,7 @@ import Details from './routes/Request/Details'
 import Confirmed from './routes/Request/Confirmed'
 
 // Auth
-import Auth from './routes/Auth/Auth'
+import AuthWrapper from './routes/Auth/AuthWrapper'
 import Login from './routes/Auth/Login'
 import Register from './routes/Auth/Register'
 import ResetEmail from './routes/Auth/ResetEmail'
@@ -18,43 +18,62 @@ import ResetPassword from './routes/Auth/ResetPassword'
 import SendLink from './routes/Auth/SendLink'
 
 // Dashboard
-import Dashboard from './routes/Dashboard/Dashboard'
+import DashboardWrapper from './routes/Dashboard/DashboardWrapper'
 import MainView from './routes/Dashboard/Main'
+import Users from './routes/Dashboard/Users'
+import Settings from './routes/Dashboard/Settings'
 
 export default () => {
   
   return (
     <Switch>
+        {/* AUTH */}
         <Route path="/login">
-          <Auth>
+          <AuthWrapper>
             <Login />
-          </Auth>
+          </AuthWrapper>
         </Route>
 
         <Route exact path="/register/:token">
-          <Auth>
+          <AuthWrapper>
             <Register />
-          </Auth>
+          </AuthWrapper>
         </Route>
 
         <Route exact path="/reset-email">
-          <Auth>
+          <AuthWrapper>
             <ResetEmail />
-          </Auth>
+          </AuthWrapper>
         </Route>
 
         <Route exact path="/reset-password/:token">
-          <Auth>
+          <AuthWrapper>
             <ResetPassword />
-          </Auth>
+          </AuthWrapper>
         </Route>
+        {/* END AUTH */}
 
+        {/* DASHBOARD */}
         <Route exact path="/dashboard">
-          <Dashboard>
+          <DashboardWrapper>
             <MainView />
-          </Dashboard>
+          </DashboardWrapper>
         </Route>
 
+        <Route exact path="/dashboard/settings">
+          <DashboardWrapper>
+            <Settings />
+          </DashboardWrapper>
+        </Route>
+
+        <Route exact path="/dashboard/users">
+          <DashboardWrapper>
+            <Users />
+          </DashboardWrapper>
+        </Route>
+        {/* END DASHBOARD */}
+
+        {/* REQUEST */}
         <Route exact path="/intro">
           <RequestWrapper>
             <Intro/>
@@ -84,6 +103,7 @@ export default () => {
             <Confirmed />
           </RequestWrapper>
         </Route>
+        {/* END REQUEST */}
 
     </Switch>
   )
