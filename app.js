@@ -6,6 +6,7 @@ const routes = require('./routes');
 const rateLimit = require("express-rate-limit");
 const getDuration = require('./middleware/Timer');
 const Config = require('./models/Config');
+const User = require('./models/User');
 
 // Check environment
 if (process.env.NODE_ENV !== "production") {
@@ -33,11 +34,10 @@ async function init() {
   try {
     const config = new Config();
     const settings = await config.get();
-    
-    // //debug
-    // const Zelos = require('./models/Zelos');
-    // zelos = new Zelos();
-    // await zelos.init();
+    if (process.env.ADMIN_CREATE && process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD) {
+      const user = new User();
+      await user.initDefault();
+    }
   } catch (err) {
     console.error(err.stack);
   }
