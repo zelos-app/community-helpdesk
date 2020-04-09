@@ -1,43 +1,98 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import axios from 'axios'
 import moment from 'moment'
 import {Link} from 'react-router-dom'
 import {FormattedMessage} from 'react-intl'
 
 import CustomButton from '../../components/CustomButton/CustomButton'
 import CustomInput from '../../components/CustomInput/CustomInput'
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner'
 
 export default function Main () {
+  const FILTER_KEYS = ['rejected', 'accepted', 'solved', 'archived', 'notified']
+  const [tickets, setTickets] = useState([])
+  const [isLoadingTickets, setIsLoadingTickets] = useState(false)
+
+  const [filterStates, setFilterStates] = useState({
+    new: false,
+    mine: false,
+    solved: false,
+    rejected: false
+  })
+
+  const [ticketDetails, setTicketDetails] = useState({
+    request: '',
+    name: '',
+    category: '',
+    phone: '',
+    address: '',
+    area: '',
+    assignee: ''
+  })
+
+  async function getTickets () {
+    setIsLoadingTickets(true)
+    const {data = {}} = await axios.get('/api/tickets')
+    setTickets(data.tickets || [])
+    setIsLoadingTickets(false)
+  }
+
+  useEffect(() => {
+    getTickets()
+  }, [])
 
   function handleInputChange ({target}) {
-    console.log(target.value)
+    setTicketDetails({
+      ...ticketDetails,
+      [target.name]: target.value
+    })
   }
 
   function createTask () {
 
   }
 
-  function handleFilters () {
-
+  function handleFilters ({target}) {
+    setFilterStates({
+      ...filterStates,
+      [target.name]: target.checked
+    })
   }
 
+  function ticketFilters (oneTicket) {
 
+    const activeFilters = Object
+      .keys(filterStates)
+      .filter((key) => !!filterStates[key])
+    
+    return activeFilters.filter((oneFilter) => {
+      return oneTicket.status[oneFilter] === false
+    }).length === 0
+  }
 
-  const Ticket = ({request = '', createdAt = '', category = '', area = '' }) => {
+  function selectTicket (ticket) {
+    const {request, name, category, phone, address, area, assignee} = ticket
+    setTicketDetails({request, name, category, phone, address, area, assignee})
+  }
 
-    const date = new moment(createdAt).format('DD.MM.YY')
+  const Ticket = (ticket) => {
+
+    const date = new moment(ticket.createdAt).format('DD.MM.YY')
     const displayedDate = date !== 'invalid date'
       ? date
       : ''
     
     return (
-      <div className="ticket">
+      <div 
+        onClick={() => selectTicket(ticket)}
+        className="ticket">
         <div className="ticket-wrapper">
-          <h5>{request}</h5>
+          <h5>{ticket.request}</h5>
 
           <div className="footer">
             <h5>{displayedDate}</h5>
-            <h5>{category}</h5>
-            <h5>{area}</h5>
+            <h5>{ticket.category}</h5>
+            <h5>{ticket.area}</h5>
           </div>
           
         </div>
@@ -69,12 +124,13 @@ export default function Main () {
                 <FormattedMessage id="filters"/>
               </h5>
               <div className="filters">
-                {['new', 'mine', 'solved', 'rejected'].map((filter) => (
+                {FILTER_KEYS.map((filter) => (
                   <CustomInput
                     labelId={filter}
                     name={filter}
                     modifier="secondary"
-                    layout="select"
+                    layout="checkbox"
+                    checked={filterStates[filter]}
                     onChange={handleFilters}/>
                 ))}
               </div>
@@ -83,7 +139,10 @@ export default function Main () {
 
             {/* TICKETS */}
             <div className="ticket-list-wrapper">
-              {tickets.map((ticket) => <Ticket {...ticket} />)}
+              {isLoadingTickets 
+                ? <LoadingSpinner /> 
+                : tickets.filter(ticketFilters).map((ticket) => <Ticket {...ticket} />)
+              }
             </div>
             {/* END TICKETS */}
           </div>
@@ -105,42 +164,49 @@ export default function Main () {
                   name="request"
                   modifier="secondary"
                   layout="textarea"
+                  value={ticketDetails.request}  
                   onChange={handleInputChange}/>
 
                 <CustomInput
                   labelId="requesterName"
-                  name="requesterName"
+                  name="name"
                   modifier="secondary"
+                  value={ticketDetails.name}  
                   onChange={handleInputChange}/>
 
                 <CustomInput
                   labelId="category"
                   name="category"
                   modifier="secondary"
+                  value={ticketDetails.category}  
                   onChange={handleInputChange}/>
 
                 <CustomInput
                   labelId="phone"
                   name="phone"
                   modifier="secondary"
+                  value={ticketDetails.phone}  
                   onChange={handleInputChange}/>
 
                 <CustomInput
                   labelId="address"
                   name="address"
                   modifier="secondary"
+                  value={ticketDetails.address}  
                   onChange={handleInputChange}/>
 
                 <CustomInput
                   labelId="area"
                   name="area"
                   modifier="secondary"
+                  value={ticketDetails.area}  
                   onChange={handleInputChange}/>
 
                 <CustomInput
                   labelId="assignee"
                   name="assignee"
                   modifier="primary"
+                  value={ticketDetails.assignee}  
                   onChange={handleInputChange}/>
 
                 <div className="flex-end action-wrapper">
@@ -160,70 +226,3 @@ export default function Main () {
     </div>
   )
 }
-
-const tickets = [
-  {
-    name: "Name",
-    phone: "Phone",
-    area: "Arena",
-    category: "Category",
-    address: "Address",
-    request: "por incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commo",
-    createdAt: Date.now(),
-    status: {
-      rejected: false,
-      accepted: false,
-      solved: false,
-      archived: false,
-      notified: false
-    }
-  },
-  {
-    name: "Name",
-    phone: "Phone",
-    area: "Arena",
-    category: "Category",
-    address: "Address",
-    request: "m dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, qu",
-    createdAt: Date.now(),
-    status: {
-      rejected: false,
-      accepted: false,
-      solved: false,
-      archived: false,
-      notified: false
-    }
-  },
-  {
-    name: "Name",
-    phone: "Phone",
-    area: "Arena",
-    category: "Category",
-    address: "Address",
-    request: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    createdAt: Date.now(),
-    status: {
-      rejected: false,
-      accepted: false,
-      solved: false,
-      archived: false,
-      notified: false
-    }
-  },
-  {
-    name: "Name",
-    phone: "Phone",
-    area: "Arena",
-    category: "Category",
-    address: "Address",
-    request: "quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo",
-    createdAt: Date.now(),
-    status: {
-      rejected: false,
-      accepted: false,
-      solved: false,
-      archived: false,
-      notified: false
-    }
-  },
-]

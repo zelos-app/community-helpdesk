@@ -1,90 +1,76 @@
 import React from 'react'
-import {Route, Switch} from 'react-router-dom'
+import {Route, Switch, Redirect} from 'react-router-dom'
 
 // Routes
-import RequestWrapper from './routes/Request/RequestWrapper'
 import Intro from './routes/Request/Intro'
-import Category from './routes/Request/Category'
-import Request from './routes/Request/Request'
-import Details from './routes/Request/Details'
-import Confirmed from './routes/Request/Confirmed'
 
 // Auth
-import Auth from './routes/Auth/Auth'
+import AuthWrapper from './routes/Auth/AuthWrapper'
 import Login from './routes/Auth/Login'
 import Register from './routes/Auth/Register'
 import ResetEmail from './routes/Auth/ResetEmail'
 import ResetPassword from './routes/Auth/ResetPassword'
-import SendLink from './routes/Auth/SendLink'
 
 // Dashboard
-import Dashboard from './routes/Dashboard/Dashboard'
+import DashboardWrapper from './routes/Dashboard/DashboardWrapper'
 import MainView from './routes/Dashboard/Main'
+import Users from './routes/Dashboard/Users'
+import Settings from './routes/Dashboard/Settings'
+
+// Request
+import RequestWrapper from './routes/Request/RequestWrapper'
+import Details from './routes/Request/Details'
+import Request from './routes/Request/Request'
+import Category from './routes/Request/Category'
+import Confirmed from './routes/Request/Confirmed'
+
 
 export default () => {
   
   return (
     <Switch>
-        <Route path="/login">
-          <Auth>
-            <Login />
-          </Auth>
-        </Route>
-
-        <Route exact path="/register/:token">
-          <Auth>
-            <Register />
-          </Auth>
-        </Route>
-
-        <Route exact path="/reset-email">
-          <Auth>
-            <ResetEmail />
-          </Auth>
-        </Route>
-
-        <Route exact path="/reset-password/:token">
-          <Auth>
-            <ResetPassword />
-          </Auth>
-        </Route>
-
-        <Route exact path="/dashboard">
-          <Dashboard>
-            <MainView />
-          </Dashboard>
-        </Route>
-
-        <Route exact path="/intro">
+      <Route exact path="/" component={Intro} />
+      <Route
+        path="/auth"
+        render={({match:{path}}) => (
+          <AuthWrapper>
+            <Switch>
+              <Redirect exact from ={path} to={`${path}/login`} />
+              <Route path={`${path}/login`} component={Login} />
+              <Route path={`${path}/register/:token`} component={Register} />
+              <Route path={`${path}/reset-email`} component={ResetEmail} />
+              <Route path={`${path}/reset-password/:token`} component={ResetPassword} />
+            </Switch>
+          </AuthWrapper>
+        )}
+      />
+      <Route
+        path="/request"
+        render={({match: {path}}) => (
           <RequestWrapper>
-            <Intro/>
+            <Switch>
+              <Redirect exact from={path} to={`${path}/category`} />
+              <Route path={`${path}/category`} component={Category} />
+              <Route path={`${path}/request`} component={Request} />
+              <Route path={`${path}/details`} component={Details} />
+              <Route path={`${path}/confirmed`} component={Confirmed} />
+            </Switch>
           </RequestWrapper>
-        </Route>
-
-        <Route exact path="/category">
-          <RequestWrapper>
-            <Category />
-          </RequestWrapper>
-        </Route>
-
-        <Route exact path="/request">
-          <RequestWrapper>
-            <Request />
-          </RequestWrapper>
-        </Route>
-
-        <Route exact path="/details">
-          <RequestWrapper>
-            <Details />
-          </RequestWrapper>
-        </Route>
-
-        <Route exact path="/confirmed">
-          <RequestWrapper>
-            <Confirmed />
-          </RequestWrapper>
-        </Route>
-
+        )}
+      />
+      <Route
+        path="/dashboard"
+        render={({match: {path}}) => (
+          <DashboardWrapper>
+            <Switch>
+              <Route exact path={path} component={MainView} />
+              <Route path={`${path}/settings`} component={Settings} />
+              <Route path={`${path}/users`} component={Users} />
+            </Switch>
+          </DashboardWrapper>
+       )}
+      />
+      <Redirect from="*" to="/" />
     </Switch>
   )
 }

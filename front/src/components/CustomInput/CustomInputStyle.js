@@ -10,6 +10,12 @@ export default createGlobalStyle`
       flex-grow: 1;
       flex-direction: column;}
 
+      .input-wrapper.layout-checkbox {
+        flex-grow: unset;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;}
+
       .input-wrapper label {
         color: ${({ theme }) => theme.input.label.color.main};
         font-size: ${({ theme }) => theme.text_m};
@@ -31,6 +37,38 @@ export default createGlobalStyle`
         line-height: 35pt;
         cursor: pointer;
         transition: all .12s ease-in-out;}
+
+        .input-wrapper input[type=checkbox] {
+          position: absolute;
+          width: 120%;
+          height: 120%;
+          top: -40%;
+          left: -40%;
+          opacity: 0;}
+
+        .checkbox {
+          border: solid ${({ theme }) => theme.input.primary.borderColor.main} 2px;
+          width: ${({ theme }) => theme.text_m};
+          height: ${({ theme }) => theme.text_m};
+          border-radius: ${({ theme }) => theme.radius_m};
+          position: relative;
+          margin-right: 6px;}
+
+          .checkbox.is-checked {
+            border: solid ${({ theme }) => theme.input.primary.borderColor.hover} 2px;}
+
+            .checkbox.is-checked:after {
+              content: '';
+              position: absolute;
+              height: 7px;
+              pointer-events: none;
+              width: 9px;
+              border-left: solid ${({ theme }) => theme.input.primary.borderColor.hover} 2px;
+              border-bottom: solid ${({ theme }) => theme.input.primary.borderColor.hover} 2px;
+              transform: rotate(-45deg);
+              left: 3px;
+              top: 3px;}
+
 
         .input-wrapper textarea {
           padding-top: 10pt ;
