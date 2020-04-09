@@ -39,8 +39,18 @@ class Category {
         }
     }
     // Get all categories
-    async list() {
+    async list(consumer) {
         const result = await CategoryModel.find();
+        if (consumer === "public") {
+            const list = result.map(el => {
+                const category = {
+                    name: el.name,
+                    _id: el._id
+                }
+                return category
+            })
+            return list
+        }
         return {
             status: "ok",
             categories: result

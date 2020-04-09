@@ -7,7 +7,7 @@ const ticketSchema = new mongoose.Schema({
     area: String,
     address: String,
     request: String,
-    type: String,
+    category: String,
     owner: String,
     createdAt: {
         type: Date,
@@ -70,7 +70,6 @@ class Ticket {
         const skip = filter.skip ? filter.skip : 0;
         delete filter.limit;
         delete filter.skip;
-        console.log(`[d] Getting tickets with:\n\tFilter: ${JSON.stringify(filter)}\n\tLimit: ${limit}\n\tSkip: ${skip}`);
         const tickets = await TicketModel.find(filter, null, {
             skip: skip,
             limit: limit

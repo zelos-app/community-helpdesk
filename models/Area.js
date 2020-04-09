@@ -67,8 +67,18 @@ class Area {
         return response
     }
     // Get all areas
-    async list() {
+    async list(consumer) {
         const result = await AreaModel.find();
+        if (consumer === "public") {
+            const list = result.map(el => {
+                const area = {
+                    name: el.name,
+                    _id: el._id
+                }
+                return area;
+            })
+            return list;
+        }
         return {
             status: "ok",
             areas: result
