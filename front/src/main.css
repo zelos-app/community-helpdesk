@@ -54,9 +54,9 @@ main > .request {
 .dashboard-children.users {
   max-width: 600px;
   margin: 0 auto;}
-      
-      
-    
+
+
+
 
 .ticket-list-wrapper {
   display: flex;
@@ -115,7 +115,7 @@ h1.text-alpha {
       line-height: 30pt;
       font-weight: 700;
       font-size: 22pt;
-      margin-bottom: 16px;}} 
+      margin-bottom: 16px;}}
 
 
 h2.text-alpha {
@@ -127,7 +127,7 @@ h2.text-alpha {
   @media only screen and (max-width : 900px) {
     h2.text-alpha {
     font-size: 16pt;
-    margin-bottom: 20px;}} 
+    margin-bottom: 20px;}}
 
 
 h3.text-alpha {
@@ -140,7 +140,7 @@ h3.text-alpha {
     h3.text-alpha {
       font-size: 14pt;
       font-weight: 400;
-      margin-bottom: 20px;}} 
+      margin-bottom: 20px;}}
 
 
 .area-wrapper {
@@ -175,3 +175,38 @@ h3.text-alpha {
 
     .filter-list .filters div {
       margin-left: 6px;}
+
+.app-landing {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1em;
+}
+
+.app-landing__text {
+  margin-right: 2em;
+  flex-basis: 50%;
+}
+
+.app-landing__list {
+  padding-left: 1em;
+}
+
+.app-landing__links {
+  display: flex;
+  margin-bottom: 1em;
+}
+
+.app-landing__link {
+  cursor: pointer;
+}
+
+.app-landing__link:first-of-type {
+  margin-right: .5em;
+}
+
+.app-landing__img {
+  height: 500px;
+}

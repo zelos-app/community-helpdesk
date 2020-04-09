@@ -24,9 +24,11 @@ import Request from './routes/Request/Request'
 import Category from './routes/Request/Category'
 import Confirmed from './routes/Request/Confirmed'
 
+// AppLanding
+import AppLanding from './routes/AppLanding/AppLanding'
 
 export default () => {
-  
+
   return (
     <Switch>
       <Route exact path="/" component={Intro} />
@@ -44,6 +46,7 @@ export default () => {
           </AuthWrapper>
         )}
       />
+    <Route path="/app" component={AppLanding} />
       <Route
         path="/request"
         render={({match: {path}}) => (
