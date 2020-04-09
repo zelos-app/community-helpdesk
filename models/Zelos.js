@@ -155,7 +155,6 @@ class Zelos {
             "location_id": null,
             "user_ids": []
         }
-        // console.log(body)
         const axiosCfg = {
             headers: this.axiosConfig.headers,
         }
@@ -166,7 +165,7 @@ class Zelos {
             return taskUrl;
         } catch (err) {
             console.error(`[!] Failed to create task: ${err.message}`)
-            return err.message;
+            throw err;
         }
     }
 }

@@ -156,6 +156,13 @@ class Ticket {
     async approve(query) {
         let settings = {};
         const ticket = await this.get();
+        if (ticket.status && ticket.status.task && ticket.status.task.created) {
+            const err = createError(409, {
+                status: "error",
+                message: "Ticket has already been approved"
+            });
+            throw err;
+        }
         for (const [key, value] of Object.entries(query)) {
             settings[key] = value;
         }
@@ -189,8 +196,12 @@ class Ticket {
                 created: true
             }
         }
-        // await ticket.save()
-        return ticket;
+        await ticket.save()
+        const response = {
+            status: "ok",
+            taskUrl: ticket.status.task.url
+        }
+        return response;
     }
 
     // Reject a ticket
