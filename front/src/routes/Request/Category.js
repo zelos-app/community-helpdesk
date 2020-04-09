@@ -39,26 +39,22 @@ function Category () {
   }
 
   return (
-    <div className="request">
-      <div className="request-wrapper">
-        <div className="request-children category">
-          <div className="request-children-wrapper">
+    <div className="request-children category">
+      <div className="request-children-wrapper">
 
-            <div className="text-wrapper">
-              <h1 className="text-alpha">
-                <FormattedMessage id="categoryHead"/>
-              </h1>
-              <h3 className="text-alpha">
-                <FormattedMessage id="categoryBody"/>
-              </h3>
-            </div>
-
-            <div className="action-wrapper">
-              <SelectorButtons />
-            </div>
-            
-          </div>
+        <div className="text-wrapper">
+          <h1 className="text-alpha">
+            <FormattedMessage id="categoryHead"/>
+          </h1>
+          <h3 className="text-alpha">
+            <FormattedMessage id="categoryBody"/>
+          </h3>
         </div>
+
+        <div className="action-wrapper">
+          <SelectorButtons />
+        </div>
+        
       </div>
     </div>
   )

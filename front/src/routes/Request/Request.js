@@ -17,33 +17,29 @@ function Request () {
   }
 
   return (
-    <div className="request">
-      <div className="request-wrapper">
-        <div className="request-children request">
-          <div className="request-children-wrapper">
+    <div className="request-children request">
+      <div className="request-children-wrapper">
 
-            <div className="text-wrapper">
-              <h1 className="text-alpha">
-                <FormattedMessage id="pleaseDescribeYourProblem"/>
-              </h1>
-            </div>
-
-            <CustomInput
-              labelId="describeYourRequest"
-              layout="textarea"
-              rows="5"
-              modifier="primary"
-              onChange={handleInputChange}/>
-
-            <div className="action-wrapper">
-              <CustomButton 
-                titleId="next"
-                modifier="primary"
-                onClick={next}/>
-            </div>
-            
-          </div>
+        <div className="text-wrapper">
+          <h1 className="text-alpha">
+            <FormattedMessage id="pleaseDescribeYourProblem"/>
+          </h1>
         </div>
+
+        <CustomInput
+          labelId="describeYourRequest"
+          layout="textarea"
+          rows="5"
+          modifier="primary"
+          onChange={handleInputChange}/>
+
+        <div className="action-wrapper">
+          <CustomButton 
+            titleId="next"
+            modifier="primary"
+            onClick={next}/>
+        </div>
+        
       </div>
     </div>
   )

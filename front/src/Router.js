@@ -2,6 +2,7 @@ import React from 'react'
 import {Route, Switch} from 'react-router-dom'
 
 // Routes
+import RequestWrapper from './routes/Request/RequestWrapper'
 import Intro from './routes/Request/Intro'
 import Category from './routes/Request/Category'
 import Request from './routes/Request/Request'
@@ -54,25 +55,35 @@ export default () => {
           </Dashboard>
         </Route>
 
-        <Route 
-          path="/intro" 
-          component={Intro}/>
+        <Route exact path="/intro">
+          <RequestWrapper>
+            <Intro/>
+          </RequestWrapper>
+        </Route>
 
-        <Route 
-          path="/category" 
-          component={Category}/>
+        <Route exact path="/category">
+          <RequestWrapper>
+            <Category />
+          </RequestWrapper>
+        </Route>
 
-        <Route 
-          path="/request" 
-          component={Request}/>
+        <Route exact path="/request">
+          <RequestWrapper>
+            <Request />
+          </RequestWrapper>
+        </Route>
 
-        <Route 
-          path="/details" 
-          component={Details}/>
+        <Route exact path="/details">
+          <RequestWrapper>
+            <Details />
+          </RequestWrapper>
+        </Route>
 
-        <Route 
-          path="/confirmed" 
-          component={Confirmed}/>
+        <Route exact path="/confirmed">
+          <RequestWrapper>
+            <Confirmed />
+          </RequestWrapper>
+        </Route>
 
     </Switch>
   )

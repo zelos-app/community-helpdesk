@@ -13,35 +13,31 @@ function Intro () {
   }
   
   return (
-    <div className="request">
-      <div className="request-wrapper">
-        <div className="request-children intro">
-          <div className="request-children-wrapper">
+    <div className="request-children intro">
+      <div className="request-children-wrapper">
 
-            <div className="text-wrapper">
-              <h1 className="text-alpha">
-                <FormattedMessage id="introHead"/>
-              </h1>
-              <h3 className="text-alpha">
-                <FormattedMessage id="introBody"/>
-              </h3>
-            </div>
-
-
-            <div className="action-wrapper">
-              <CustomButton 
-                titleId="iNeedHelp"
-                modifier="primary"
-                onClick={() => select('NEED_HELP')}/>
-
-              <CustomButton 
-                titleId="iWantToHelp"
-                modifier="secondary"/>
-            </div>
-
-            
-          </div>
+        <div className="text-wrapper">
+          <h1 className="text-alpha">
+            <FormattedMessage id="introHead"/>
+          </h1>
+          <h3 className="text-alpha">
+            <FormattedMessage id="introBody"/>
+          </h3>
         </div>
+
+
+        <div className="action-wrapper">
+          <CustomButton 
+            titleId="iNeedHelp"
+            modifier="primary"
+            onClick={() => select('NEED_HELP')}/>
+
+          <CustomButton 
+            titleId="iWantToHelp"
+            modifier="secondary"/>
+        </div>
+
+        
       </div>
     </div>
   )
