@@ -98,7 +98,7 @@ main > .request {
   .flex-end.action-wrapper {
     justify-content: flex-end;}
 
-  .action-wrapper div:not(:first-child) {
+  .action-wrapper > *:not(:first-child) {
     margin-left: 20px;}
 
 
