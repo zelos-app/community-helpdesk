@@ -24,9 +24,11 @@ function Intro () {
                   titleId="iNeedHelp"
                   modifier="primary"/>
               </Link>
-              <CustomButton
-                titleId="iWantToHelp"
-                modifier="secondary"/>
+              <Link to="/app">
+                <CustomButton
+                  titleId="iWantToHelp"
+                  modifier="secondary"/>
+              </Link>
             </div>
           </div>
         </div>
