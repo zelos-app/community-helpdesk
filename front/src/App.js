@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {ThemeProvider} from 'styled-components'
 import {IntlProvider} from 'react-intl'
 import Router from './Router'
-import './main.css'
+import './main.scss'
 
 // Styles
 import {lightTheme, darkTheme, variables} from './styles/theme'
@@ -31,7 +31,7 @@ export default () => {
       setTheme(localTheme)
     }
   }, [])
-  
+
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light'
     setTheme(newTheme)
@@ -42,7 +42,7 @@ export default () => {
     setLocale(lang)
     document.documentElement.lang = lang
   }
-  
+
   const selectedTheme = {
     'light': lightTheme,
     'dark': darkTheme
