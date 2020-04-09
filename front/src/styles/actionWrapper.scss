@@ -5,7 +5,7 @@
   flex-wrap: wrap;
   margin-top: 40px;
 
-  div:not(:first-child) {
+  > *:not(:first-child) {
     margin-left: 20px;
   }
 

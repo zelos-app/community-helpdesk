@@ -1,11 +1,12 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './App'
-import {BrowserRouter} from 'react-router-dom'
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import { Router } from "react-router-dom";
+import history from "./utils/history";
 
 ReactDOM.render(
-  <BrowserRouter>
+  <Router history={history}>
     <App />
-  </BrowserRouter>,
-  document.querySelector('body main')
-)
+  </Router>,
+  document.querySelector("body main")
+);

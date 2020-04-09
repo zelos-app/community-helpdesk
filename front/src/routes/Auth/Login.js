@@ -1,59 +1,62 @@
-import axios from 'axios'
-import isEmail from 'isemail'
-import React, {useState} from 'react'
-import CustomButton from '../../components/CustomButton/CustomButton'
-import CustomInput from '../../components/CustomInput/CustomInput'
+import isEmail from "isemail";
+import React from "react";
+import { Formik } from "formik";
+import { login } from "../../utils/auth";
+import CustomButton from "../../components/CustomButton/CustomButton";
+import CustomInput from "../../components/CustomInput/CustomInput";
 
-export default function Login () {
-
-  const [payload, setPayload] = useState({})
-
-  function handleInputChange ({target}) {
-    setPayload({
-      ...payload,
-      [target.name]: target.value
-    })
-  }
-
-  async function login () {
-    if (!payload.email || !isEmail.validate(payload.email)) {
-      alert('bad email')
-    }
-
-    try {
-      await axios.post(`/api/auth/login`, payload)
-    } catch (error) {
-
-    }
-  }
- 
+export default function Login() {
   return (
     <div className="auth-children">
       <div className="auth-children-wrapper">
+        <Formik
+          initialValues={{ email: "", password: "" }}
+          validate={(values) => {
+            const errors = {};
 
-        <div className="input-container">
-          <CustomInput
-            labelId="email"
-            name="email"
-            modifier="primary"
-            onChange={handleInputChange}/>
+            if (!values.email) {
+              errors.email = "Required";
+            } else if (!isEmail.validate(values.email)) {
+              errors.email = "Bad";
+            }
 
-          <CustomInput
-            labelId="password"
-            name="password"
-            modifier="primary"
-            type="password"
-            onChange={handleInputChange}/>
-        </div>
+            if (!values.password) {
+              errors.password = "Required";
+            }
 
-        <div className="action-wrapper">
-          <CustomButton 
-            titleId="login"
-            modifier="primary"
-            onClick={login}/>
-        </div>
-
+            return errors;
+          }}
+          onSubmit={(values) => login(values.email, values.password)}
+        >
+          {(props) => (
+            <form onSubmit={props.handleSubmit}>
+              <div className="input-container">
+                <CustomInput
+                  labelId="email"
+                  name="email"
+                  modifier="primary"
+                  type="email"
+                  onChange={props.handleChange}
+                  value={props.values.email}
+                  required
+                />
+                <CustomInput
+                  labelId="password"
+                  name="password"
+                  modifier="primary"
+                  type="password"
+                  onChange={props.handleChange}
+                  value={props.values.password}
+                  required
+                />
+              </div>
+              <div className="action-wrapper">
+                <CustomButton titleId="login" modifier="primary" />
+              </div>
+            </form>
+          )}
+        </Formik>
       </div>
     </div>
-  )
+  );
 }

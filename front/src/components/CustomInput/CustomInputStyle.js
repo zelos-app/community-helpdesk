@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
   .input {
@@ -47,7 +47,8 @@ export default createGlobalStyle`
           opacity: 0;}
 
         .checkbox {
-          border: solid ${({ theme }) => theme.input.primary.borderColor.main} 2px;
+          border: solid ${({ theme }) =>
+            theme.input.primary.borderColor.main} 2px;
           width: ${({ theme }) => theme.text_m};
           height: ${({ theme }) => theme.text_m};
           border-radius: ${({ theme }) => theme.radius_m};
@@ -55,7 +56,8 @@ export default createGlobalStyle`
           margin-right: 6px;}
 
           .checkbox.is-checked {
-            border: solid ${({ theme }) => theme.input.primary.borderColor.hover} 2px;}
+            border: solid ${({ theme }) =>
+              theme.input.primary.borderColor.hover} 2px;}
 
             .checkbox.is-checked:after {
               content: '';
@@ -63,8 +65,10 @@ export default createGlobalStyle`
               height: 7px;
               pointer-events: none;
               width: 9px;
-              border-left: solid ${({ theme }) => theme.input.primary.borderColor.hover} 2px;
-              border-bottom: solid ${({ theme }) => theme.input.primary.borderColor.hover} 2px;
+              border-left: solid ${({ theme }) =>
+                theme.input.primary.borderColor.hover} 2px;
+              border-bottom: solid ${({ theme }) =>
+                theme.input.primary.borderColor.hover} 2px;
               transform: rotate(-45deg);
               left: 3px;
               top: 3px;}
@@ -78,41 +82,52 @@ export default createGlobalStyle`
         .primary .input-wrapper textarea {
           color: ${({ theme }) => theme.input.primary.color.main};
           background: ${({ theme }) => theme.input.primary.background.main};
-          border: solid ${({ theme }) => theme.input.primary.borderColor.main} 2px;}
+          border: solid ${({ theme }) =>
+            theme.input.primary.borderColor.main} 2px;}
 
           .primary .input-wrapper input:hover,
           .primary .input-wrapper textarea:hover {
             background: ${({ theme }) => theme.input.primary.background.hover};
-            border: solid ${({ theme }) => theme.input.primary.borderColor.hover} 2px;}
+            border: solid ${({ theme }) =>
+              theme.input.primary.borderColor.hover} 2px;}
 
           .primary .input-wrapper input:active,
           .primary .input-wrapper textarea:active {
             background: ${({ theme }) => theme.input.primary.background.active};
-            border: solid ${({ theme }) => theme.input.primary.borderColor.active} 2px;}
+            border: solid ${({ theme }) =>
+              theme.input.primary.borderColor.active} 2px;}
             
           .primary .input-wrapper input:focus,
           .primary .input-wrapper textarea:focus {
             background: ${({ theme }) => theme.input.primary.background.focus};
-            border: solid ${({ theme }) => theme.input.primary.borderColor.focus} 2px;}
+            border: solid ${({ theme }) =>
+              theme.input.primary.borderColor.focus} 2px;}
 
         .secondary .input-wrapper input,
         .secondary .input-wrapper textarea {
           color: ${({ theme }) => theme.input.secondary.color.main};
           background: ${({ theme }) => theme.input.secondary.background.main};
-          border: solid ${({ theme }) => theme.input.secondary.borderColor.main} 2px;}
+          border: solid ${({ theme }) =>
+            theme.input.secondary.borderColor.main} 2px;}
 
           .secondary .input-wrapper input:hover,
           .secondary .input-wrapper textarea:hover {
-            background: ${({ theme }) => theme.input.secondary.background.hover};
-            border: solid ${({ theme }) => theme.input.secondary.borderColor.hover} 2px;}
+            background: ${({ theme }) =>
+              theme.input.secondary.background.hover};
+            border: solid ${({ theme }) =>
+              theme.input.secondary.borderColor.hover} 2px;}
 
           .secondary .input-wrapper input:active,
           .secondary .input-wrapper textarea:active {
-            background: ${({ theme }) => theme.input.secondary.background.active};
-            border: solid ${({ theme }) => theme.input.secondary.borderColor.active} 2px;}
+            background: ${({ theme }) =>
+              theme.input.secondary.background.active};
+            border: solid ${({ theme }) =>
+              theme.input.secondary.borderColor.active} 2px;}
 
           .secondary .input-wrapper input:focus,
           .secondary .input-wrapper textarea:focus {
-            background: ${({ theme }) => theme.input.secondary.background.focus};
-            border: solid ${({ theme }) => theme.input.secondary.borderColor.focus} 2px;}
-`
+            background: ${({ theme }) =>
+              theme.input.secondary.background.focus};
+            border: solid ${({ theme }) =>
+              theme.input.secondary.borderColor.focus} 2px;}
+`;
