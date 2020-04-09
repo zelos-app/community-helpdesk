@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import { IntlProvider } from "react-intl";
 import Router from "./Router";
-import "./main.css";
+import "./main.scss";
 
 // Styles
 import { lightTheme, darkTheme, variables } from "./styles/theme";

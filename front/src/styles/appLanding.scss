@@ -1,0 +1,34 @@
+.app-landing {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1em;
+
+  &__text {
+    margin-right: 2em;
+    flex-basis: 50%;
+  }
+
+  &__list {
+    padding-left: 1em;
+  }
+
+  &__links {
+    display: flex;
+    margin-bottom: 1em;
+  }
+
+  &__link {
+    cursor: pointer;
+
+    &:first-of-type {
+      margin-right: 0.5em;
+    }
+  }
+
+  &__img {
+    height: 500px;
+  }
+}
