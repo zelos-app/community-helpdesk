@@ -1,3 +1,25 @@
 {
-  "welcome": "Weeeelcome"
+  "iNeedHelp": "I need help",
+  "iWantToHelp": "I want to help",
+  "introHead": "Welcome, lorem ipsum dummy text.",
+  "introBody": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+  "categoryHead": "What do you need help with?",
+  "categoryBody": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+  "shopping": "Shopping",
+  "walkingAPet": "Walking a pet",
+  "pleaseDescribeYourProblem": "Please describe your problem",
+  "describeYourRequest": "Describe your request",
+  "enterYourDetails": "Enter your details",
+  "next": "Next",
+  "fullName": "Full name",
+  "phone": "Phone",
+  "address": "Address",
+  "area": "Area",
+  "email": "Email",
+  "password": "Password",
+  "login": "Login",
+  "firstName": "First name",
+  "lastName": "Last name",
+  "register": "Register",
+  "sendEmail": "Send Email"
 }

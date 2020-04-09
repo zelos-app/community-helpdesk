@@ -1,11 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {ThemeProvider} from 'styled-components'
 import {IntlProvider} from 'react-intl'
 import Router from './Router'
-import {Link} from 'react-router-dom'
+import './main.css'
 
 // Styles
-import {lightTheme, darkTheme} from './styles/theme'
+import {lightTheme, darkTheme, variables} from './styles/theme'
 import {GlobalStyles} from './styles/global'
 
 // Translations
@@ -22,11 +22,25 @@ const i18nConfig = {
 }
 
 export default () => {
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState('dark')
   const [locale, setLocale] = useState(i18nConfig.defaultLocale)
+
+  useEffect(() => {
+    const localTheme = localStorage.getItem('theme')
+    if (localTheme) {
+      setTheme(localTheme)
+    }
+  }, [])
   
   const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light')
+    const newTheme = theme === 'light' ? 'dark' : 'light'
+    setTheme(newTheme)
+    localStorage.setItem('theme', newTheme)
+  }
+
+  const selectLanguage = (lang) => {
+    setLocale(lang)
+    document.documentElement.lang = lang
   }
   
   const selectedTheme = {
@@ -39,7 +53,7 @@ export default () => {
       locale={locale}
       defaultLocale={i18nConfig.defaultLocale}
       messages={i18nConfig.messages[locale]}>
-      <ThemeProvider theme={selectedTheme}>
+      <ThemeProvider theme={{...selectedTheme, ...variables}}>
 
         {/* Include global styles */}
         <GlobalStyles />
@@ -48,8 +62,8 @@ export default () => {
         <button onClick={toggleTheme}>theme</button>
 
         {/* Change language */}
-        <button onClick={ () => setLocale('en')}>en</button>
-        <button onClick={ () => setLocale('et')}>et</button>
+        <button onClick={ () => selectLanguage('en')}>en</button>
+        <button onClick={ () => selectLanguage('et')}>et</button>
 
         {/* Routes */}
         <Router />
