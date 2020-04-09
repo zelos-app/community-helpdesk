@@ -19,9 +19,7 @@ function Intro () {
           <div className="request-children-wrapper">
 
             <div className="text-wrapper">
-              <h1 
-                className="text-alpha"
-                editable="introHead">
+              <h1 className="text-alpha">
                 <FormattedMessage id="introHead"/>
               </h1>
               <h3 className="text-alpha">
