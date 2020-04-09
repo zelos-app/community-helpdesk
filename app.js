@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const routes = require('./routes');
 const rateLimit = require("express-rate-limit");
 const getDuration = require('./middleware/Timer');
-const {Config} = require('./models/Config');
+const Config = require('./models/Config');
 
 // Check environment
 if (process.env.NODE_ENV !== "production") {
@@ -32,7 +32,7 @@ db.once('open', () => {
 async function init() {
   try {
     const config = new Config();
-    await config.init();
+    const settings = await config.get();
   } catch (err) {
     console.error(err.stack);
   }
@@ -44,12 +44,20 @@ const resetLimit = rateLimit({
   max: 3
 });
 
-// Setup Express
+// Set up Express middlewares
 app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(bodyParser.json());
 app.use("/auth/reset", resetLimit);
+app.use((err, req, res, next) => {
+  if (err) {
+    res.status(400).send('Bad request')
+  } else {
+    next()
+  }
+})
+
 // Enable response time logging
 if (process.env.LOG_RESPONSE_TIME) {
   app.use((req, res, next) => {
@@ -65,14 +73,6 @@ if (process.env.LOG_RESPONSE_TIME) {
     next()
   })
 }
-
-app.use((err, req, res, next) => {
-  if (err) {
-    res.status(400).send('Bad request')
-  } else {
-    next()
-  }
-})
 
 app.use('/', routes);
 
