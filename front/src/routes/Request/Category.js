@@ -1,4 +1,5 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import axios from 'axios'
 import CustomButton from '../../components/CustomButton/CustomButton'
 import {FormattedMessage} from 'react-intl'
 import {useHistory} from "react-router-dom"
@@ -6,30 +7,34 @@ import {requestStore} from '../../store'
 
 function Category () {
   const history = useHistory()
+  const [categories, setCategories] = useState([])
 
-  function select (category) {
-    requestStore.category = category
+  async function getCategories () {
+    try {
+      const {data = {}} = await axios.get('/api/categories')
+      const {categories = []} = data
+      setCategories(categories)
+    } catch (error) {
+      
+    }
+  }
+
+  useEffect(() => {
+    getCategories()
+  }, [])
+
+  function select (id) {
+    requestStore.category = id
     history.push('/request')
   }
 
   const SelectorButtons = () => {
-    const payload = [
-      {
-        id: 12,
-        titleId: 'shopping'
-      },
-      {
-        id: 13,
-        titleId: 'walkingAPet'
-      }
-    ]
-
-    return payload.map((category) => (
+    return categories.map((category) => (
       <CustomButton 
-        key={category.id}
-        titleId={category.titleId}
+        key={category._id}
+        title={category.name}
         modifier="secondary"
-        onClick={() => select(category)}/>
+        onClick={() => select(category._id)}/>
     ))
   }
 

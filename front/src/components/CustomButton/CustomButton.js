@@ -7,6 +7,7 @@ export default (props) => {
   const {
     modifier = 'primary', 
     titleId = '', 
+    title = '',
     ...rest
   } = props
   
@@ -16,7 +17,10 @@ export default (props) => {
       <div className={`button ${modifier}`}>
         <div className="button-wrapper">
           <button {...rest}>
-            <FormattedMessage id={titleId}/>
+            {titleId == ''
+              ? title
+              : <FormattedMessage id={titleId}/>
+            }
           </button>
         </div>
       </div>

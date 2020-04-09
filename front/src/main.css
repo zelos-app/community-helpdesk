@@ -127,3 +127,12 @@ h3.text-alpha {
       font-size: 14pt;
       font-weight: 400;
       margin-bottom: 20px;}} 
+
+
+.area-wrapper {
+  display: flex;
+  flex-wrap: wrap;}
+
+  .area-wrapper > .area {
+    padding: 4px 8px 4px 0;
+    cursor: pointer;}

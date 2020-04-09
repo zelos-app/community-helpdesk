@@ -38,8 +38,7 @@ function Intro () {
 
               <CustomButton 
                 titleId="iWantToHelp"
-                modifier="secondary"
-                onClick={() => select('OFFER_HELP')}/>
+                modifier="secondary"/>
             </div>
 
             

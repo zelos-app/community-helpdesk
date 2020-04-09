@@ -13,7 +13,7 @@ function Request () {
   }
 
   function handleInputChange ({target}) {
-    requestStore.category = target.value
+    requestStore.request = target.value
   }
 
   return (

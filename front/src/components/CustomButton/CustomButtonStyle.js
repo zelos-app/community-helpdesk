@@ -11,9 +11,9 @@ export default createGlobalStyle`
         border: none;
         outline: none;
         font: inherit;
-        font-size: 14pt;
-        font-weight: 600;
-        border-radius: 12pt;
+        font-size: ${({ theme }) => theme.text_m};
+        font-weight: ${({ theme }) => theme.weight_m};
+        border-radius: ${({ theme }) => theme.radius_m};
         padding: 0 16pt;
         line-height: 35pt;
         cursor: pointer;
