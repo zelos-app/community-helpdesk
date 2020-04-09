@@ -1,0 +1,9 @@
+.area-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+
+  > .area {
+    padding: 4px 8px 4px 0;
+    cursor: pointer;
+  }
+}

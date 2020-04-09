@@ -1,0 +1,29 @@
+.dashboard-wrapper {
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.dashboard-children {
+  &.settings {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  &.users {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+.main {
+  .dashboard-children-wrapper {
+    .tickets {
+      display: flex;
+      justify-content: space-between;
+
+      > div {
+        flex: 0 0 calc(50% - 20px);
+      }
+    }
+  }
+}

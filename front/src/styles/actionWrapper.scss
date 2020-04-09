@@ -1,0 +1,23 @@
+.action-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 40px;
+
+  div:not(:first-child) {
+    margin-left: 20px;
+  }
+
+  &.invite-users {
+    justify-content: flex-end;
+
+    .input {
+      width: unset;
+    }
+  }
+
+  &.flex-end {
+    justify-content: flex-end;
+  }
+}
