@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const createError = require('http-errors');
 const Mailgun = require('./Mailgun');
 const crypto = require('crypto');
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 
 const UserSchema = new mongoose.Schema({
     firstName: String,
@@ -20,12 +21,13 @@ const UserSchema = new mongoose.Schema({
     }
 });
 
-UserSchema.methods.generateAuthToken = function() { 
+const UserModel = mongoose.model('User', UserSchema)
+
+// Generate auth token
+generateAuthToken = function() { 
     const token = jwt.sign({ _id: this._id, admin: this.admin }, process.env.PRIVATE_KEY);
     return token;
-  }
-
-const UserModel = mongoose.model('User', UserSchema)
+}
 
 class User {
     constructor() {
@@ -88,6 +90,42 @@ class User {
                 message: "Invalid token"
             });
             throw err;
+        }
+    }
+
+    async login(email, password) {
+        const user = await UserModel.findOne({email: email});
+        if (user) {
+            const match = await bcrypt.compare(password, user.credentials.password)
+            if (match) {
+                const token = jwt.sign({
+                    _id: user._id,
+                    admin: user.status.admin
+                },
+                process.env.PRIVATE_KEY,
+                {
+                    expiresIn: process.env.JWT_TTL,
+                });
+                const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString())
+                console.log(payload)
+                const result = {
+                    token: token,
+                    exp: payload.exp
+                }
+                return result;
+            } else {
+                const error = createError(401, {
+                    status: "error",
+                    message: "Password mismatch"
+                });
+                throw error
+            }
+        } else {
+            const error = createError(404, {
+                status: "error",
+                message: "No user with this email"
+            });
+            throw error
         }
     }
 

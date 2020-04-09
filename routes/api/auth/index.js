@@ -16,6 +16,17 @@ auth.put('/register/:token', async (req, res) => {
     }
 })
 
+// log in
+auth.post('/login', async (req, res) => {
+    try {
+        const user = new User();
+        const result = await user.login(req.body.email, req.body.password);
+        res.send(result);
+    } catch (err) {
+        handleError(err, res);
+    }
+})
+
 // request a password reset
 auth.post('/reset', async (req, res) => {
     try {
