@@ -71,11 +71,13 @@ class Area {
         const result = await AreaModel.find();
         if (consumer === "public") {
             const list = result.map(el => {
-                const area = {
-                    name: el.name,
-                    _id: el._id
-                }
+                if (!el.status.archived) {
+                        const area = {
+                        name: el.name,
+                        _id: el._id
+                    }
                 return area;
+                }
             })
             return list;
         }
