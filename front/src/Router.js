@@ -46,7 +46,7 @@ export default () => {
           </AuthWrapper>
         )}
       />
-    <Route path="/app" component={AppLanding} />
+      <Route path="/app" component={AppLanding} />
       <Route
         path="/request"
         render={({match: {path}}) => (

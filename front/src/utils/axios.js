@@ -1,5 +1,5 @@
 import axios from 'axios';
-import history from './history';
+import { logout } from './auth';
 
 const instance = axios.create();
 
@@ -19,7 +19,7 @@ instance.interceptors.request.use((request) => {
 
 instance.interceptors.response.use(a => a, ({response}) => {
   if (response.status >= 400) {
-    history.push('/auth');
+    logout();
   }
   return response;
 });

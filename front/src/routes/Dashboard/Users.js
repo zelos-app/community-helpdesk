@@ -4,7 +4,7 @@ import CustomInput from '../../components/CustomInput/CustomInput'
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner'
 import {Link} from "react-router-dom"
 import {FormattedMessage} from 'react-intl'
-import axios from 'axios'
+import axios from '../../utils/axios'
 
 export default function Users (props) {
   const [users, setUsers] = useState([])

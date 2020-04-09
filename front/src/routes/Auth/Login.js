@@ -1,29 +1,9 @@
 import isEmail from 'isemail'
 import React from 'react'
 import { Formik } from 'formik';
-import history from '../../utils/history';
-import axios from '../../utils/axios';
+import { login } from '../../utils/auth'
 import CustomButton from '../../components/CustomButton/CustomButton'
 import CustomInput from '../../components/CustomInput/CustomInput'
-
-const login = async ({email, password}) => {
-  let res;
-  try {
-    res = await axios.post('/api/auth/login', {
-      email,
-      password,
-    });
-  } catch(e) {
-    alert(e.message);
-  }
-
-  const { token, exp } = res.data;
-
-  localStorage.setItem('jwtToken', token);
-  localStorage.setItem('jwtExpires', exp);
-
-  history.push('/dashboard');
-}
 
 export default function Login () {
   return (
@@ -46,7 +26,7 @@ export default function Login () {
 
             return errors;
           }}
-          onSubmit={values => login(values)}
+          onSubmit={values => login(values.email, values.password)}
         >
           {
             (props) => (
