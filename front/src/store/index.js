@@ -1,5 +1,5 @@
-import {store} from 'react-easy-state'
+import { store } from "react-easy-state";
 
 export const requestStore = store({
-  phone: '+372'
-})
+  phone: "+372",
+});
