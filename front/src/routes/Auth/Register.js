@@ -1,14 +1,17 @@
 import axios from 'axios'
-import {useParams} from 'react-router-dom'
+import {useParams, useHistory} from 'react-router-dom'
 import React, {useState, useEffect} from 'react'
 import CustomButton from '../../components/CustomButton/CustomButton'
 import CustomInput from '../../components/CustomInput/CustomInput'
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner'
 
 export default function Register (props, e) {
   let {token} = useParams()
+  const history = useHistory()
 
   const [payload, setPayload] = useState({})
   const [isValid, setIsValid] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   async function checkToken () {
     await axios.get(`/api/auth/reset/${token}`)
@@ -26,8 +29,20 @@ export default function Register (props, e) {
   }
 
   async function register () {
-    if (!isValid) alert('token not valid')
-    await axios.put(`/api/auth/register/${token}`, payload)
+    setIsLoading(true)
+
+    if (!isValid) {
+      alert('token not valid')
+      return setIsLoading(false)
+    }
+
+    try {  
+      await axios.put(`/api/auth/register/${token}`, payload)
+      history.push('/login')
+    } catch (error) {
+      alert(error.response.data)
+    }
+    setIsLoading(false)
   }
  
   return (
@@ -56,10 +71,14 @@ export default function Register (props, e) {
         </div>
 
         <div className="action-wrapper">
-          <CustomButton 
-            titleId="register"
-            modifier="primary"
-            onClick={register}/>
+
+        {isLoading 
+            ? <LoadingSpinner /> 
+            : <CustomButton 
+                titleId="register"
+                modifier="primary"
+                onClick={register}/>
+          }
         </div>
 
       </div>

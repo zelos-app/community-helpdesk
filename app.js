@@ -35,9 +35,9 @@ async function init() {
     const settings = await config.get();
     
     // //debug
-    const Zelos = require('./models/Zelos');
-    zelos = new Zelos();
-    await zelos.init();
+    // const Zelos = require('./models/Zelos');
+    // zelos = new Zelos();
+    // await zelos.init();
   } catch (err) {
     console.error(err.stack);
   }

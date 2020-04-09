@@ -9,6 +9,7 @@ export default (props) => {
     labelId = null, 
     name = 'input', 
     layout = 'input', 
+    checked = false,
     ...rest
   } = props
   
@@ -16,7 +17,7 @@ export default (props) => {
     <Fragment>
       <InputStyle />
       <div className={`input ${modifier}`}>
-        <div className="input-wrapper">
+        <div className={`input-wrapper layout-${layout}`}>
 
           {/* LABEL */}
           <label htmlFor={name}>
@@ -35,6 +36,19 @@ export default (props) => {
             <textarea 
               name={name}
               {...rest}></textarea>
+          ) : ''}
+
+          {/* CHEKBOX */}
+          {layout === 'checkbox' ? (
+            <Fragment>
+              <div className={`checkbox ${checked ? 'is-checked' : ''}`}>
+                <input 
+                  type="checkbox"
+                  name={name}
+                  {...rest}/>
+              </div>
+            </Fragment>
+
           ) : ''}
 
         </div>

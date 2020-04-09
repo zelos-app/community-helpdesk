@@ -5,15 +5,17 @@ import {Route, Switch, Redirect} from 'react-router-dom'
 import Intro from './routes/Request/Intro'
 
 // Auth
-import Auth from './routes/Auth/Auth'
+import AuthWrapper from './routes/Auth/AuthWrapper'
 import Login from './routes/Auth/Login'
 import Register from './routes/Auth/Register'
 import ResetEmail from './routes/Auth/ResetEmail'
 import ResetPassword from './routes/Auth/ResetPassword'
 
 // Dashboard
-import Dashboard from './routes/Dashboard/Dashboard'
-import Main from './routes/Dashboard/Main'
+import DashboardWrapper from './routes/Dashboard/DashboardWrapper'
+import MainView from './routes/Dashboard/Main'
+import Users from './routes/Dashboard/Users'
+import Settings from './routes/Dashboard/Settings'
 
 // Request
 import RequestWrapper from './routes/Request/RequestWrapper'
@@ -31,7 +33,7 @@ export default () => {
       <Route
         path="/auth"
         render={({match:{path}}) => (
-          <Auth>
+          <AuthWrapper>
             <Switch>
               <Redirect exact from ={path} to={`${path}/login`} />
               <Route path={`${path}/login`} component={Login} />
@@ -39,7 +41,7 @@ export default () => {
               <Route path={`${path}/reset-email`} component={ResetEmail} />
               <Route path={`${path}/reset-password/:token`} component={ResetPassword} />
             </Switch>
-          </Auth>
+          </AuthWrapper>
         )}
       />
       <Route
@@ -59,15 +61,16 @@ export default () => {
       <Route
         path="/dashboard"
         render={({match: {path}}) => (
-          <Dashboard>
+          <DashboardWrapper>
             <Switch>
-              <Redirect exact from ={path} to={`${path}/tickets`} />
-              <Route from={`${path}/tickets`} component={Main} />
-              <Route from={`${path}/settings`}>TODO</Route>
+              <Route exact path={path} component={MainView} />
+              <Route path={`${path}/settings`} component={Settings} />
+              <Route path={`${path}/users`} component={Users} />
             </Switch>
-          </Dashboard>
+          </DashboardWrapper>
        )}
       />
+      <Redirect from="*" to="/" />
     </Switch>
   )
 }
