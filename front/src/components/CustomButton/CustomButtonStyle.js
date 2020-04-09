@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
   .button {}
@@ -22,33 +22,42 @@ export default createGlobalStyle`
         .primary .button-wrapper button {
           color: ${({ theme }) => theme.button.primary.color.main};
           background: ${({ theme }) => theme.button.primary.background.main};
-          border: solid ${({ theme }) => theme.button.primary.borderColor.main} 2px;}
+          border: solid ${({ theme }) =>
+            theme.button.primary.borderColor.main} 2px;}
 
           .primary .button-wrapper button:hover {
             color: ${({ theme }) => theme.button.primary.color.hover};
             background: ${({ theme }) => theme.button.primary.background.hover};
-            border: solid ${({ theme }) => theme.button.primary.borderColor.hover} 2px;}
+            border: solid ${({ theme }) =>
+              theme.button.primary.borderColor.hover} 2px;}
   
           .primary .button-wrapper button:active {
             color: ${({ theme }) => theme.button.primary.color.active};
-            background: ${({ theme }) => theme.button.primary.background.active};
-            border: solid ${({ theme }) => theme.button.primary.borderColor.active} 2px;}
+            background: ${({ theme }) =>
+              theme.button.primary.background.active};
+            border: solid ${({ theme }) =>
+              theme.button.primary.borderColor.active} 2px;}
         
 
         .secondary .button-wrapper button {
           color: ${({ theme }) => theme.button.secondary.color.main};
           background: ${({ theme }) => theme.button.secondary.background.main};
-          border: solid ${({ theme }) => theme.button.secondary.borderColor.main} 2px;}
+          border: solid ${({ theme }) =>
+            theme.button.secondary.borderColor.main} 2px;}
 
           .secondary .button-wrapper button:hover {
             color: ${({ theme }) => theme.button.secondary.color.hover};
-            background: ${({ theme }) => theme.button.secondary.background.hover};
-            border: solid ${({ theme }) => theme.button.secondary.borderColor.hover} 2px;}
+            background: ${({ theme }) =>
+              theme.button.secondary.background.hover};
+            border: solid ${({ theme }) =>
+              theme.button.secondary.borderColor.hover} 2px;}
   
           .secondary .button-wrapper button:active {
             color: ${({ theme }) => theme.button.secondary.color.active};
-            background: ${({ theme }) => theme.button.secondary.background.active};
-            border: solid ${({ theme }) => theme.button.secondary.borderColor.active} 2px;}
+            background: ${({ theme }) =>
+              theme.button.secondary.background.active};
+            border: solid ${({ theme }) =>
+              theme.button.secondary.borderColor.active} 2px;}
 
 
-`
+`;
