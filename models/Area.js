@@ -13,14 +13,11 @@ const areaSchema = new mongoose.Schema({
         archived: {
             type: Boolean,
             default: false
-        },
-        zelos: {
-            group: {
-                Type: Boolean,
-                default: false
-            },
-            groupId: String
         }
+    },
+    zelos: {
+        hasGroup: Boolean,
+        groupId: String
     }
 });
 
@@ -36,35 +33,45 @@ class Area {
         for (const [key, value] of Object.entries(fields)) {
             this.data[key] = value;
         }
-        // todo: fields.createdBy = current user
-        const area = new AreaModel(this.data);
-        const newArea = await area.save();
+        // create new area model
+        let area = new AreaModel(this.data);
+        console.log(area);
         const response = {
-            id: newArea._id
+            id: area._id,
+            zelos: {}
         }
         // create or link a group on Zelos
         const zelos = new Zelos();
         await zelos.init();
         const group = await zelos.findGroup(fields.name);
-        if (!group) {
-            try {   
-                const groupId = await zelos.newGroup(fields.name, fields.desc);
-                if (groupId) {
-                    response.status = "ok"
-                    response.zelosGroupId = groupId;
-                    response.message = "Added area and created a new group on Zelos"
-                } else {
-                    response.status = "warning"
-                    response.message = "Added area, but failed to create group on Zelos (limit reached or no permission to add groups)"
+        if (!group) {  
+            const groupId = await zelos.newGroup(fields.name, fields.desc);
+            if (groupId) {
+                area.zelos = {
+                    hasGroup: true,
+                    groupId: groupId
                 }
-            } catch (err) {
-                console.log(err)
-            }       
+                response.status = "ok"
+                response.zelos.groupId = groupId;
+                response.message = "Added area and created a new group on Zelos"
+            } else {
+                area.zelos = {
+                    hasGroup: false
+                }
+                response.status = "warning"
+                response.message = "Added area, but failed to create group on Zelos (limit reached or no permission to add groups)"
+            } 
         } else {
+            area.zelos = {
+                hasGroup: true,
+                groupId: group
+            }
             response.status = "ok"
+            response.zelos.groupId = group;
             response.message = "Added area and linked an existing group on Zelos"
         }
-        return response
+        await area.save();
+        return response;
     }
     // Get all areas
     async list(consumer) {
