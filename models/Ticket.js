@@ -145,6 +145,10 @@ class Ticket {
         }
     }
 
+    // Approve a ticket
+
+    // Reject a ticket
+
     // Remove a ticket
     async delete(id = this.id) {
         console.log(`[d] Trying to remove ticket "${id}"`);
@@ -174,7 +178,7 @@ class Ticket {
         }
     }
 
-    // Comments
+    // Add a comment
     async addComment(comment, user = null) {
         const ticket = await TicketModel.findById(this.id);
         const newComment = {
@@ -194,6 +198,7 @@ class Ticket {
         }
     }
 
+    // Remove a comment
     async removeComment(commentId) {
         const ticket = await TicketModel.findById(this.id);
         console.log(`Comments before:\n${ticket.comments}`);
