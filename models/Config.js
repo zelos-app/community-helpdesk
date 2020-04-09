@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const configSchema = new mongoose.Schema({
     zelos: {
-        type: Object,
-        default: {}
+        confirmAssignment: {type: Boolean, default: false},
+        confirmCompletion: {type: Boolean, default: true}
     },
     email: {
         provider: String,
@@ -16,6 +16,9 @@ const configSchema = new mongoose.Schema({
         sendRejectText: Boolean,
         sendAcceptText: Boolean,
         fromName: String,
+        sendText: Boolean
+    },
+    templates: {
         acceptText: {
             type: String,
             default: "Your request has been accepted and published to volunteers"
@@ -23,6 +26,10 @@ const configSchema = new mongoose.Schema({
         rejectText: {
             type: String,
             default: "Unfortunately we can't accept your request. It maybe have not met the requirements or was missing crucial details"
+        },
+        safetyWarning: {
+            type: String,
+            default: "This text is added automatically to the assignee-only field on the Zelos task"
         }
     }
 }, {
@@ -35,7 +42,7 @@ const ConfigModel = mongoose.model('Config', configSchema)
 class Config {
     constructor() {}
 
-    async get(subject) {
+    async get(subject, toObject = false) {
         let config = await ConfigModel.findOne();
         // See if config exists in the database
         if (!config) {
@@ -54,9 +61,17 @@ class Config {
             await config.save();
         } else {
             if (subject) {
-                return config[subject]
+                if (toObject) {
+                    return config[subject].toObject();    
+                } else {
+                    return config[subject]
+                }
             } else {
-                return config
+                if (toObject) {
+                     return config.toObject();
+                } else {
+                    return config
+                }
             }
         }
     }

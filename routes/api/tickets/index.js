@@ -90,15 +90,12 @@ tickets.put('/:id', async (req, res) => {
 })
 
 // Moderate ticket
-tickets.post('/:id/:status', async (req, res) => {
+tickets.put('/:id/approve', async (req, res) => {
     try {
         // unvalidated
         const ticket = new Ticket(req.params.id);
-        if (req.params.status === "approve") {
-            ticket.approve(req.query);
-        } else if (req.params.status === "reject") {
-            ticket.reject(req.query)
-        }
+        const result = await ticket.approve(req.query);
+        res.send(result);
     } catch (err) {
         handleError(err, res);
     }

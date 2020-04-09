@@ -1,6 +1,8 @@
 const axios = require('axios');
 const Config = require('./Config');
 
+const cfg = new Config();
+
 class Zelos {
     constructor() {
         this.url = `https://${process.env.ZELOS_WORKSPACE}.zelos.space`;
@@ -14,10 +16,10 @@ class Zelos {
         };
     }
     async init() {
-        const c = new Config();
-        const config = await c.get();
-        if (config.zelos.tokens) {
-            this.tokens = config.zelos.tokens;
+        const cfg = new Config();
+        const config = await cfg.get('zelos', true);
+        if (config.tokens) {
+            this.tokens = config.tokens;
             if (isTokenValid(this.tokens.access.expired_at)) {
                 console.log(`[d] Zelos: Access token is valid`);
             } else if (isTokenValid(this.tokens.refresh.expired_at)) {
@@ -113,52 +115,59 @@ class Zelos {
         }
     }
 
-    async newTask(task) {
+    async newTask(details) {
         let name = ""
-        const description = details.description
+        const description = details.publicFields.request
         if (description.length > 255) {
             name = `${description.substring(0,252)}...`
         } else {
             name = description
         }
-        const instruction = []
-        Object.keys(details).forEach(item => {
+        // parse instructions
+        const instructions = []
+        Object.keys(details.privateFields).forEach(item => {
             if (item === "phone" || item === "address" || item === "name") {
-                instruction.push(`${item.capitalize()}: ${details[item]}`)
+                instructions.push(`${item.capitalize()}: ${details.privateFields[item]}`)
+            } else {
+                instructions.push("\n" + details.privateFields[item])
             }
         });
-        // add critical instructions
-        instruction.push(config.instructions);
+        // parse settings
+        const defSetting = await cfg.get('zelos');
+        const confirmAssignment = details.settings.confirmAssignment ? details.settings.confirmAssignment : defSetting.confirmAssignment
+        const confirmCompletion = details.settings.confirmCompletion ? details.settings.confirmCompletion : defSetting.confirmCompletion
+        // prepare request body
         const body = {
             "type": "regular",
-            "name": `${name}`,
-            "description": `${description}`,
-            "instructions": `${instruction.join('\n')}`,
+            "name": name,
+            "description": description,
+            "instructions": instructions.join('\n'),
             "execution_start_date": null,
             "execution_end_date": null,
             "points": 1,
             "publish_at": null,
             "active_until": null,
             "images": [],
-            "assignment_approve_needed": true,
-            "completion_approve_needed": false,
+            "assignment_approve_needed": Boolean(confirmAssignment),
+            "completion_approve_needed": Boolean(confirmCompletion),
             "max_participants_amount": 1,
-            "groups": groups,
+            "groups": [details.settings.group],
             "location_id": null,
             "user_ids": []
         }
+        // console.log(body)
+        const axiosCfg = {
+            headers: this.axiosConfig.headers,
+        }
         try {
-            const res = await axios.post(`${this.url}/api/task/regular`, body, {
-                headers: this.headers
-            })
+            const res = await axios.post(`${this.url}/api/task/regular`, body, axiosCfg);
             const taskUrl = this.url + "/tasks/" + res.data.data.id;
             console.log(`[i] Created ${taskUrl}`);
             return taskUrl;
         } catch (err) {
             console.error(`[!] Failed to create task: ${err.message}`)
-            return err;
+            return err.message;
         }
-
     }
 }
 

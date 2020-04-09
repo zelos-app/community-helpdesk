@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 const createError = require('http-errors');
+const Area = require(`./Area`);
+const Zelos = require(`./Zelos`);
+const Config = require(`./Config`);
+
+const config = new Config();
 
 const ticketSchema = new mongoose.Schema({
     name: String,
@@ -54,6 +59,9 @@ const ticketSchema = new mongoose.Schema({
             }
         }
     }
+},
+{
+    minimize: false
 });
 
 const TicketModel = mongoose.model('Ticket', ticketSchema);
@@ -146,12 +154,43 @@ class Ticket {
 
     // Approve a ticket
     async approve(query) {
-        const ticket = this.get();
-        // Create a task on Zelos
-        
-        // Store task info
-        // Send a notification request
-        // Update ticket
+        let settings = {};
+        const ticket = await this.get();
+        for (const [key, value] of Object.entries(query)) {
+            settings[key] = value;
+        }
+        const area = await new Area(ticket.area).get();
+        // create an object for task creation input
+        const templates = await config.get("templates");
+        const taskDetails = {
+            privateFields: {
+                name: ticket.name,
+                phone: ticket.phone,
+                address:  ticket.address,
+                instructions: templates.safetyWarning
+            },
+            publicFields: {
+                request: ticket.request
+            },
+            settings: {
+                group: area.zelos.groupId,
+                ...query
+            }
+        }
+        // Push a task to Zelos
+        const zelos = new Zelos();
+        await zelos.init();
+        const taskUrl = await zelos.newTask(taskDetails);
+        // update ticket
+        ticket.status = {
+            accepted: true,
+            task: {
+                url: taskUrl,
+                created: true
+            }
+        }
+        // await ticket.save()
+        return ticket;
     }
 
     // Reject a ticket
