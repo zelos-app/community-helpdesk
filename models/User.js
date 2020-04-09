@@ -257,7 +257,6 @@ class User {
     async getUserByField(fields) {
         const user = await UserModel.findOne(fields);
         if (user) {
-            console.log(`Found user: ${user}`)
             return user;
         } else {
             return false;
@@ -283,6 +282,23 @@ class User {
                 throw err;
             }
         }     
+    }
+
+    // create default user
+    async initDefault() {
+        const user = await this.getUserByField({email: process.env.ADMIN_EMAIL});
+        if (!user.status.registered) {
+            const user = new UserModel();
+            const password = process.env.ADMIN_PASSWORD
+            user.email = process.env.ADMIN_EMAIL
+            user.firstName = "Default";
+            user.lastName = "Admin";
+            user.status.admin = true;
+            user.status.registered = true;
+            user.credentials.password = await bcrypt.hash(password, 10);
+            console.log(`[i] Created default user`)
+            await user.save();
+        }
     }
 }
 
