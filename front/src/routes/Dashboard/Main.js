@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import axios from 'axios'
+import axios from '../../utils/axios'
 import moment from 'moment'
 import {Link} from 'react-router-dom'
 import {FormattedMessage} from 'react-intl'
