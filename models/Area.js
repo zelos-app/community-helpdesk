@@ -45,21 +45,23 @@ class Area {
         // create or link a group on Zelos
         const zelos = new Zelos();
         await zelos.init();
-        const group = await zelos.findGroup(req.body.name);
+        const group = await zelos.findGroup(fields.name);
         if (!group) {
-            const desc = req.body.description;
-            const groupId = await zelos.newGroup(req.body.name, desc);
-            response.zelosGroupId = groupId;
-            if (groupId) {
-                response.status = "ok"
-                response.message = "Added area and created a new group on Zelos"
-            } else {
-                response.status = "warning"
-                response.message = "Added area, but failed to create group on Zelos (limit reached)"
-            }    
+            try {   
+                const groupId = await zelos.newGroup(fields.name, fields.desc);
+                if (groupId) {
+                    response.status = "ok"
+                    response.zelosGroupId = groupId;
+                    response.message = "Added area and created a new group on Zelos"
+                } else {
+                    response.status = "warning"
+                    response.message = "Added area, but failed to create group on Zelos (limit reached or no permission to add groups)"
+                }
+            } catch (err) {
+                console.log(err)
+            }       
         } else {
             response.status = "ok"
-            response.zelosGroupId = group;
             response.message = "Added area and linked an existing group on Zelos"
         }
         return response
