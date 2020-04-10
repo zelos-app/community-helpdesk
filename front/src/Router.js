@@ -39,7 +39,7 @@ export default () => {
               <Redirect exact from={path} to={`${path}/login`} />
               <Route path={`${path}/login`} component={Login} />
               <Route path={`${path}/register/:token`} component={Register} />
-              <Route path={`${path}/reset-email`} component={ResetEmail} />
+              {/*<Route path={`${path}/reset-email`} component={ResetEmail} />*/}
               <Route
                 path={`${path}/reset-password/:token`}
                 component={ResetPassword}
