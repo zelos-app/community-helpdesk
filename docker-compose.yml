@@ -1,12 +1,98 @@
-version: '3.7'
+version: "3.7"
 services:
-  mongodb_container:
+  nginx:
+    container_name: nginx
+    restart: always
+    image: nginx:latest
+    ports:
+      - "3000:80"
+    volumes:
+      - ./front/build:/var/www
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - front-end
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=front-end"
+      - "traefik.frontend.priority=1"
+      - "traefik.frontend.rule=Host:${APP_DOMAIN}"
+      - "traefik.frontend.passHostHeader=true"
+      - "traefik.frontend.headers.customRequestHeaders=X-Forwarded-Proto:https"
+      - "traefik.frontend.entryPoints=https"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+
+  backend:
+    container_name: covid-portal-api
+    restart: always
+    image: covid-portal-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./.env:/usr/src/app/.env
+    networks:
+      - front-end
+      - back-end
+
+  mongodb:
+    container_name: mongodb
+    restart: always
     image: mongo:latest
-    env_file: docker.env
     ports:
       - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "rootuser"
+      MONGO_INITDB_ROOT_PASSWORD: "rootpassword"
+      MONGO_INITDB_DATABASE: "covid-help"
     volumes:
-      - mongodb_data_container:/data/db
+      - mongodb_data:/data/db
+    networks:
+      - back-end
+
+  traefik:
+    image: traefik:1.7.16
+    container_name: traefik
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: 10m
+    command:
+      - "--api"
+      - "--logLevel=ERROR"
+      - "--traefikLog.format=json"
+      - "--accessLog.format=json"
+      - "--defaultentrypoints=http,https"
+      - "--acme"
+      - "--acme.acmelogging"
+      - "--acme.email=${ACME_EMAIL}"
+      - "--acme.entryPoint=https"
+      - "--acme.httpChallenge.entryPoint=http"
+      - "--acme.domains=${APP_DOMAIN}"
+      - "--acme.storage=/acme/cert.json"
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    networks:
+      - front-end
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik.toml:/etc/traefik/traefik.toml
+      - ./traefik/acme/gce.json:/etc/traefik/gce.json
+      - acme:/acme
+    labels:
+      - "traefik.enable=false"
 
 volumes:
-  mongodb_data_container:
+  mongodb_data:
+  acme:
+
+networks:
+  front-end:
+    name: front-end
+  back-end:
+    name: back-end
