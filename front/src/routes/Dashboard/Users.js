@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import CustomButton from '../../components/CustomButton/CustomButton'
 import CustomInput from '../../components/CustomInput/CustomInput'
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner'
+import DashboardNavigation from '../../components/DashboardNavigation/DashboardNavigation'
 import {Link} from "react-router-dom"
 import {FormattedMessage} from 'react-intl'
 import axios from 'axios'
@@ -20,7 +21,7 @@ export default function Users (props) {
   }, [])
 
   function handleInputChange ({target}) {
-    
+
     setPayload({
       ...payload,
       [target.name]: target.value,
@@ -58,16 +59,12 @@ export default function Users (props) {
       </div>
     )
   }
-  
+
   return (
     <div className="dashboard-children users">
-      
-      <div className="nav-links">
-        <Link to="/dashboard">Dashboard</Link>&nbsp;/&nbsp;
-        <Link to="/dashboard/settings">Settings</Link>&nbsp;/&nbsp; 
-        <Link to="/dashboard/invite">Users</Link>
-      </div>
-      
+
+      <DashboardNavigation />
+
       <div className="dashboard-children-wrapper">
 
       <FormattedMessage id="inviteUser" />
@@ -80,7 +77,7 @@ export default function Users (props) {
           value={payload.email}
           onChange={handleInputChange}/>
       </div>
-        
+
       <div className="action-wrapper invite-users">
         <CustomInput
           labelId="admin"
@@ -89,10 +86,10 @@ export default function Users (props) {
           layout="checkbox"
           checked={payload.admin}
           onChange={handleInputChange}/>
-        
-        {isLoadingInvitation 
-          ? <LoadingSpinner /> 
-          : <CustomButton 
+
+        {isLoadingInvitation
+          ? <LoadingSpinner />
+          : <CustomButton
               titleId="invite"
               modifier="primary"
               onClick={invite}/>
@@ -101,7 +98,7 @@ export default function Users (props) {
 
       {/* <div className="users-wrapper">
         {isLoadingUsers
-          ? <LoadingSpinner /> 
+          ? <LoadingSpinner />
           : users.map((user) => <User {...user} />)
         }
       </div>

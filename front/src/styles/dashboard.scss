@@ -4,12 +4,8 @@
 }
 
 .dashboard-children {
-  &.settings {
-    margin: 0 auto;
-  }
-
+  &.settings,
   &.users {
-    max-width: 600px;
     margin: 0 auto;
   }
 }

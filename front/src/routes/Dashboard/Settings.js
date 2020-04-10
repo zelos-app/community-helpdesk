@@ -11,15 +11,7 @@ export default function Settings (props) {
 
   return (
     <div className="dashboard-children settings">
-
       <DashboardNavigation />
-
-      <div className="dashboard-children-wrapper">
-
-        <Link to="/dashboard/users">Users</Link>
-
-
-      </div>
     </div>
   )
 }
