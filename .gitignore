@@ -1,5 +1,8 @@
 node_modules
 docker.env
+staging.env
+production.env
 .env
 test.js
 .vscode
+acme.json

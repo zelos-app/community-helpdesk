@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "../../utils/axios";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
+import { RequestOptionsContext } from "./DashboardWrapper";
 
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomInput/CustomInput";
@@ -20,6 +21,8 @@ function Main(props) {
   ];
 
   const dropdownOptions = ["resolve", "reject"];
+
+  const { categories, areas, users } = useContext(RequestOptionsContext);
 
   const [tickets, setTickets] = useState([]);
   const [isLoadingTickets, setIsLoadingTickets] = useState(false);
@@ -136,6 +139,10 @@ function Main(props) {
     });
   }
 
+  function getSelectedCategory(ticketCategory) {
+    return categories.find((category) => ticketCategory === category._id);
+  }
+
   const Ticket = (ticket) => {
     const date = new moment(ticket.createdAt).format("DD.MM.YY");
     const displayedDate = date !== "invalid date" ? date : "";
@@ -154,6 +161,8 @@ function Main(props) {
       </div>
     );
   };
+
+  const selectedCategory = getSelectedCategory(ticketDetails.category);
 
   return (
     <div className="dashboard-children main">
@@ -235,9 +244,20 @@ function Main(props) {
                   labelId="category"
                   name="category"
                   modifier="secondary"
-                  value={ticketDetails.category}
+                  layout="select"
                   onChange={handleInputChange}
-                />
+                >
+                  <option value="" />
+                  {categories.map((option) => (
+                    <option
+                      value={option._id}
+                      key={option._id}
+                      selected={option._id === ticketDetails.category}
+                    >
+                      {option.name}
+                    </option>
+                  ))}
+                </CustomInput>
 
                 <CustomInput
                   labelId="phone"
@@ -247,29 +267,53 @@ function Main(props) {
                   onChange={handleInputChange}
                 />
 
-                <CustomInput
-                  labelId="address"
-                  name="address"
-                  modifier="secondary"
-                  value={ticketDetails.address}
-                  onChange={handleInputChange}
-                />
+                {selectedCategory && selectedCategory.needsAddress && (
+                  <CustomInput
+                    labelId="address"
+                    name="address"
+                    modifier="secondary"
+                    value={ticketDetails.address}
+                    onChange={handleInputChange}
+                  />
+                )}
 
                 <CustomInput
                   labelId="area"
                   name="area"
                   modifier="secondary"
-                  value={ticketDetails.area}
+                  layout="select"
                   onChange={handleInputChange}
-                />
+                >
+                  <option value="" />
+                  {areas.map((option) => (
+                    <option
+                      value={option._id}
+                      key={option._id}
+                      selected={option._id === ticketDetails.area}
+                    >
+                      {option.name}
+                    </option>
+                  ))}
+                </CustomInput>
 
                 <CustomInput
                   labelId="assignee"
                   name="assignee"
-                  modifier="primary"
-                  value={ticketDetails.assignee}
+                  modifier="secondary"
+                  layout="select"
                   onChange={handleInputChange}
-                />
+                >
+                  <option value="" />
+                  {users.map((option) => (
+                    <option
+                      value={option._id}
+                      key={option._id}
+                      selected={option._id === ticketDetails.user}
+                    >
+                      {option.firstName} {option.lastName}
+                    </option>
+                  ))}
+                </CustomInput>
 
                 <div className="flex-end action-wrapper">
                   <CustomInput

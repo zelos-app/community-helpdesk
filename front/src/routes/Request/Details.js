@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Field, useFormikContext } from "formik";
-import axios from "../../utils/axios";
 import { FormattedMessage } from "react-intl";
 import history from "../../utils/history";
 import CustomButton from "../../components/CustomButton/CustomButton";
