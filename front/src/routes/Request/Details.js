@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect, useContext } from "react";
+import axios from "../../utils/axios";
 import { FormattedMessage } from "react-intl";
-import { useHistory } from "react-router-dom";
+import history from "../../utils/history";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { requestStore } from "../../store";
+import { RequestOptionsContext } from "./RequestWrapper";
 
 function Details() {
-  const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
-  const [areas, setAreas] = useState([]);
-  const phoneRef = React.createRef();
+  const { areas } = useContext(RequestOptionsContext);
 
   const [requestDetails, setRequestDetails] = useState({
     ...requestStore,
@@ -21,20 +20,11 @@ function Details() {
     area: "",
   });
 
-  async function getAreas() {
-    const { data = {} } = await axios.get("/api/areas");
-    setAreas(data.areas || []);
-  }
-
-  useEffect(() => {
-    getAreas();
-  }, []);
-
   async function next() {
     setIsLoading(true);
-    await axios.post("/api/tickets", { ...requestDetails });
+    await axios.post("/api/submit", { ...requestDetails });
     setIsLoading(false);
-    history.push("/confirmed");
+    history.push("/request/confirmed");
   }
 
   function handleInputChange({ target }) {
@@ -53,11 +43,7 @@ function Details() {
   }
 
   function Area({ _id, name }) {
-    return (
-      <div onClick={() => selectArea(name)} className="area">
-        <h5>{name}</h5>
-      </div>
-    );
+    return <CustomButton onClick={() => selectArea(name)} title={name} />;
   }
 
   return (
@@ -86,6 +72,7 @@ function Details() {
             onChange={handleInputChange}
           />
 
+          {/* show address field only if the currently selected category has the flag */}
           <CustomInput
             labelId="address"
             name="address"
@@ -94,19 +81,24 @@ function Details() {
             onChange={handleInputChange}
           />
 
-          <CustomInput
-            labelId="area"
-            name="area"
-            modifier="secondary"
-            value={requestDetails.area}
-            onChange={handleInputChange}
-          />
-
-          <div className="area-wrapper">
-            {areas.slice(0, 10).map((area) => (
-              <Area key={area._id} {...area} />
-            ))}
-          </div>
+          {/*TODO: make this into a select field or something */}
+          {requestDetails.area ? (
+            <CustomInput
+              labelId="area"
+              name="area"
+              modifier="secondary"
+              value={requestDetails.area}
+              onChange={handleInputChange}
+              readOnly
+            />
+          ) : (
+            <div className="area-wrapper">
+              Area:
+              {areas.map((area) => (
+                <Area key={area._id} {...area} />
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="action-wrapper">

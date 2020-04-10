@@ -1,29 +1,17 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState, useContext } from "react";
+import axios from "../../utils/axios";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import { FormattedMessage } from "react-intl";
-import { useHistory } from "react-router-dom";
+import history from "../../utils/history";
 import { requestStore } from "../../store";
+import { RequestOptionsContext } from "./RequestWrapper";
 
 function Category() {
-  const history = useHistory();
-  const [categories, setCategories] = useState([]);
-
-  async function getCategories() {
-    try {
-      const { data = {} } = await axios.get("/api/categories");
-      const { categories = [] } = data;
-      setCategories(categories);
-    } catch (error) {}
-  }
-
-  useEffect(() => {
-    getCategories();
-  }, []);
+  const { categories } = useContext(RequestOptionsContext);
 
   function select(id) {
     requestStore.category = id;
-    history.push("/request");
+    history.push("/request/request");
   }
 
   const SelectorButtons = () => {
