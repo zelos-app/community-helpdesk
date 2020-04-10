@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 
 import CustomButton from "../../components/CustomButton/CustomButton";
+import CustomDropdown from "../../components/CustomDropdown/CustomDropdown";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
-import DashboardNavigation from '../../components/DashboardNavigation/DashboardNavigation'
+import DashboardNavigation from '../../components/DashboardNavigation/DashboardNavigation';
+import TaskModal from '../../routes/Dashboard/TaskModal';
 
 export default function Main() {
   const FILTER_KEYS = [
@@ -17,6 +19,9 @@ export default function Main() {
     "archived",
     "notified",
   ];
+
+  const dropdownOptions = ['resolve', 'reject'];
+
   const [tickets, setTickets] = useState([]);
   const [isLoadingTickets, setIsLoadingTickets] = useState(false);
 
@@ -38,6 +43,9 @@ export default function Main() {
     _id: "",
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState('');
+
   async function getTickets() {
     setIsLoadingTickets(true);
     const { data = {} } = await axios.get("/api/tickets");
@@ -56,8 +64,20 @@ export default function Main() {
     });
   }
 
-  async function createTask() {
-    await axios.put(`/api/tickets/${ticketDetails._id}`);
+  function handleDropDownChange({ target }) {
+    if (target.value) {
+      openModal(target.value);
+    }
+  }
+
+  async function openModal(type) {
+    setIsModalOpen(true);
+    setModalType(type);
+  }
+
+  function closeModal() {
+    setIsModalOpen(false);
+    setModalType('');
   }
 
   function handleFilters({ target }) {
@@ -77,6 +97,21 @@ export default function Main() {
         return oneTicket.status[oneFilter] === false;
       }).length === 0
     );
+  }
+
+  function createTask() {
+    // TODO: Create task
+  }
+
+  async function handleBtnClick(comment) {
+    closeModal();
+    if (modalType === 'approve') {
+      await axios.put(`/api/tickets/${ticketDetails._id}/approve`);
+    } else if (modalType === 'reject') {
+      await axios.put(`/api/tickets/${ticketDetails._id}/reject`, { comment });
+    } else if (modalType === 'resolve') {
+      await axios.put(`/api/tickets/${ticketDetails._id}/resolve`, { comment });
+    }
   }
 
   function selectTicket(ticket) {
@@ -125,6 +160,14 @@ export default function Main() {
     <div className="dashboard-children main">
       <div className="dashboard-children-wrapper">
         <DashboardNavigation />
+        {isModalOpen &&
+          <TaskModal
+            onClose={() => closeModal()}
+            modalType={modalType}
+            handleBtnClick={(comment) => handleBtnClick(comment)}
+            showCommentField={modalType === 'resolve' || modalType === 'reject'}
+          />
+        }
 
         <div className="tickets">
           <div className="ticket-list">
@@ -230,10 +273,14 @@ export default function Main() {
                 />
 
                 <div className="flex-end action-wrapper">
+                  <CustomDropdown
+                    options={dropdownOptions}
+                    onChange={handleDropDownChange}
+                  />
                   <CustomButton
-                    titleId="createTask"
+                    titleId="modal.approve"
                     modifier="primary"
-                    onClick={createTask}
+                    onClick={() => openModal('approve')}
                   />
                 </div>
               </div>
