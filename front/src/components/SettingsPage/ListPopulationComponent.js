@@ -5,7 +5,8 @@ import React, { useState } from "react";
 
 export default function ListPopulationComponent() {
   const [category, setCategory] = useState([]);
-  const [categoryDescription, setCategoryDescription] = useState([""]);
+  const [categoryDescription, setCategoryDescription] = useState("");
+  const [needsAddress, setNeedsAddress] = useState(false);
 
   const [area, setArea] = useState([]);
 
@@ -26,14 +27,26 @@ export default function ListPopulationComponent() {
         value={categoryDescription}
         onChange={(event) => setCategoryDescription(event.target.value)}
       />
+      <CustomInput
+        labelId="Needs address"
+        name="needsAddress"
+        modifier="secondary"
+        layout="checkbox"
+        checked={needsAddress}
+        onChange={() => setNeedsAddress(!needsAddress)}
+      />
+
       <CustomButton
         titleId="create a category"
         modifier="secondary"
         onClick={() => {
-          axios.post("/api/categories/", {
-            name: category,
-            description: categoryDescription,
-          });
+          axios
+            .post("/api/categories/", {
+              name: category,
+              description: categoryDescription,
+              needsAddress: needsAddress,
+            })
+            .then(() => alert(`category ${category} created`));
         }}
       />
 
@@ -51,9 +64,11 @@ export default function ListPopulationComponent() {
         titleId="create an area"
         modifier="secondary"
         onClick={() => {
-          axios.post("/api/areas/", {
-            name: area,
-          });
+          axios
+            .post("/api/areas/", {
+              name: area,
+            })
+            .then(() => alert(`area ${area} created`));
         }}
       />
     </>

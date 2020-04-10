@@ -170,7 +170,9 @@ function Main(props) {
     );
   };
 
-  const selectedCategory = getSelectedCategory(ticketDetails.category);
+  const selectedCategory = ticketDetails?.category
+    ? getSelectedCategory(ticketDetails.category)
+    : "";
 
   return (
     <div className="dashboard-children main">
@@ -250,105 +252,116 @@ function Main(props) {
                       onChange={handleInputChange}
                     />
 
-                <CustomInput
-                  labelId="category"
-                  name="category"
-                  modifier="secondary"
-                  layout="select"
-                  onChange={handleInputChange}
-                >
-                  <option value="" />
-                  {categories.map((option) => (
-                    <option
-                      value={option._id}
-                      key={option._id}
-                      selected={option._id === ticketDetails.category}
+                    <CustomInput
+                      labelId="category"
+                      name="category"
+                      modifier="secondary"
+                      layout="select"
+                      onChange={handleInputChange}
                     >
-                      {option.name}
-                    </option>
-                  ))}
-                </CustomInput>
+                      <option value="" />
+                      {categories.map((option) => (
+                        <option
+                          value={option._id}
+                          key={option._id}
+                          selected={option._id === ticketDetails.category}
+                        >
+                          {option.name}
+                        </option>
+                      ))}
+                    </CustomInput>
 
-                <CustomInput
-                  labelId="phone"
-                  name="phone"
-                  modifier="secondary"
-                  value={ticketDetails.phone}
-                  onChange={handleInputChange}
-                />
+                    <CustomInput
+                      labelId="phone"
+                      name="phone"
+                      modifier="secondary"
+                      value={ticketDetails.phone}
+                      onChange={handleInputChange}
+                    />
 
-                {selectedCategory && selectedCategory.needsAddress && (
-                  <CustomInput
-                    labelId="address"
-                    name="address"
-                    modifier="secondary"
-                    value={ticketDetails.address}
-                    onChange={handleInputChange}
-                  />
+                    {selectedCategory && selectedCategory.needsAddress && (
+                      <CustomInput
+                        labelId="address"
+                        name="address"
+                        modifier="secondary"
+                        value={ticketDetails.address}
+                        onChange={handleInputChange}
+                      />
+                    )}
+
+                    <CustomInput
+                      labelId="area"
+                      name="area"
+                      modifier="secondary"
+                      layout="select"
+                      onChange={handleInputChange}
+                    >
+                      <option value="" />
+                      {areas.map((option) => (
+                        <option
+                          value={option._id}
+                          key={option._id}
+                          selected={option._id === ticketDetails.area}
+                        >
+                          {option.name}
+                        </option>
+                      ))}
+                    </CustomInput>
+
+                    <CustomInput
+                      labelId="assignee"
+                      name="assignee"
+                      modifier="secondary"
+                      layout="select"
+                      onChange={handleInputChange}
+                    >
+                      <option value="" />
+                      {users.map((option) => (
+                        <option
+                          value={option._id}
+                          key={option._id}
+                          selected={option._id === ticketDetails.user}
+                        >
+                          {option.firstName} {option.lastName}
+                        </option>
+                      ))}
+                    </CustomInput>
+                    <CustomButton
+                      titleId={!!ticketDetails?._id ? "Save" : "Create"}
+                      modifier="primary"
+                      onClick={() =>
+                        confirm(!!ticketDetails?._id ? "edit" : "create")
+                      }
+                    />
+
+                    {!!ticketDetails._id && (
+                      <div className="flex-end action-wrapper">
+                        <CustomInput
+                          labelId="modal"
+                          name="modal"
+                          modifier="secondary"
+                          layout="select"
+                          onChange={handleDropDownChange}
+                        >
+                          <option value="" />
+                          {dropdownOptions.map((option) => (
+                            <option value={option}>
+                              {props.intl.formatMessage({
+                                id: `modal.${option}`,
+                              })}
+                            </option>
+                          ))}
+                        </CustomInput>
+                        <CustomButton
+                          titleId="modal.approve"
+                          modifier="primary"
+                          onClick={() => openModal("approve")}
+                        />
+                      </div>
+                    )}
+                  </>
                 )}
-
-                <CustomInput
-                  labelId="area"
-                  name="area"
-                  modifier="secondary"
-                  layout="select"
-                  onChange={handleInputChange}
-                >
-                  <option value="" />
-                  {areas.map((option) => (
-                    <option
-                      value={option._id}
-                      key={option._id}
-                      selected={option._id === ticketDetails.area}
-                    >
-                      {option.name}
-                    </option>
-                  ))}
-                </CustomInput>
-
-                <CustomInput
-                  labelId="assignee"
-                  name="assignee"
-                  modifier="secondary"
-                  layout="select"
-                  onChange={handleInputChange}
-                >
-                  <option value="" />
-                  {users.map((option) => (
-                    <option
-                      value={option._id}
-                      key={option._id}
-                      selected={option._id === ticketDetails.user}
-                    >
-                      {option.firstName} {option.lastName}
-                    </option>
-                  ))}
-                </CustomInput>
-
-                <div className="flex-end action-wrapper">
-                  <CustomInput
-                    labelId="modal"
-                    name="modal"
-                    modifier="secondary"
-                    layout="select"
-                    onChange={handleDropDownChange}
-                  >
-                    <option value="" />
-                    {dropdownOptions.map((option) => (
-                      <option value={option}>
-                        {props.intl.formatMessage({ id: `modal.${option}` })}
-                      </option>
-                    ))}
-                  </CustomInput>
-                  <CustomButton
-                    titleId="modal.approve"
-                    modifier="primary"
-                    onClick={() => openModal("approve")}
-                  />
-                </div>
               </div>
-                )}
-              </>
             </div>
           </div>
         </div>
