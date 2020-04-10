@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "server": "pm2 start app.js"
   },
   "author": "",
   "license": "MIT",
