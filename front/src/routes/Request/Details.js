@@ -9,22 +9,14 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { RequestOptionsContext } from "./RequestWrapper";
 
 function Details() {
-  const [isLoading, setIsLoading] = useState(false);
   const { categories, areas } = useContext(RequestOptionsContext);
-  const { values, isValid } = useFormikContext();
+  const { values, isValid, isSubmitting } = useFormikContext();
 
   useEffect(() => {
     if (!values.request) {
       history.replace("/request/request");
     }
   }, []);
-
-  async function next() {
-    setIsLoading(true);
-    await axios.post("/api/submit", { ...values });
-    setIsLoading(false);
-    history.push("/request/confirmed");
-  }
 
   const selectedCategory = categories.find((c) => c._id === values.category);
 
@@ -78,13 +70,12 @@ function Details() {
         </div>
 
         <div className="action-wrapper">
-          {isLoading ? (
+          {isSubmitting ? (
             <LoadingSpinner />
           ) : (
             <CustomButton
               titleId="next"
               modifier="primary"
-              onClick={next}
               type="submit"
               disabled={!isValid}
             />
