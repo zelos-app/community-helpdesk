@@ -2,16 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "../../utils/axios";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 
 import CustomButton from "../../components/CustomButton/CustomButton";
-import CustomDropdown from "../../components/CustomDropdown/CustomDropdown";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import DashboardNavigation from '../../components/DashboardNavigation/DashboardNavigation';
 import TaskModal from '../../routes/Dashboard/TaskModal';
 
-export default function Main() {
+function Main(props) {
   const FILTER_KEYS = [
     "rejected",
     "accepted",
@@ -273,10 +272,20 @@ export default function Main() {
                 />
 
                 <div className="flex-end action-wrapper">
-                  <CustomDropdown
-                    options={dropdownOptions}
+                  <CustomInput
+                    labelId="modal"
+                    name="modal"
+                    modifier="secondary"
+                    layout="select"
                     onChange={handleDropDownChange}
-                  />
+                  >
+                    <option value='' />
+                    {dropdownOptions.map(option => (
+                      <option value={option}>
+                        {props.intl.formatMessage({ id: `modal.${option}` })}
+                      </option>
+                    ))}
+                  </CustomInput>
                   <CustomButton
                     titleId="modal.approve"
                     modifier="primary"
@@ -291,3 +300,5 @@ export default function Main() {
     </div>
   );
 }
+
+export default injectIntl(Main);
