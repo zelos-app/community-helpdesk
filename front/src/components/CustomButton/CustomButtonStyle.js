@@ -19,6 +19,11 @@ export default createGlobalStyle`
         cursor: pointer;
         transition: all .12s ease-in-out;}
 
+      .button-wrapper button:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+
         .primary .button-wrapper button {
           color: ${({ theme }) => theme.button.primary.color.main};
           background: ${({ theme }) => theme.button.primary.background.main};

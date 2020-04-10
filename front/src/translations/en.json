@@ -29,5 +29,6 @@
   "appLandingBody.wait": "Wait for tasks to come in",
   "appLandingBody.help": "Go and help someone!",
   "dashboard.nav.tickets": "Tickets",
-  "dashboard.nav.settings": "Settings"
+  "dashboard.nav.settings": "Settings",
+  "back": "Back to the front page"
 }

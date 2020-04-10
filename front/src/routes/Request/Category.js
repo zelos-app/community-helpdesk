@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useContext } from "react";
-import axios from "../../utils/axios";
+import { useFormikContext } from "formik";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import { FormattedMessage } from "react-intl";
 import history from "../../utils/history";
-import { requestStore } from "../../store";
 import { RequestOptionsContext } from "./RequestWrapper";
 
 function Category() {
   const { categories } = useContext(RequestOptionsContext);
+  const { setFieldValue } = useFormikContext();
 
   function select(id) {
-    requestStore.category = id;
+    setFieldValue("category", id);
     history.push("/request/request");
   }
 
@@ -20,6 +20,7 @@ function Category() {
         key={category._id}
         title={category.name}
         modifier="secondary"
+        type="button"
         onClick={() => select(category._id)}
       />
     ));
