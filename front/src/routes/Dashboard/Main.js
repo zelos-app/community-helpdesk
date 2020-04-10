@@ -7,6 +7,7 @@ import { FormattedMessage } from "react-intl";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import DashboardNavigation from '../../components/DashboardNavigation/DashboardNavigation'
 
 export default function Main() {
   const FILTER_KEYS = [
@@ -123,16 +124,7 @@ export default function Main() {
   return (
     <div className="dashboard-children main">
       <div className="dashboard-children-wrapper">
-        <div className="header">
-          <div className="nav">
-            <Link to="/dashboard">
-              <FormattedMessage id="tickets" />
-            </Link>
-            <Link to="/dashboard/settings">
-              <FormattedMessage id="settings" />
-            </Link>
-          </div>
-        </div>
+        <DashboardNavigation />
 
         <div className="tickets">
           <div className="ticket-list">

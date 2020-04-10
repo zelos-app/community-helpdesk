@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import DashboardNavigation from '../../components/DashboardNavigation/DashboardNavigation'
 import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import axios from "../../utils/axios";
@@ -59,11 +60,7 @@ export default function Users(props) {
 
   return (
     <div className="dashboard-children users">
-      <div className="nav-links">
-        <Link to="/dashboard">Dashboard</Link>&nbsp;/&nbsp;
-        <Link to="/dashboard/settings">Settings</Link>&nbsp;/&nbsp;
-        <Link to="/dashboard/invite">Users</Link>
-      </div>
+      <DashboardNavigation />
 
       <div className="dashboard-children-wrapper">
         <FormattedMessage id="inviteUser" />
@@ -101,7 +98,7 @@ export default function Users(props) {
 
         {/* <div className="users-wrapper">
         {isLoadingUsers
-          ? <LoadingSpinner /> 
+          ? <LoadingSpinner />
           : users.map((user) => <User {...user} />)
         }
       </div>

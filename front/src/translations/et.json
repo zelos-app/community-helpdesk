@@ -27,5 +27,7 @@
   "appLandingBody.register": "Pane end vabatahtlikuna kirja",
   "appLandingBody.group": "Liitu enda piirkonna grupiga: COVID-help-ESTONIA",
   "appLandingBody.wait": "Vali abipalve, mida oled valmis täitma",
-  "appLandingBody.help": "Tunne rõõmu sellest, et said kedagi aidata"
+  "appLandingBody.help": "Tunne rõõmu sellest, et said kedagi aidata",
+  "dashboard.nav.tickets": "Tickets",
+  "dashboard.nav.settings": "Settings"
 }
