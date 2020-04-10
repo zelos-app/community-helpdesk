@@ -190,28 +190,37 @@ class Ticket {
             const zelos = new Zelos();
             await zelos.init();
             this.taskUrl = await zelos.newTask(taskDetails);
+            if (this.taskUrl) {
+                ticket.status = {
+                    task: {
+                        url: this.taskUrl,
+                        created: true
+                    }
+                }
+            }
         } catch (err) {
-            console.error(`[!] Failed to create a task: ${err}`)
+            console.error(`[!] Failed to create a task: ${err.stack}`)
         }
         // Send a text
-        // try {
-        //     const sms = new SMS();
-        //     result = sms.send(ticket.phone, templates.acceptText)   
-        // } catch (err) {
-        //     console.error(`[!] Failed to send a text: ${err.message}`)
-        // }
-        // update ticket
-        ticket.status = {
-            accepted: true,
-            task: {
-                url: this.taskUrl,
-                created: true
+        try {
+            const sms = new SMS();
+            const result = await sms.send(ticket.phone, templates.acceptText);
+            if (result) {
+                ticket.status.notified = true;
             }
+        } catch (err) {
+            console.error(`[!] Failed to send a text:\n${err.stack}`)
         }
+        // update ticket
+        ticket.status.accepted = true
         await ticket.save()
-        const response = {
-            status: "ok",
-            taskUrl: ticket.status.task.url
+        const response = {}
+        if (ticket.status.task.created && ticket.status.notified) {
+            response.status = "ok"
+            response.taskUrl = ticket.status.task.url
+        } else {
+            response.status = "warning"
+            response.message = `Something went wrong. Task created: ${(ticket.status.task.created ? "yes" : "no")}. SMS sent: ${(ticket.status.notified ? "yes" : "no")}`
         }
         return response;
     }

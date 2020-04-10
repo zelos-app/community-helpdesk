@@ -8,7 +8,6 @@ class Infobip {
     }
     async init() {
         const config = new Config();
-        await config.init();
         const settings = await config.get("sms");
         this.sender = settings.fromName;
         this.axiosConfig = {
@@ -30,7 +29,8 @@ class Infobip {
             "text": text
         })
         try {
-            await axios.post(`${this.baseUrl}`, req, axiosConfig)
+            await axios.post(`${this.baseUrl}`, req, this.axiosConfig);
+            return true;
         } catch (err) {
             console.error(`[!] Failed to send a message to ${number}: ${err.message}`);
             return err;
