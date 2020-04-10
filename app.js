@@ -1,3 +1,8 @@
+// Check environment
+if (process.env.NODE_ENV !== "production") {
+  require('dotenv').config();
+}
+
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -7,11 +12,6 @@ const rateLimit = require("express-rate-limit");
 const getDuration = require('./middleware/Timer');
 const Config = require('./models/Config');
 const User = require('./models/User');
-
-// Check environment
-if (process.env.NODE_ENV !== "production") {
-  require('dotenv').config();
-}
 
 // Connect to DB
 mongoose.connect(process.env.DB_URL, {
@@ -32,6 +32,9 @@ db.once('open', () => {
 // Initialize
 async function init() {
   try {
+    // const Zelos = require('./models/Zelos');
+    // const zelos = new Zelos();
+    // zelos.init();
     const config = new Config();
     const settings = await config.get();
     if (process.env.ADMIN_CREATE && process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD) {

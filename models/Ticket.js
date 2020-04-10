@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const createError = require('http-errors');
 const Area = require(`./Area`);
 const Zelos = require(`./Zelos`);
+const SMS = require(`./${process.env.SMS_PROVIDER}`);
 const Config = require(`./Config`);
 
 const config = new Config();
@@ -185,14 +186,25 @@ class Ticket {
             }
         }
         // Push a task to Zelos
-        const zelos = new Zelos();
-        await zelos.init();
-        const taskUrl = await zelos.newTask(taskDetails);
+        try {
+            const zelos = new Zelos();
+            await zelos.init();
+            this.taskUrl = await zelos.newTask(taskDetails);
+        } catch (err) {
+            console.error(`[!] Failed to create a task: ${err}`)
+        }
+        // Send a text
+        // try {
+        //     const sms = new SMS();
+        //     result = sms.send(ticket.phone, templates.acceptText)   
+        // } catch (err) {
+        //     console.error(`[!] Failed to send a text: ${err.message}`)
+        // }
         // update ticket
         ticket.status = {
             accepted: true,
             task: {
-                url: taskUrl,
+                url: this.taskUrl,
                 created: true
             }
         }
