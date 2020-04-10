@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "../../utils/axios";
 import moment from "moment";
-import { Link } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { RequestOptionsContext } from "./DashboardWrapper";
 
@@ -10,6 +9,7 @@ import CustomInput from "../../components/CustomInput/CustomInput";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import DashboardNavigation from "../../components/DashboardNavigation/DashboardNavigation";
 import TaskModal from "../../routes/Dashboard/TaskModal";
+import { find } from "lodash";
 
 function Main(props) {
   const FILTER_KEYS = [
@@ -34,16 +34,7 @@ function Main(props) {
     rejected: false,
   });
 
-  const [ticketDetails, setTicketDetails] = useState({
-    request: "",
-    name: "",
-    category: "",
-    phone: "",
-    address: "",
-    area: "",
-    assignee: "",
-    _id: "",
-  });
+  const [ticketDetails, setTicketDetails] = useState();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
@@ -101,8 +92,25 @@ function Main(props) {
     );
   }
 
-  function createTask() {
-    // TODO: Create task
+  const newTask = () => {
+    setTicketDetails({
+      request: "",
+      name: "",
+      type: "",
+      phone: "",
+      area: "",
+    });
+  };
+
+  async function confirm(method) {
+    try {
+      method === "create"
+        ? await axios.post("/api/tickets", ticketDetails)
+        : await axios.put(`/api/tickets/${ticketDetails._id}`, ticketDetails);
+    } catch (e) {
+      alert(e.message);
+    }
+    getTickets();
   }
 
   async function handleBtnClick(comment) {
@@ -123,7 +131,7 @@ function Main(props) {
       category,
       phone,
       address,
-      area,
+      type,
       assignee,
       _id,
     } = ticket;
@@ -133,7 +141,7 @@ function Main(props) {
       category,
       phone,
       address,
-      area,
+      type,
       assignee,
       _id,
     });
@@ -217,28 +225,30 @@ function Main(props) {
               <CustomButton
                 titleId="newTask"
                 modifier="secondary"
-                onClick={createTask}
+                onClick={newTask}
               />
             </div>
 
             <div className="task-manager-wrapper">
               <div className="input-container">
-                <CustomInput
-                  labelId="request"
-                  name="request"
-                  modifier="secondary"
-                  layout="textarea"
-                  value={ticketDetails.request}
-                  onChange={handleInputChange}
-                />
+                {ticketDetails && (
+                  <>
+                    <CustomInput
+                      labelId="request"
+                      name="request"
+                      modifier="secondary"
+                      layout="textarea"
+                      value={ticketDetails.request}
+                      onChange={handleInputChange}
+                    />
 
-                <CustomInput
-                  labelId="requesterName"
-                  name="name"
-                  modifier="secondary"
-                  value={ticketDetails.name}
-                  onChange={handleInputChange}
-                />
+                    <CustomInput
+                      labelId="requesterName"
+                      name="name"
+                      modifier="secondary"
+                      value={ticketDetails.name}
+                      onChange={handleInputChange}
+                    />
 
                 <CustomInput
                   labelId="category"
@@ -337,6 +347,8 @@ function Main(props) {
                   />
                 </div>
               </div>
+                )}
+              </>
             </div>
           </div>
         </div>
