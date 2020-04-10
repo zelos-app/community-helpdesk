@@ -5,3 +5,4 @@ production.env
 .env
 test.js
 .vscode
+acme.json
