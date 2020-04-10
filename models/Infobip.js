@@ -32,8 +32,7 @@ class Infobip {
             await axios.post(`${this.baseUrl}`, req, this.axiosConfig);
             return true;
         } catch (err) {
-            console.error(`[!] Failed to send a message to ${number}: ${err.message}`);
-            return err;
+            throw err;
         }
     }
 }

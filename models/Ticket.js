@@ -7,27 +7,37 @@ const Config = require(`./Config`);
 
 const config = new Config();
 
+const activitySchema = new mongoose.Schema({
+    time: {type: Date, default: Date.now()},
+    action: String,
+    source: {
+        system: Boolean,
+        user: mongoose.ObjectId,
+    }
+})
+
+const commentSchema = new mongoose.Schema({
+    time: {type: Date, default: Date.now()},
+    comment: String,
+    creator: {
+        system: Boolean,
+        id: mongoose.ObjectId
+    }
+})
+
 const ticketSchema = new mongoose.Schema({
     name: String,
     phone: String,
-    area: String,
+    area: mongoose.ObjectId,
     address: String,
     request: String,
-    category: String,
-    owner: String,
+    category: mongoose.ObjectId,
+    owner: mongoose.ObjectId,
     createdAt: {
         type: Date,
         default: Date.now()
     },
-    comments: [
-        {
-            comment: String,
-            creator: {
-                system: Boolean,
-                id: String
-            }
-        }
-    ],
+    comments: [commentSchema],
     status: {
         rejected: {
             type: Boolean,
@@ -59,7 +69,8 @@ const ticketSchema = new mongoose.Schema({
                 default: ""
             }
         }
-    }
+    },
+    activity: [activitySchema]
 },
 {
     minimize: false
@@ -111,10 +122,11 @@ class Ticket {
     }
 
     // Add a new request ticket
-    async add(fields) {
+    async add(fields, owner) {
         for (const [key, value] of Object.entries(fields)) {
             this.data[key] = value;
         }
+        this.data.owner = owner;
         const ticket = new TicketModel(this.data);
         const newTicket = await ticket.save();
         console.log(`[i] New ticket: ${newTicket._id}`);
@@ -153,19 +165,66 @@ class Ticket {
         }
     }
 
-    // Approve a ticket
-    async approve(query) {
-        let settings = {};
+    // Resolve a ticket
+    async resolve(comment) {
         const ticket = await this.get();
-        if (ticket.status && ticket.status.task && ticket.status.task.created) {
+        if (ticket.status && !(ticket.status.approved || ticket.status.resolved)) {
+            if (comment) {
+                this.addComment(comment, req.user._id)
+            }
+            ticket.status.solved = true;
+            this.activity.push({
+                action: "Ticket marked as resolved 👏",
+                source: {
+                    user: owner
+                }
+            })
+            await ticket.save();
+        } else {
             const err = createError(409, {
                 status: "error",
-                message: "Ticket has already been approved"
+                message: "Conflicting statuses",
+                status: ticket.status
             });
             throw err;
         }
-        for (const [key, value] of Object.entries(query)) {
-            settings[key] = value;
+    }
+
+    // Reject a ticket
+    async reject(comment) {
+        const ticket = await this.get();
+        if (ticket.status && !(ticket.status.approved || ticket.status.resolved)) {
+            if (comment) {
+                this.addComment(comment, req.user._id)
+            }
+            ticket.status.rejected = true;
+            this.activity.push({
+                action: "Ticket rejected",
+                source: {
+                    user: owner
+                }
+            })
+            await ticket.save();
+        } else {
+            const err = createError(409, {
+                status: "error",
+                message: "Conflicting statuses",
+                status: ticket.status
+            });
+            throw err;
+        }
+    }
+
+    // Approve a ticket
+    async approve(query) {
+        const ticket = await this.get();
+        if (ticket.status && ticket.status.approved) {
+            const err = createError(409, {
+                status: "error",
+                message: "Conflicting statuses",
+                status: ticket.status
+            });
+            throw err;
         }
         const area = await new Area(ticket.area).get();
         // create an object for task creation input
@@ -199,23 +258,27 @@ class Ticket {
                 }
             }
         } catch (err) {
-            console.error(`[!] Failed to create a task: ${err.stack}`)
+            console.error(`[!] Failed to create a task:\n${err.stack}`)
         }
         // Send a text
+        const sendText = (query.notify !== "false");
         try {
-            const sms = new SMS();
-            const result = await sms.send(ticket.phone, templates.acceptText);
-            if (result) {
-                ticket.status.notified = true;
+            if (sendText) {
+                console.log(`sending a text`)
+                const sms = new SMS();
+                const result = await sms.send(ticket.phone, templates.acceptText);
+                if (result) {
+                    ticket.status.notified = true;
+                }
             }
         } catch (err) {
             console.error(`[!] Failed to send a text:\n${err.stack}`)
         }
         // update ticket
         ticket.status.accepted = true
-        await ticket.save()
+        ticket.save()
         const response = {}
-        if (ticket.status.task.created && ticket.status.notified) {
+        if (ticket.status.task.created && (ticket.status.notified || !sendText)) {
             response.status = "ok"
             response.taskUrl = ticket.status.task.url
         } else {

@@ -1,5 +1,8 @@
 const tickets = require('express').Router();
-const { checkSchema, validationResult } = require('express-validator');
+const {
+    checkSchema,
+    validationResult
+} = require('express-validator');
 const validation = require('./validation.js');
 const appRoot = require('app-root-path');
 const Ticket = require(appRoot + '/models/Ticket');
@@ -9,7 +12,9 @@ const handleError = require(appRoot + '/middleware/HandleError');
 tickets.get('/', checkSchema(validation.listTickets), async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
+        return res.status(422).json({
+            errors: errors.array()
+        });
     }
     try {
         const ticket = new Ticket();
@@ -34,7 +39,7 @@ tickets.post('/', async (req, res) => {
         // unvalidated
         const id = await ticket.add({
             ...req.body
-        });
+        }, req.user._id);
         res.status(201).send(id);
     } catch (err) {
         handleError(err, res);
@@ -89,13 +94,18 @@ tickets.put('/:id', async (req, res) => {
     }
 })
 
-// Moderate ticket
-tickets.put('/:id/approve', async (req, res) => {
+// Moderate ticket (approve/reject/resolve)
+tickets.put('/:id/:action', async (req, res) => {
     try {
-        // unvalidated
-        const ticket = new Ticket(req.params.id);
-        const result = await ticket.approve(req.query);
-        res.send(result);
+        if (action === "approve" || action === "reject" || action === "resolve") {
+            console.log(req.params.action)
+            const ticket = new Ticket(req.params.id);
+            const result = await ticket[req.params.action](req.query, req.body.comment);
+            res.send(result);
+        } else {
+            res.status(422).send("You can only /approve, /reject or /resolve")
+        }
+        
     } catch (err) {
         handleError(err, res);
     }
