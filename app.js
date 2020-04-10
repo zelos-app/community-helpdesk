@@ -1,17 +1,17 @@
 // Check environment
 if (process.env.NODE_ENV !== "production") {
-  require('dotenv').config();
+  require("dotenv").config();
 }
 
-const express = require('express');
+const express = require("express");
 const app = express();
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const routes = require('./routes');
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const routes = require("./routes");
 const rateLimit = require("express-rate-limit");
-const getDuration = require('./middleware/Timer');
-const Config = require('./models/Config');
-const User = require('./models/User');
+const getDuration = require("./middleware/Timer");
+const Config = require("./models/Config");
+const User = require("./models/User");
 
 // Connect to DB
 mongoose.connect(process.env.DB_URL, {
@@ -20,24 +20,25 @@ mongoose.connect(process.env.DB_URL, {
   auth: {
     authSource: "admin",
     user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD
-  }
+    password: process.env.DB_PASSWORD,
+  },
 });
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", () => {
   console.log(`[i] Database connection successful`);
 });
 
 // Initialize
 async function init() {
   try {
-    // const Zelos = require('./models/Zelos');
-    // const zelos = new Zelos();
-    // zelos.init();
     const config = new Config();
     const settings = await config.get();
-    if (process.env.ADMIN_CREATE && process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD) {
+    if (
+      process.env.ADMIN_CREATE &&
+      process.env.ADMIN_EMAIL &&
+      process.env.ADMIN_PASSWORD
+    ) {
       const user = new User();
       await user.initDefault();
     }
@@ -49,44 +50,54 @@ async function init() {
 // Rate limiting
 const resetLimit = rateLimit({
   windowMs: 60 * 60 * 1000,
-  max: 3
+  max: 3,
 });
 
 // Set up Express middlewares
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: false,
+  })
+);
 app.use(bodyParser.json());
 app.use("/auth/reset", resetLimit);
 app.use((err, req, res, next) => {
   if (err) {
-    res.status(400).send('Bad request')
+    res.status(400).send("Bad request");
   } else {
-    next()
+    next();
   }
-})
+});
 
 // Enable response time logging
 if (process.env.LOG_RESPONSE_TIME) {
   app.use((req, res, next) => {
-    const start = process.hrtime()
-    res.on('finish', () => {
-      const duration = getDuration(start)
-      console.log(`[d] ${req.method} ${req.originalUrl} [FINISHED] ${duration .toLocaleString()} ms`)
-    })
-    res.on('close', () => {
-      const duration = getDuration(start)
-      console.log(`[d] ${req.method} ${req.originalUrl} [CLOSED] ${duration .toLocaleString()} ms`)
-    })
-    next()
-  })
+    const start = process.hrtime();
+    res.on("finish", () => {
+      const duration = getDuration(start);
+      console.log(
+        `[d] ${req.method} ${
+          req.originalUrl
+        } [FINISHED] ${duration.toLocaleString()} ms`
+      );
+    });
+    res.on("close", () => {
+      const duration = getDuration(start);
+      console.log(
+        `[d] ${req.method} ${
+          req.originalUrl
+        } [CLOSED] ${duration.toLocaleString()} ms`
+      );
+    });
+    next();
+  });
 }
 
-app.use('/', routes);
+app.use("/", routes);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
-  console.log('[i] Express listening on port', port);
+  console.log("[i] Express listening on port", port);
 });
 
 init();

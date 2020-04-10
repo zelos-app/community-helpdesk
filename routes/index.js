@@ -1,12 +1,8 @@
-const routes = require('express').Router();
-const api = require('./api');
-const appRoot = require('app-root-path');
-const authorize = require(appRoot + '/middleware/Auth');
+const express = require("express");
+const routes = express.Router();
+const api = require("./api");
 
-routes.get('/', (req, res) => {
-    // app public page with info and form
-});
-
-routes.use('/api', api);
+routes.use("/api", api);
+routes.use("/", express.static("./front/build"));
 
 module.exports = routes;
