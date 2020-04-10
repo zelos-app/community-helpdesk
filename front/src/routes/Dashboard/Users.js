@@ -2,10 +2,39 @@ import React, { useState, useEffect } from "react";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
-import DashboardNavigation from '../../components/DashboardNavigation/DashboardNavigation'
-import { Link } from "react-router-dom";
+import DashboardNavigation from "../../components/DashboardNavigation/DashboardNavigation";
 import { FormattedMessage } from "react-intl";
 import axios from "../../utils/axios";
+
+const UsersTable = ({ rows }) => {
+  return (
+    <table className="data-table">
+      <thead>
+        <tr>
+          <th scope="column">Name</th>
+          <th scope="column">Email</th>
+          <th scope="column">Registered?</th>
+          <th scope="column">Admin?</th>
+          <th scope="column"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row) => (
+          <tr key={row._id}>
+            <td>{[row.firstName, row.lastName].join(" ")}</td>
+            <td>{row.email}</td>
+            <td>{row.status.registered ? "✅" : "❌"}</td>
+            <td>{row.status.admin ? "✅" : "❌"}</td>
+            <td className="action-wrapper">
+              <CustomButton title="Edit" modifier="small primary" />
+              <CustomButton title="Delete" modifier="small primary" />
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
 
 export default function Users(props) {
   const [users, setUsers] = useState([]);
@@ -32,9 +61,9 @@ export default function Users(props) {
     setIsLoadingUsers(true);
     try {
       const { data } = await axios.get("/api/users");
-      setUsers(data.users || []);
+      setUsers(data.users);
     } catch (error) {
-      alert("no users");
+      alert(error.message);
     }
     setIsLoadingUsers(false);
   }
@@ -50,20 +79,14 @@ export default function Users(props) {
     setIsLoadingInvitation(false);
   }
 
-  function User(user) {
-    return (
-      <div className="user">
-        <h5>{user.email}</h5>
-      </div>
-    );
-  }
-
   return (
     <div className="dashboard-children users">
       <DashboardNavigation />
 
       <div className="dashboard-children-wrapper">
-        <FormattedMessage id="inviteUser" />
+        <h1>
+          <FormattedMessage id="inviteUser" />
+        </h1>
 
         <div className="input-container">
           <CustomInput
@@ -96,13 +119,10 @@ export default function Users(props) {
           )}
         </div>
 
-        {/* <div className="users-wrapper">
-        {isLoadingUsers
-          ? <LoadingSpinner />
-          : users.map((user) => <User {...user} />)
-        }
-      </div>
-         */}
+        <div className="users-wrapper">
+          <h1>Users</h1>
+          {isLoadingUsers ? <LoadingSpinner /> : <UsersTable rows={users} />}
+        </div>
       </div>
     </div>
   );
