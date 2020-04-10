@@ -24,14 +24,16 @@ export default (props) => {
           </label>
 
           {/* INPUT */}
-          {layout === "input" && <input name={name} {...rest} />}
+          {layout === "input" && <input name={name} id={name} {...rest} />}
 
           {/* TEXTAREA */}
-          {layout === "textarea" && <textarea name={name} {...rest}></textarea>}
+          {layout === "textarea" && (
+            <textarea name={name} id={name} {...rest}></textarea>
+          )}
 
           {/* SELECT */}
           {layout === "select" && (
-            <select name={name} {...rest}>
+            <select name={name} id={name} {...rest}>
               {children}
             </select>
           )}
@@ -39,7 +41,7 @@ export default (props) => {
           {/* CHEKBOX */}
           {layout === "checkbox" && (
             <div className={`checkbox ${checked ? "is-checked" : ""}`}>
-              <input type="checkbox" name={name} {...rest} />
+              <input type="checkbox" name={name} id={name} {...rest} />
             </div>
           )}
         </div>

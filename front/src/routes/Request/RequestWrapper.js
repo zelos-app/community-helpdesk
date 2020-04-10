@@ -1,6 +1,7 @@
 import React, { useState, useEffect, createContext } from "react";
 import { Formik, Form } from "formik";
 import axios from "../../utils/axios";
+import history from "../../utils/history";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 const defaultContext = { categories: [], areas: [] };
@@ -18,7 +19,6 @@ export const RequestDataContext = createContext({
 export default function RequestWrapper(props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [requestOptions, setRequestOptions] = useState(defaultContext);
-  const [requestData, setRequestData] = useState(defaultRequest);
 
   useEffect(() => {
     async function fetchData() {
@@ -47,7 +47,15 @@ export default function RequestWrapper(props) {
             initialValues={{
               phone: "+372",
             }}
-            onSubmit={(values) => {}}
+            onSubmit={(values, form) => {
+              async function next() {
+                await axios.post("/api/submit", { ...values });
+                form.resetForm();
+                form.setSubmitting(false);
+                history.push("/request/confirmed");
+              }
+              next();
+            }}
             validate={(values) => {
               const errors = {};
 

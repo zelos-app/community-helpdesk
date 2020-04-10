@@ -1,0 +1,14 @@
+.data-table {
+  border-collapse: collapse;
+  width: 100%;
+
+  th {
+    text-align: left;
+    border-bottom: 2px solid #37474f;
+  }
+
+  th,
+  td {
+    padding: 8px 0;
+  }
+}

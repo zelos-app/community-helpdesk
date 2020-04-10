@@ -21,7 +21,8 @@ export default createGlobalStyle`
         font-size: ${({ theme }) => theme.text_m};
         font-weight: ${({ theme }) => theme.weight_m};
         border-radius: ${({ theme }) => theme.radius_m};
-        margin-bottom: 3pt;}
+        margin-bottom: 3pt;
+        cursor: pointer;}
 
       .input-wrapper input,
       .input-wrapper textarea {
@@ -35,7 +36,6 @@ export default createGlobalStyle`
         border-radius: ${({ theme }) => theme.radius_m};
         padding: 0 16pt;
         line-height: 35pt;
-        cursor: pointer;
         transition: all .12s ease-in-out;}
 
         .input-wrapper input[type=checkbox] {
