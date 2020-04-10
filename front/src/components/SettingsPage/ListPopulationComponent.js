@@ -1,7 +1,7 @@
 import axios from "../../utils/axios";
 import CustomInput from "../CustomInput/CustomInput";
 import CustomButton from "../CustomButton/CustomButton";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 export default function ListPopulationComponent() {
   const [category, setCategory] = useState([]);
