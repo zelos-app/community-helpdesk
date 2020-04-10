@@ -55,38 +55,40 @@ const UserEditModal = ({ user, setSelectedUser }) => {
             return errors;
           }}
         >
-          <Form className="input-container">
-            <Field
-              name="firstName"
-              as={CustomInput}
-              labelId="First name"
-              layout="input"
-            />
-            <Field
-              name="lastName"
-              as={CustomInput}
-              labelId="Last name"
-              layout="input"
-            />
-            <Field
-              name="email"
-              as={CustomInput}
-              labelId="Email"
-              layout="input"
-              type="email"
-            />
-            <Field name="status.admin">
-              {({ field }) => (
-                <CustomInput
-                  name={field.name}
-                  labelId="admin"
-                  layout="checkbox"
-                  modifier="secondary"
-                  checked={field.value}
-                  {...field}
-                />
-              )}
-            </Field>
+          <Form>
+            <div className="input-container">
+              <Field
+                name="firstName"
+                as={CustomInput}
+                labelId="First name"
+                layout="input"
+              />
+              <Field
+                name="lastName"
+                as={CustomInput}
+                labelId="Last name"
+                layout="input"
+              />
+              <Field
+                name="email"
+                as={CustomInput}
+                labelId="Email"
+                layout="input"
+                type="email"
+              />
+              <Field name="status.admin">
+                {({ field }) => (
+                  <CustomInput
+                    name={field.name}
+                    labelId="admin"
+                    layout="checkbox"
+                    modifier="secondary"
+                    checked={field.value}
+                    {...field}
+                  />
+                )}
+              </Field>
+            </div>
             <div className="action-wrapper">
               <Field>
                 {({ form }) => (
