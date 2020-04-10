@@ -9,6 +9,7 @@ export default (props) => {
     name = "input",
     layout = "input",
     checked = false,
+    children,
     ...rest
   } = props;
 
@@ -30,6 +31,13 @@ export default (props) => {
             <textarea name={name} {...rest}></textarea>
           ) : (
             ""
+          )}
+
+          {/* SELECT */}
+          {layout === "select" && (
+            <select name={name} {...rest}>
+              {children}
+            </select>
           )}
 
           {/* CHEKBOX */}
