@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import { IntlProvider } from "react-intl";
-import Container from '@material-ui/core/Container';
+import Container from "@material-ui/core/Container";
 import Router from "./Router";
 import "./main.scss";
 
@@ -59,7 +59,6 @@ export default () => {
         {/* Include global styles */}
         <GlobalStyles />
         <Container maxWidth="xl">
-
           {/* Change theme */}
           <button onClick={toggleTheme}>theme</button>
 

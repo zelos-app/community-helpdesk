@@ -23,6 +23,6 @@ function Ticket({ ticket, selectTicket }) {
       </div>
     </div>
   );
-};
+}
 
 export default Ticket;
