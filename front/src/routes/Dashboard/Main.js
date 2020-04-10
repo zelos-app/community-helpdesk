@@ -34,6 +34,7 @@ export default function Main() {
     address: "",
     area: "",
     assignee: "",
+    _id: "",
   });
 
   async function getTickets() {
@@ -54,7 +55,9 @@ export default function Main() {
     });
   }
 
-  function createTask() {}
+  async function createTask() {
+    await axios.put(`/api/tickets/${ticketDetails._id}`);
+  }
 
   function handleFilters({ target }) {
     setFilterStates({
@@ -76,7 +79,16 @@ export default function Main() {
   }
 
   function selectTicket(ticket) {
-    const { request, name, category, phone, address, area, assignee } = ticket;
+    const {
+      request,
+      name,
+      category,
+      phone,
+      address,
+      area,
+      assignee,
+      _id,
+    } = ticket;
     setTicketDetails({
       request,
       name,
@@ -85,6 +97,7 @@ export default function Main() {
       address,
       area,
       assignee,
+      _id,
     });
   }
 
