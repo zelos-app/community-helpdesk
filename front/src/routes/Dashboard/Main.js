@@ -7,8 +7,8 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
-import DashboardNavigation from '../../components/DashboardNavigation/DashboardNavigation';
-import TaskModal from '../../routes/Dashboard/TaskModal';
+import DashboardNavigation from "../../components/DashboardNavigation/DashboardNavigation";
+import TaskModal from "../../routes/Dashboard/TaskModal";
 
 function Main(props) {
   const FILTER_KEYS = [
@@ -19,7 +19,7 @@ function Main(props) {
     "notified",
   ];
 
-  const dropdownOptions = ['resolve', 'reject'];
+  const dropdownOptions = ["resolve", "reject"];
 
   const [tickets, setTickets] = useState([]);
   const [isLoadingTickets, setIsLoadingTickets] = useState(false);
@@ -43,7 +43,7 @@ function Main(props) {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalType, setModalType] = useState('');
+  const [modalType, setModalType] = useState("");
 
   async function getTickets() {
     setIsLoadingTickets(true);
@@ -76,7 +76,7 @@ function Main(props) {
 
   function closeModal() {
     setIsModalOpen(false);
-    setModalType('');
+    setModalType("");
   }
 
   function handleFilters({ target }) {
@@ -104,11 +104,11 @@ function Main(props) {
 
   async function handleBtnClick(comment) {
     closeModal();
-    if (modalType === 'approve') {
+    if (modalType === "approve") {
       await axios.put(`/api/tickets/${ticketDetails._id}/approve`);
-    } else if (modalType === 'reject') {
+    } else if (modalType === "reject") {
       await axios.put(`/api/tickets/${ticketDetails._id}/reject`, { comment });
-    } else if (modalType === 'resolve') {
+    } else if (modalType === "resolve") {
       await axios.put(`/api/tickets/${ticketDetails._id}/resolve`, { comment });
     }
   }
@@ -159,14 +159,14 @@ function Main(props) {
     <div className="dashboard-children main">
       <div className="dashboard-children-wrapper">
         <DashboardNavigation />
-        {isModalOpen &&
+        {isModalOpen && (
           <TaskModal
             onClose={() => closeModal()}
             modalType={modalType}
             handleBtnClick={(comment) => handleBtnClick(comment)}
-            showCommentField={modalType === 'resolve' || modalType === 'reject'}
+            showCommentField={modalType === "resolve" || modalType === "reject"}
           />
-        }
+        )}
 
         <div className="tickets">
           <div className="ticket-list">
@@ -279,8 +279,8 @@ function Main(props) {
                     layout="select"
                     onChange={handleDropDownChange}
                   >
-                    <option value='' />
-                    {dropdownOptions.map(option => (
+                    <option value="" />
+                    {dropdownOptions.map((option) => (
                       <option value={option}>
                         {props.intl.formatMessage({ id: `modal.${option}` })}
                       </option>
@@ -289,7 +289,7 @@ function Main(props) {
                   <CustomButton
                     titleId="modal.approve"
                     modifier="primary"
-                    onClick={() => openModal('approve')}
+                    onClick={() => openModal("approve")}
                   />
                 </div>
               </div>

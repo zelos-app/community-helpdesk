@@ -4,12 +4,12 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, .8);
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #37474F;
+  color: #37474f;
 
   &__content {
     max-width: 600px;
@@ -33,10 +33,10 @@
     top: 16px;
     font-size: 24px;
     cursor: pointer;
-    transition: color .1s ease;
+    transition: color 0.1s ease;
 
     &:hover {
-      color: #B0BEC5;
+      color: #b0bec5;
     }
   }
 }

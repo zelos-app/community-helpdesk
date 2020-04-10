@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FormattedMessage } from "react-intl";
+import { useFormikContext, Field } from "formik";
 import history from "../../utils/history";
-import { requestStore } from "../../store";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomInput/CustomInput";
 
 function Request() {
+  const { values } = useFormikContext();
+
+  useEffect(() => {
+    if (!values.category) {
+      history.replace("/request/category");
+    }
+  }, []);
+
   function next() {
     history.push("/request/details");
-  }
-
-  function handleInputChange({ target }) {
-    requestStore.request = target.value;
   }
 
   return (
@@ -23,16 +27,24 @@ function Request() {
           </h1>
         </div>
 
-        <CustomInput
+        <Field
+          name="request"
+          as={CustomInput}
           labelId="describeYourRequest"
           layout="textarea"
           rows="5"
           modifier="primary"
-          onChange={handleInputChange}
+          required
         />
 
         <div className="action-wrapper">
-          <CustomButton titleId="next" modifier="primary" onClick={next} />
+          <CustomButton
+            titleId="next"
+            modifier="primary"
+            onClick={next}
+            type="button"
+            disabled={!values.request}
+          />
         </div>
       </div>
     </div>

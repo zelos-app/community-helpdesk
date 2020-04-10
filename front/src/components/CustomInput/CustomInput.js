@@ -24,14 +24,10 @@ export default (props) => {
           </label>
 
           {/* INPUT */}
-          {layout === "input" ? <input name={name} {...rest} /> : ""}
+          {layout === "input" && <input name={name} {...rest} />}
 
           {/* TEXTAREA */}
-          {layout === "textarea" ? (
-            <textarea name={name} {...rest}></textarea>
-          ) : (
-            ""
-          )}
+          {layout === "textarea" && <textarea name={name} {...rest}></textarea>}
 
           {/* SELECT */}
           {layout === "select" && (
@@ -41,14 +37,10 @@ export default (props) => {
           )}
 
           {/* CHEKBOX */}
-          {layout === "checkbox" ? (
-            <Fragment>
-              <div className={`checkbox ${checked ? "is-checked" : ""}`}>
-                <input type="checkbox" name={name} {...rest} />
-              </div>
-            </Fragment>
-          ) : (
-            ""
+          {layout === "checkbox" && (
+            <div className={`checkbox ${checked ? "is-checked" : ""}`}>
+              <input type="checkbox" name={name} {...rest} />
+            </div>
           )}
         </div>
       </div>

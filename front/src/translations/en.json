@@ -30,6 +30,7 @@
   "appLandingBody.help": "Go and help someone!",
   "dashboard.nav.tickets": "Tickets",
   "dashboard.nav.settings": "Settings",
+  "back": "Back to the front page",
   "modal.comment": "Comment (optional)",
   "modal.approve": "Approve",
   "modal.reject": "Reject",
