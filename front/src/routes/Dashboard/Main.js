@@ -140,9 +140,7 @@ function Main(props) {
   }
 
   function getSelectedCategory(ticketCategory) {
-    return categories.find((category) =>
-      ticketCategory === category._id
-    );
+    return categories.find((category) => ticketCategory === category._id);
   }
 
   const Ticket = (ticket) => {
@@ -163,6 +161,8 @@ function Main(props) {
       </div>
     );
   };
+
+  const selectedCategory = getSelectedCategory(ticketDetails.category);
 
   return (
     <div className="dashboard-children main">
@@ -267,10 +267,7 @@ function Main(props) {
                   onChange={handleInputChange}
                 />
 
-                {(
-                  getSelectedCategory(ticketDetails.category) &&
-                  getSelectedCategory(ticketDetails.category).needsAddress
-                ) &&
+                {selectedCategory && selectedCategory.needsAddress && (
                   <CustomInput
                     labelId="address"
                     name="address"
@@ -278,7 +275,7 @@ function Main(props) {
                     value={ticketDetails.address}
                     onChange={handleInputChange}
                   />
-                }
+                )}
 
                 <CustomInput
                   labelId="area"

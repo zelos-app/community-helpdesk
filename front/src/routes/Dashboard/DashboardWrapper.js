@@ -1,4 +1,5 @@
 import React, { useEffect, useState, createContext } from "react";
+import globalAxios from "axios";
 import { isLoggedIn } from "../../utils/auth";
 import history from "../../utils/history";
 import axios from "../../utils/axios";
@@ -15,16 +16,24 @@ export default function Dashboard(props) {
   const [loginChecked, setLoginChecked] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [requestOptions, setRequestOptions] = useState(defaultContext);
-  const [requestData, setRequestData] = useState({});
 
   async function fetchData() {
     try {
-      const {
-        data: { categories, areas },
-      } = await axios.get("/api/submit");
-      const {
-        data: { users }
-      } = await axios.get("api/users");
+      const [
+        {
+          data: { categories },
+        },
+        {
+          data: { areas },
+        },
+        {
+          data: { users },
+        },
+      ] = await globalAxios.all([
+        axios.get("/api/categories"),
+        axios.get("/api/areas"),
+        axios.get("/api/users"),
+      ]);
 
       setRequestOptions({ categories, areas, users });
       setIsLoaded(true);
