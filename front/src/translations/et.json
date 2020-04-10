@@ -30,5 +30,12 @@
   "appLandingBody.help": "Tunne rõõmu sellest, et said kedagi aidata",
   "dashboard.nav.tickets": "Tickets",
   "dashboard.nav.settings": "Settings",
-  "back": "Tagasi esilehele"
+  "back": "Tagasi esilehele",
+  "modal.comment": "Kommentaar (valikuline)",
+  "modal.approve": "Kinnita",
+  "modal.reject": "Reject",
+  "modal.resolve": "Resolve",
+  "modal.approve.description": "Kinnita kirjeldus",
+  "modal.reject.description": "Reject description",
+  "modal.resolve.description": "Resolve description"
 }

@@ -30,5 +30,12 @@
   "appLandingBody.help": "Go and help someone!",
   "dashboard.nav.tickets": "Tickets",
   "dashboard.nav.settings": "Settings",
-  "back": "Back to the front page"
+  "back": "Back to the front page",
+  "modal.comment": "Comment (optional)",
+  "modal.approve": "Approve",
+  "modal.reject": "Reject",
+  "modal.resolve": "Resolve",
+  "modal.approve.description": "Approve description",
+  "modal.reject.description": "Reject description",
+  "modal.resolve.description": "Resolve description"
 }

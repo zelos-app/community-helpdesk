@@ -1,0 +1,42 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #37474f;
+
+  &__content {
+    max-width: 600px;
+    max-height: 600px;
+    flex-basis: 100%;
+    background: #fff;
+    border-radius: 2pt;
+    padding: 16px;
+    position: relative;
+    overflow: scroll;
+  }
+
+  &__comment,
+  &__btn {
+    margin-top: 16px;
+  }
+
+  &__close {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.1s ease;
+
+    &:hover {
+      color: #b0bec5;
+    }
+  }
+}
