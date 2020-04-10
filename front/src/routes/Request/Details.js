@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, Fragment } from "react";
 import { Field, useFormikContext } from "formik";
 import { FormattedMessage } from "react-intl";
 import history from "../../utils/history";
@@ -18,6 +18,10 @@ function Details() {
   }, []);
 
   const selectedCategory = categories.find((c) => c._id === values.category);
+
+  function back() {
+    history.go(-1);
+  }
 
   return (
     <div className="request-children details">
@@ -72,12 +76,20 @@ function Details() {
           {isSubmitting ? (
             <LoadingSpinner />
           ) : (
-            <CustomButton
-              titleId="next"
-              modifier="primary"
-              type="submit"
-              disabled={!isValid}
-            />
+            <Fragment>
+              <CustomButton
+                titleId="goBack"
+                modifier="secondary"
+                type="button"
+                onClick={back}
+              />
+              <CustomButton
+                titleId="next"
+                modifier="primary"
+                type="submit"
+                disabled={!isValid}
+              />
+            </Fragment>
           )}
         </div>
       </div>

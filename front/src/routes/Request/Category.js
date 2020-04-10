@@ -41,6 +41,16 @@ function Category() {
         <div className="action-wrapper">
           <SelectorButtons />
         </div>
+        <div className="action-wrapper">
+          <FormattedMessage id="or" />
+        </div>
+        <div className="action-wrapper">
+          <CustomButton
+            titleId="back"
+            modifier="secondary"
+            onClick={() => history.go(-1)}
+          />
+        </div>
       </div>
     </div>
   );

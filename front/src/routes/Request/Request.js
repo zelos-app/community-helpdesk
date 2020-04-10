@@ -18,6 +18,10 @@ function Request() {
     history.push("/request/details");
   }
 
+  function back() {
+    history.go(-1);
+  }
+
   return (
     <div className="request-children request">
       <div className="request-children-wrapper">
@@ -38,6 +42,12 @@ function Request() {
         />
 
         <div className="action-wrapper">
+          <CustomButton
+            titleId="goBack"
+            modifier="secondary"
+            type="button"
+            onClick={back}
+          />
           <CustomButton
             titleId="next"
             modifier="primary"

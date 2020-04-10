@@ -11,6 +11,7 @@
   "describeYourRequest": "Describe your request",
   "enterYourDetails": "Enter your details",
   "next": "Next",
+  "goBack": "Back",
   "fullName": "Full name",
   "phone": "Phone",
   "address": "Address",
@@ -37,5 +38,6 @@
   "modal.resolve": "Resolve",
   "modal.approve.description": "Approve description",
   "modal.reject.description": "Reject description",
-  "modal.resolve.description": "Resolve description"
+  "modal.resolve.description": "Resolve description",
+  "or": "or"
 }

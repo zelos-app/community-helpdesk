@@ -11,6 +11,7 @@
   "describeYourRequest": "Describe your request",
   "enterYourDetails": "Sisesta enda andmed",
   "next": "Edasi",
+  "goBack": "Tagasi",
   "fullName": "Täisnimi",
   "phone": "Telefon",
   "address": "Address",
@@ -37,5 +38,6 @@
   "modal.resolve": "Resolve",
   "modal.approve.description": "Kinnita kirjeldus",
   "modal.reject.description": "Reject description",
-  "modal.resolve.description": "Resolve description"
+  "modal.resolve.description": "Resolve description",
+  "or": "või"
 }
