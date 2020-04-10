@@ -107,7 +107,6 @@ class User {
                     expiresIn: process.env.JWT_TTL,
                 });
                 const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString())
-                console.log(payload)
                 const result = {
                     token: token,
                     exp: payload.exp

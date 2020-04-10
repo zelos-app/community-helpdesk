@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const createError = require('http-errors');
 const Area = require(`./Area`);
 const Zelos = require(`./Zelos`);
+const SMS = require(`./${process.env.SMS_PROVIDER}`);
 const Config = require(`./Config`);
 
 const config = new Config();
@@ -185,21 +186,41 @@ class Ticket {
             }
         }
         // Push a task to Zelos
-        const zelos = new Zelos();
-        await zelos.init();
-        const taskUrl = await zelos.newTask(taskDetails);
-        // update ticket
-        ticket.status = {
-            accepted: true,
-            task: {
-                url: taskUrl,
-                created: true
+        try {
+            const zelos = new Zelos();
+            await zelos.init();
+            this.taskUrl = await zelos.newTask(taskDetails);
+            if (this.taskUrl) {
+                ticket.status = {
+                    task: {
+                        url: this.taskUrl,
+                        created: true
+                    }
+                }
             }
+        } catch (err) {
+            console.error(`[!] Failed to create a task: ${err.stack}`)
         }
+        // Send a text
+        try {
+            const sms = new SMS();
+            const result = await sms.send(ticket.phone, templates.acceptText);
+            if (result) {
+                ticket.status.notified = true;
+            }
+        } catch (err) {
+            console.error(`[!] Failed to send a text:\n${err.stack}`)
+        }
+        // update ticket
+        ticket.status.accepted = true
         await ticket.save()
-        const response = {
-            status: "ok",
-            taskUrl: ticket.status.task.url
+        const response = {}
+        if (ticket.status.task.created && ticket.status.notified) {
+            response.status = "ok"
+            response.taskUrl = ticket.status.task.url
+        } else {
+            response.status = "warning"
+            response.message = `Something went wrong. Task created: ${(ticket.status.task.created ? "yes" : "no")}. SMS sent: ${(ticket.status.notified ? "yes" : "no")}`
         }
         return response;
     }

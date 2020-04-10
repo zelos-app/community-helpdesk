@@ -1,4 +1,6 @@
-*, *::after, *::before {
+*,
+*::after,
+*::before {
   box-sizing: border-box;
 }
 
@@ -6,13 +8,21 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background .2s ease-in-out;
+  transition: background 0.2s ease-in-out;
 }
 
-h1, h2, h3, h4, h5, h6, p, a {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a {
   margin: 0;
   padding: 0;
   font-weight: 500;
@@ -32,4 +42,5 @@ main > .settings {
 .auth-wrapper,
 .request-wrapper {
   max-width: 600px;
-  margin: 0 auto;}
+  margin: 0 auto;
+}

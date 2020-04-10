@@ -2,3 +2,4 @@ node_modules
 docker.env
 .env
 test.js
+.vscode

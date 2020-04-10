@@ -1,18 +1,24 @@
 const axios = require('axios');
 const Config = require(`./Config`);
 
-const settings = await configure();
-console.log(settings);
-
 class Infobip {
     constructor() {
-        this.baseUrl = config.baseUrl;
-        this.apiKey = config.apiKey;
-        this.sender = config.sender;
-        axios.defaults.headers.common['Authorization'] = `App ${this.apiKey}`;
+        this.baseUrl = process.env.INFOBIP_BASE_URL;
+        this.apiKey = process.env.INFOBIP_API_KEY;
+    }
+    async init() {
+        const config = new Config();
+        const settings = await config.get("sms");
+        this.sender = settings.fromName;
+        this.axiosConfig = {
+            headers: {
+                Authorization: `App ${this.apiKey}`
+            }
+        }
     }
 
-    async sendMessage(number, text) {
+    async send(number, text) {
+        await this.init();
         const req = {};
         req.messages = [];
         req.messages.push({
@@ -23,19 +29,13 @@ class Infobip {
             "text": text
         })
         try {
-            await axios.post(`${this.baseUrl}`, req)
+            await axios.post(`${this.baseUrl}`, req, this.axiosConfig);
+            return true;
         } catch (err) {
             console.error(`[!] Failed to send a message to ${number}: ${err.message}`);
             return err;
         }
     }
-}
-
-async function configure() {
-    config = new Config();
-    await config.init();
-    settings = await config.get("sms");
-    return settings
 }
 
 module.exports = Infobip;

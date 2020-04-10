@@ -16,25 +16,26 @@ class Zelos {
         };
     }
     async init() {
-        const cfg = new Config();
-        const config = await cfg.get('zelos', true);
-        if (config.tokens) {
-            this.tokens = config.tokens;
+        const config = new Config();
+        const configModel = await config.get();
+        const settings = await config.get('zelos', true);
+        if (settings.tokens) {
+            this.tokens = settings.tokens;
             if (isTokenValid(this.tokens.access.expired_at)) {
                 console.log(`[d] Zelos: Access token is valid`);
             } else if (isTokenValid(this.tokens.refresh.expired_at)) {
                 console.log(`[d] Zelos: Requesting new access token`);
                 this.tokens = await this.getAccessToken();
-                saveTokens(config, this.tokens);
+                saveTokens(configModel, this.tokens);
             } else {
                 console.log(`[d] Zelos: Re-authenticating`);
                 this.tokens = await this.login();
-                saveTokens(config, this.tokens);
+                saveTokens(configModel, this.tokens);
             }
         } else {
             console.log(`[d] Zelos: no tokens found, initializing`);
             this.tokens = await this.login();
-            saveTokens(config, this.tokens);
+            saveTokens(configModel, this.tokens);
         }
 
         this.axiosConfig.headers = {
@@ -52,7 +53,7 @@ class Zelos {
     async getAccessToken() {
         const res = await axios.put('https://app.zelos.space/api/auth', {
             refresh_token: this.tokens.refresh.token
-        });
+        }, this.axiosConfig);
         const tokens = res.data.data;
         return tokens;
     }
