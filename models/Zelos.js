@@ -51,11 +51,14 @@ class Zelos {
         return tokens
     }
     async getAccessToken() {
-        const res = await axios.put('https://app.zelos.space/api/auth', {
-            refresh_token: this.tokens.refresh.token
-        }, this.axiosConfig);
-        const tokens = res.data.data;
-        return tokens;
+        try {
+            const res = await axios.put('https://app.zelos.space/api/auth', {refresh_token: this.tokens.refresh.token}, this.axiosConfig);
+            const tokens = res.data.data;
+            return tokens;
+        } catch (err) {
+            const tokens = this.login();
+            return tokens
+        }
     }
     async getTasks() {
         const request = {
