@@ -9,19 +9,17 @@ import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import LanguageIcon from "@material-ui/icons/Language";
 import Router from "./Router";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { isLoggedIn, logout, LoggedInContext } from "./utils/auth";
 import "./main.scss";
-import { MuiThemeProvider } from '@material-ui/core';
 
 // Styles
-import { lightTheme, darkTheme, variables } from "./styles/theme";
+import { lightTheme, variables } from "./styles/theme";
 import { GlobalStyles } from "./styles/global";
 
 // Translations
 import translations_en from "./translations/en.json";
 import translations_et from "./translations/et.json";
-import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 
 // i18 configs
 const i18nConfig = {
@@ -33,6 +31,32 @@ const i18nConfig = {
 };
 
 export default () => {
+  const history = useHistory();
+  const [isSettingsPage, setIsSettingsPage] = useState();
+  const [isUsersPage, setIsUsersPage] = useState();
+  const [isLoginPage, setIsLoginPage] = useState();
+  const [isTicketsPage, setIsTicketsPage] = useState();
+  const [isHomePage, setIsHomePage] = useState();
+  const [loggedIn, setIsLoggedIn] = useState(false);
+
+  const resetPaths = () => {
+    setIsUsersPage(history.location.pathname === '/dashboard/users');
+    setIsLoginPage(history.location.pathname === '/auth' || history.location.pathname === '/auth/login');
+    setIsTicketsPage(history.location.pathname === '/dashboard');
+    setIsSettingsPage(history.location.pathname === '/dashboard/settings');
+    setIsHomePage(history.location.pathname === '/');
+  };
+
+  useEffect(() => {
+    setIsLoggedIn(isLoggedIn());
+    resetPaths();
+  }, []);
+
+  history.listen(() => {
+    setIsLoggedIn(isLoggedIn());
+    resetPaths();
+  });
+
   const [locale, setLocale] = useState(i18nConfig.defaultLocale);
 
   const selectLanguage = (lang) => {
@@ -98,6 +122,22 @@ export default () => {
                 </MenuItem>
               </Menu>
               <div style={{ flex: "1 1 auto" }} />
+              {loggedIn && <>
+                <Button color="inherit" disabled={isHomePage} className='dashboard-nav-item' href="/">Home</Button>
+                <Button color="inherit" disabled={isTicketsPage} className='dashboard-nav-item'
+                        href="/dashboard">
+                  <FormattedMessage id="dashboard.nav.tickets"/>
+                </Button>
+                <Button color="inherit" disabled={isSettingsPage} className='dashboard-nav-item' href="/dashboard/settings">
+                  <FormattedMessage id="dashboard.nav.settings"/>
+                </Button>
+                <Button color="inherit" disabled={isUsersPage} className='dashboard-nav-item' href="/dashboard/users">
+                  Users</Button>
+
+              </>}
+
+              {(!loggedIn && isLoginPage) &&
+              <Button color="inherit" disabled={isHomePage} className='dashboard-nav-item' href="/">Home</Button>}
               {isLogged ? (
                 <Button
                   color="inherit"

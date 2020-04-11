@@ -19,11 +19,9 @@ import Popper from "@material-ui/core/Popper";
 import MenuList from "@material-ui/core/MenuList";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
-import DashboardNavigation from "../../components/DashboardNavigation/DashboardNavigation";
 import TaskModal from "../../routes/Dashboard/TaskModal";
 import { TicketApprovedDialog } from "./TicketApprovedDialog";
 import Ticket from "../../routes/Dashboard/Ticket";
-import { find } from "lodash";
 
 function Main(props) {
   const FILTER_KEYS = [
