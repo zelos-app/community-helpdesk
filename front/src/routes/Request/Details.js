@@ -36,9 +36,9 @@ function Details() {
       <Grid item xs={5}>
         <Illustration
           style={{
-            position: 'absolute',
+            position: "absolute",
             left: -24,
-            height: 'calc(100vh - 64px)'
+            height: "calc(100vh - 64px)",
           }}
         />
       </Grid>
@@ -53,7 +53,7 @@ function Details() {
           <div className="input-container">
             <Field
               name="name"
-              style={{ width: '100%' }}
+              style={{ width: "100%" }}
               className="input"
               as={TextField}
               label={<FormattedMessage id="fullName" />}
@@ -63,7 +63,7 @@ function Details() {
             />
             <Field
               name="phone"
-              style={{ width: '100%' }}
+              style={{ width: "100%" }}
               className="input"
               as={TextField}
               label={<FormattedMessage id="phone" />}
@@ -74,7 +74,7 @@ function Details() {
             {selectedCategory && selectedCategory.needsAddress && (
               <Field
                 name="address"
-                style={{ width: '100%' }}
+                style={{ width: "100%" }}
                 className="input"
                 as={TextField}
                 label={<FormattedMessage id="address" />}
@@ -84,33 +84,19 @@ function Details() {
             )}
             <Field
               name="area"
-              as={FormControl}
-              style={{ width: '100%' }}
-              className="input"
+              as={TextField}
               label={<FormattedMessage id="area" />}
-              layout="select"
-              modifier="secondary"
               variant="outlined"
+              className="input"
+              fullWidth
               required
+              select
             >
-              <InputLabel id="demo-simple-select-outlined-label">
-                <FormattedMessage id="area" />
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                name="area"
-                label={<FormattedMessage id="area" />}
-              >
-                <MenuItem value="">
-                  <em>None</em>
+              {areas.map((area) => (
+                <MenuItem value={area._id} key={area._id}>
+                  {area.name}
                 </MenuItem>
-                {areas.map((area) => (
-                  <MenuItem value={area._id} key={area._id}>
-                    {area.name}
-                  </MenuItem>
-                ))}
-              </Select>
+              ))}
             </Field>
           </div>
 
@@ -127,11 +113,7 @@ function Details() {
                 >
                   <FormattedMessage id="goBack" />
                 </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                >
+                <Button variant="contained" color="primary" type="submit">
                   <FormattedMessage id="next" />
                 </Button>
               </Fragment>
