@@ -3,7 +3,6 @@ import { useFormikContext } from "formik";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { ReactComponent as Illustration } from "../../assets/illustration.svg";
 import { FormattedMessage } from "react-intl";
 import history from "../../utils/history";
 import { RequestOptionsContext } from "./RequestWrapper";
@@ -31,15 +30,9 @@ function Category() {
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={0}>
       <Grid item xs={5}>
-        <Illustration
-          style={{
-            position: 'absolute',
-            left: -24,
-            height: 'calc(100vh - 64px)'
-          }}
-        />
+        <div className="illustration" />
       </Grid>
       <Grid item xs={7}>
         <div className="request-children-wrapper">

@@ -6,7 +6,6 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { ReactComponent as Illustration } from "../../assets/illustration.svg";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -32,15 +31,9 @@ function Details() {
   }
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={0}>
       <Grid item xs={5}>
-        <Illustration
-          style={{
-            position: "absolute",
-            left: -24,
-            height: "calc(100vh - 64px)",
-          }}
-        />
+        <div className="illustration" />
       </Grid>
       <Grid item xs={7}>
         <div className="request-children-wrapper">

@@ -7,7 +7,6 @@ import CustomInput from "../../components/CustomInput/CustomInput";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { ReactComponent as Illustration } from "../../assets/illustration.svg";
 
 function Request() {
   const { values } = useFormikContext();
@@ -27,15 +26,9 @@ function Request() {
   }
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={0}>
       <Grid item xs={5}>
-        <Illustration
-          style={{
-            position: 'absolute',
-            left: -24,
-            height: 'calc(100vh - 64px)'
-          }}
-        />
+        <div className="illustration" />
       </Grid>
       <Grid item xs={7}>
         <div className="request-children-wrapper">
