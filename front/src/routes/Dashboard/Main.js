@@ -28,8 +28,8 @@ import { find } from "lodash";
 function Main(props) {
   const FILTER_KEYS = [
     "rejected",
-    "accepted",
-    "solved",
+    "approved",
+    "resolved",
     "archived",
     "notified",
   ];
@@ -44,7 +44,7 @@ function Main(props) {
   const [filterStates, setFilterStates] = useState({
     new: false,
     mine: false,
-    solved: false,
+    resolved: false,
     rejected: false,
   });
 

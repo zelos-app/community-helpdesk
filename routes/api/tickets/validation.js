@@ -8,11 +8,11 @@ const validation = {
             isBoolean: true,
             optional: true
         },
-        accepted: {
+        approved: {
             isBoolean: true,
             optional: true
         },
-        solved: {
+        resolved: {
             isBoolean: true,
             optional: true
         },

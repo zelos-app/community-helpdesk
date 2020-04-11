@@ -275,7 +275,7 @@ class Ticket {
             console.error(`[!] Failed to send a text:\n${err.stack}`)
         }
         // update ticket
-        ticket.status.accepted = true
+        ticket.status.approved = true
         ticket.save()
         const response = {}
         if (ticket.status.task.created && (ticket.status.notified || !sendText)) {
