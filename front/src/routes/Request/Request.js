@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { FormattedMessage } from "react-intl";
-import { useFormikContext, Field } from "formik";
+import { useFormikContext, Field, Form } from "formik";
 import history from "../../utils/history";
-import CustomButton from "../../components/CustomButton/CustomButton";
-import CustomInput from "../../components/CustomInput/CustomInput";
+import { TextField, Button } from "@material-ui/core";
 
 function Request() {
   const { values } = useFormikContext();
@@ -33,28 +32,28 @@ function Request() {
 
         <Field
           name="request"
-          as={CustomInput}
-          labelId="describeYourRequest"
-          layout="textarea"
+          as={TextField}
+          label={<FormattedMessage id="describeYourRequest" />}
+          variant="outlined"
+          multiline
           rows="5"
-          modifier="primary"
           required
+          fullWidth
         />
 
         <div className="action-wrapper">
-          <CustomButton
-            titleId="goBack"
-            modifier="secondary"
-            type="button"
-            onClick={back}
-          />
-          <CustomButton
-            titleId="next"
-            modifier="primary"
+          <Button type="button" onClick={back} variant="contained">
+            <FormattedMessage id="goBack" />
+          </Button>
+          <Button
+            color="primary"
             onClick={next}
             type="button"
             disabled={!values.request}
-          />
+            variant="contained"
+          >
+            <FormattedMessage id="next" />
+          </Button>
         </div>
       </div>
     </div>
