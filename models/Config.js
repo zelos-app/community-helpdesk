@@ -47,18 +47,7 @@ class Config {
         // See if config exists in the database
         if (!config) {
             console.log(`[i] No config found, initializing`);
-            config = new ConfigModel();
-
-            config.email.provider = process.env.EMAIL_PROVIDER
-            config.email.fromName = process.env.EMAIL_FROM_NAME
-            config.email.fromEmail = process.env.EMAIL_FROM_EMAIL
-            config.email.sendInvite = process.env.SEND_INVITE_EMAIL
-
-            config.sms.provider = process.env.SMS_PROVIDER
-            config.sms.sendRejectText = process.env.SEND_REJECT_TEXT
-            config.sms.sendAcceptText = process.env.SEND_ACCEPT_TEXT
-            config.sms.fromName = process.env.SMS_FROM_NAME
-            await config.save();
+            config = await this.initDefault()
         } else {
             if (subject) {
                 if (toObject) {
@@ -85,6 +74,35 @@ class Config {
         return {
             status: "ok"
         }
+    }
+
+    async initDefault() {
+        const config = new ConfigModel();
+
+        config.email.provider = process.env.EMAIL_PROVIDER
+        config.email.fromName = process.env.EMAIL_FROM_NAME
+        config.email.fromEmail = process.env.EMAIL_FROM_EMAIL
+        config.email.sendInvite = process.env.SEND_INVITE_EMAIL
+
+        config.sms.provider = process.env.SMS_PROVIDER
+        config.sms.sendRejectText = process.env.SEND_REJECT_TEXT
+        config.sms.sendAcceptText = process.env.SEND_ACCEPT_TEXT
+        config.sms.fromName = process.env.SMS_FROM_NAME
+
+        // Add sample area
+        const Area = require('./Area');
+        const area = new Area();
+        area.add({name: "Sample Area"}, false);
+        console.log(`[i] Added sample area`);
+
+        // Add sample category
+        const Category = require('./Category');
+        const category = new Category();
+        category.add({name: "Sample Request Category", needsAddress: true});
+        console.log(`[i] Added sample category`);
+
+        await config.save();
+        return config;
     }
 }
 

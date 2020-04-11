@@ -33,7 +33,6 @@ class Category {
     // todo: fields.createdBy = current user
     const category = new CategoryModel(this.data);
     const newCategory = await category.save();
-    console.log(`[i] New category: ${newCategory._id}`);
     return {
       id: newCategory._id,
     };

@@ -7,7 +7,6 @@ const routes = require("./routes");
 const rateLimit = require("express-rate-limit");
 const getDuration = require("./middleware/Timer");
 const Config = require("./models/Config");
-const User = require("./models/User");
 
 // Connect to DB
 mongoose.connect(process.env.DB_URL, {
@@ -35,6 +34,8 @@ async function init() {
       process.env.ADMIN_EMAIL &&
       process.env.ADMIN_PASSWORD
     ) {
+      // Add default admin
+      const User = require("./models/User");
       const user = new User();
       await user.initDefault();
     }
