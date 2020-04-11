@@ -157,11 +157,11 @@ function Main(props) {
       method === "create"
         ? await axios.post("/api/tickets", ticketDetails)
         : await axios.put(`/api/tickets/${ticketDetails._id}`, ticketDetails);
-      setShowApprovedModal(true);
     } catch (e) {
       alert(e.message);
     }
     getTickets();
+    newTask();
   }
 
   async function handleBtnClick(comment) {
@@ -249,22 +249,19 @@ function Main(props) {
             ) : (
               tickets
                 .filter(ticketFilters)
-                .map((ticket) =>
+                .map((ticket) => (
                   <Ticket
                     key={ticket._id}
                     ticket={ticket}
                     active={ticketDetails && ticketDetails._id === ticket._id}
                     category={
                       categories &&
-                      categories.find(c => c._id === ticket.category)
+                      categories.find((c) => c._id === ticket.category)
                     }
-                    area={
-                      areas &&
-                      areas.find(a => a._id === ticket.area)
-                    }
+                    area={areas && areas.find((a) => a._id === ticket.area)}
                     selectTicket={() => selectTicket(ticket)}
                   />
-                )
+                ))
             )}
           </div>
         </Grid>
@@ -282,6 +279,8 @@ function Main(props) {
                       variant="outlined"
                       value={ticketDetails.request}
                       onChange={handleInputChange}
+                      rows={5}
+                      multiline
                     />
                     <TextField
                       className="input"
@@ -472,7 +471,7 @@ function Main(props) {
                             }
                           >
                             <FormattedMessage
-                              id={!!ticketDetails?._id ? "Save" : "Create"}
+                              id={!!ticketDetails?._id ? "save" : "create"}
                             />
                           </Button>
                         </Grid>

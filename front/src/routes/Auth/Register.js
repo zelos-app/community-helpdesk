@@ -1,9 +1,10 @@
 import axios from "../../utils/axios";
 import { useParams } from "react-router-dom";
 import React from "react";
-import CustomButton from "../../components/CustomButton/CustomButton";
-import CustomInput from "../../components/CustomInput/CustomInput";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import { FormattedMessage } from "react-intl";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 import { Formik, Form, Field } from "formik";
 import history from "../../utils/history";
 
@@ -40,21 +41,30 @@ export default function Register() {
             <div className="input-container">
               <Field
                 name="firstName"
-                as={CustomInput}
-                labelId="firstName"
+                className="input"
+                style={{ width: '100%' }}
+                as={TextField}
+                label={<FormattedMessage id="firstName" />}
                 modifier="primary"
+                variant="outlined"
               />
               <Field
                 name="lastName"
-                as={CustomInput}
-                labelId="lastName"
+                className="input"
+                style={{ width: '100%' }}
+                as={TextField}
+                label={<FormattedMessage id="lastName" />}
                 modifier="primary"
+                variant="outlined"
               />
               <Field
                 name="password"
-                as={CustomInput}
-                labelId="password"
+                className="input"
+                style={{ width: '100%' }}
+                as={TextField}
+                label={<FormattedMessage id="password" />}
                 modifier="primary"
+                variant="outlined"
                 type="password"
                 required
               />
@@ -66,11 +76,14 @@ export default function Register() {
                   form.isSubmitting ? (
                     <LoadingSpinner />
                   ) : (
-                    <CustomButton
-                      titleId="register"
-                      modifier="primary"
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
                       disabled={!form.isValid}
-                    />
+                    >
+                      <FormattedMessage id="register" />
+                    </Button>
                   )
                 }
               </Field>

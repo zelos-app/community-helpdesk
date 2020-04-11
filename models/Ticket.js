@@ -258,10 +258,10 @@ class Ticket {
                 }
             }
         } catch (err) {
-            console.error(`[!] Failed to create a task:\n${err.stack}`)
+            console.error(`[!] Failed to create a task:\n${err}`);
         }
         // Send a text
-        const sendText = (query.notify !== "false");
+        const sendText = (query.notify !== "false" && process.env.SEND_REJECT_TEXT);
         try {
             if (sendText) {
                 console.log(`sending a text`)
@@ -272,7 +272,7 @@ class Ticket {
                 }
             }
         } catch (err) {
-            console.error(`[!] Failed to send a text:\n${err.stack}`)
+            console.error(`[!] Failed to send a text:\n${err}`)
         }
         // update ticket
         ticket.status.approved = true
