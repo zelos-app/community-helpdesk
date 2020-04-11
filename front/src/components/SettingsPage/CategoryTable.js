@@ -11,7 +11,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
-import {CategoryEditModal} from "./CategoryEditModal";
+import { CategoryEditModal } from "./CategoryEditModal";
 
 export const CategoryTable = ({
   categories,
@@ -64,7 +64,10 @@ export const CategoryTable = ({
           </TableContainer>
 
           {selectedCategory && (
-              <CategoryEditModal category={selectedCategory} selectedCategoryEdited={selectedCategoryEdited}/>
+            <CategoryEditModal
+              category={selectedCategory}
+              selectedCategoryEdited={selectedCategoryEdited}
+            />
           )}
         </>
       ) : (
