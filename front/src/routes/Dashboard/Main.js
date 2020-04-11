@@ -17,11 +17,11 @@ import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import MenuList from "@material-ui/core/MenuList";
-import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import DashboardNavigation from "../../components/DashboardNavigation/DashboardNavigation";
 import TaskModal from "../../routes/Dashboard/TaskModal";
+import { TicketApprovedDialog } from "./TicketApprovedDialog";
 import Ticket from "../../routes/Dashboard/Ticket";
 import { find } from "lodash";
 
@@ -52,6 +52,12 @@ function Main(props) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
+
+  const [showApprovedModal, setShowApprovedModal] = useState(false);
+
+  const closeApproveModal = async () => {
+    setShowApprovedModal(false);
+  };
 
   async function getTickets() {
     setIsLoadingTickets(true);
@@ -151,6 +157,7 @@ function Main(props) {
       method === "create"
         ? await axios.post("/api/tickets", ticketDetails)
         : await axios.put(`/api/tickets/${ticketDetails._id}`, ticketDetails);
+      setShowApprovedModal(true);
     } catch (e) {
       alert(e.message);
     }
@@ -478,6 +485,11 @@ function Main(props) {
           </div>
         </Grid>
       </Grid>
+
+      <TicketApprovedDialog
+        show={showApprovedModal}
+        onClose={closeApproveModal}
+      />
     </Fragment>
   );
 }
