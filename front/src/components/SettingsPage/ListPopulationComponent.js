@@ -1,9 +1,9 @@
 import axios from "../../utils/axios";
 import CustomInput from "../CustomInput/CustomInput";
 import CustomButton from "../CustomButton/CustomButton";
-import React, {useEffect, useState} from "react";
-import {CategoryTable} from "./CategoryTable";
-import {AreaTable} from "./AreaTable";
+import React, { useEffect, useState } from "react";
+import { CategoryTable } from "./CategoryTable";
+import { AreaTable } from "./AreaTable";
 import Grid from "@material-ui/core/Grid";
 
 export default function ListPopulationComponent() {
@@ -15,14 +15,13 @@ export default function ListPopulationComponent() {
   const [area, setArea] = useState([]);
   const [areas, setAreas] = useState();
 
-
   const getAreas = async () => {
-    const {data = {}} = await axios.get("/api/areas");
+    const { data = {} } = await axios.get("/api/areas");
     setAreas(data.areas || []);
   };
 
   const getCategories = async () => {
-    const {data = {}} = await axios.get("/api/categories");
+    const { data = {} } = await axios.get("/api/categories");
     setCategories(data.categories || []);
   };
 
@@ -31,7 +30,6 @@ export default function ListPopulationComponent() {
     getCategories();
   }, []);
 
-
   const createCategory = () => {
     axios
       .post("/api/categories/", {
@@ -39,7 +37,16 @@ export default function ListPopulationComponent() {
         description: categoryDescription,
         needsAddress: needsAddress,
       })
-      .then(() => getCategories());
+      .then(() => {
+        resetCategory();
+        getCategories();
+      });
+  };
+
+  const resetCategory = () => {
+    setCategory("");
+    setCategoryDescription("");
+    setNeedsAddress(false);
   };
 
   const createArea = () => {
@@ -51,19 +58,15 @@ export default function ListPopulationComponent() {
   };
 
   const deleteArea = (area) => {
-    axios
-      .delete(`/api/areas/${area._id}`)
-      .then(() => getAreas());
+    axios.delete(`/api/areas/${area._id}`).then(() => getAreas());
   };
 
   const deleteCategory = (category) => {
-    axios
-      .delete(`/api/categories/${category._id}`)
-      .then(() => getCategories());
+    axios.delete(`/api/categories/${category._id}`).then(() => getCategories());
   };
 
   return (
-    <Grid container direction='row' spacing={0} justify='space-between'>
+    <Grid container direction="row" spacing={0} justify="space-between">
       {/*for creating category list*/}
       <Grid item xs={12} sm={6}>
         <CustomInput
@@ -93,12 +96,15 @@ export default function ListPopulationComponent() {
           titleId="create a category"
           modifier="secondary"
           onClick={() => {
-            createCategory()
+            createCategory();
           }}
         />
 
-        <CategoryTable categories={categories} getCategories={() => getCategories()}
-                       deleteCategory={(category) => deleteCategory(category)}/>
+        <CategoryTable
+          categories={categories}
+          getCategories={() => getCategories()}
+          deleteCategory={(category) => deleteCategory(category)}
+        />
       </Grid>
 
       {/*for creating area list*/}
@@ -115,11 +121,15 @@ export default function ListPopulationComponent() {
           titleId="create an area"
           modifier="secondary"
           onClick={() => {
-            createArea()
+            createArea();
           }}
         />
 
-        <AreaTable areas={areas} getAreas={() => getAreas()} deleteArea={(area) => deleteArea(area)}/>
+        <AreaTable
+          areas={areas}
+          getAreas={() => getAreas()}
+          deleteArea={(area) => deleteArea(area)}
+        />
       </Grid>
     </Grid>
   );

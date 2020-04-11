@@ -12,12 +12,27 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { CategoryEditModal } from "./CategoryEditModal";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import { Paper } from "@material-ui/core";
+import Table from "@material-ui/core/Table";
+
+const useStyles = makeStyles({
+  container: {
+    padding: "8 0 8 0",
+    elevation: 0,
+  },
+  table: {
+    minWidth: "100%",
+  },
+});
 
 export const CategoryTable = ({
   categories,
   getCategories,
   deleteCategory,
 }) => {
+  const classes = useStyles();
+
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const selectedCategoryEdited = () => {
@@ -29,38 +44,40 @@ export const CategoryTable = ({
     <>
       {categories ? (
         <>
-          <TableContainer>
-            <TableHead>
-              <TableRow>
-                <TableCell align="center">Name</TableCell>
-                <TableCell align="center">Description</TableCell>
-                <TableCell align="center">Address needed</TableCell>
-                <TableCell align="center" />
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {categories.map((category) => (
-                <TableRow key={category._id}>
-                  <TableCell>{category.name}</TableCell>
-                  <TableCell>{category.description}</TableCell>
-                  <TableCell align="center">
-                    {category.needsAddress ? <CheckIcon /> : <ClearIcon />}
-                  </TableCell>
-                  <TableCell>
-                    <ButtonGroup>
-                      <Button onClick={() => setSelectedCategory(category)}>
-                        {""}
-                        <EditIcon />
-                      </Button>
-                      <Button onClick={() => deleteCategory(category)}>
-                        {""}
-                        <DeleteIcon />
-                      </Button>
-                    </ButtonGroup>
-                  </TableCell>
+          <TableContainer component={Paper} class={classes.container}>
+            <Table class={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center">Name</TableCell>
+                  <TableCell align="center">Description</TableCell>
+                  <TableCell align="center">Address needed</TableCell>
+                  <TableCell align="center" />
                 </TableRow>
-              ))}
-            </TableBody>
+              </TableHead>
+              <TableBody>
+                {categories.map((category) => (
+                  <TableRow key={category._id}>
+                    <TableCell>{category.name}</TableCell>
+                    <TableCell>{category.description}</TableCell>
+                    <TableCell align="center">
+                      {category.needsAddress ? <CheckIcon /> : <ClearIcon />}
+                    </TableCell>
+                    <TableCell align="right">
+                      <ButtonGroup>
+                        <Button onClick={() => setSelectedCategory(category)}>
+                          {""}
+                          <EditIcon />
+                        </Button>
+                        <Button onClick={() => deleteCategory(category)}>
+                          {""}
+                          <DeleteIcon />
+                        </Button>
+                      </ButtonGroup>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </TableContainer>
 
           {selectedCategory && (
