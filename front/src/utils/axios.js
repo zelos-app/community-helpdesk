@@ -21,9 +21,8 @@ instance.interceptors.request.use((request) => {
 instance.interceptors.response.use(
   (a) => a,
   ({ response }) => {
-    if (response.status >= 400) {
+    if (response.status === 400 || response.status === 401) {
       logout();
-      throw new Error(response.data);
     }
     return response;
   }
