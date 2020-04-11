@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  createContext,
-  useContext,
-  Fragment,
-} from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import { Formik, Field, Form } from "formik";
 import isEmail from "isemail";
 import CustomButton from "../../components/CustomButton/CustomButton";
@@ -13,13 +7,23 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import DashboardNavigation from "../../components/DashboardNavigation/DashboardNavigation";
 import { FormattedMessage } from "react-intl";
 import axios from "../../utils/axios";
-import CheckIcon from '@material-ui/icons/Check';
-import ClearIcon from '@material-ui/icons/Clear';
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import TableContainer from "@material-ui/core/TableContainer";
+import { Paper } from "@material-ui/core";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell/TableCell";
+import TableBody from "@material-ui/core/TableBody";
+import Button from "@material-ui/core/Button";
 
 const UsersContext = createContext({ data: [], set: () => {} });
 
 const UserEditModal = ({ user, setSelectedUser }) => {
   const { data, set } = useContext(UsersContext);
+
   return (
     <div className="modal">
       <div className="modal__content">
@@ -116,42 +120,63 @@ const UserEditModal = ({ user, setSelectedUser }) => {
   );
 };
 
+const useStyles = makeStyles({
+  container: {
+    padding: "8 0 8 0",
+    elevation: 0,
+  },
+  table: {
+    minWidth: "100%",
+  },
+});
+
 const UsersTable = ({ rows }) => {
   const [selectedUser, setSelectedUser] = useState(null);
+  const classes = useStyles();
+
   return (
-    <Fragment>
-      <table className="data-table">
-        <thead>
-          <tr>
-            <th scope="column">Name</th>
-            <th scope="column">Email</th>
-            <th scope="column">Registered?</th>
-            <th scope="column">Admin?</th>
-            <th scope="column"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => (
-            <tr key={row._id}>
-              <td>{[row.firstName, row.lastName].join(" ")}</td>
-              <td>{row.email}</td>
-              <td>{row.status.registered ?  <CheckIcon/> : <ClearIcon/>}</td>
-              <td>{row.status.admin ? <CheckIcon/> : <ClearIcon/>}</td>
-              <td className="action-wrapper">
-                <CustomButton
-                  title="Edit"
-                  modifier="small primary"
-                  onClick={() => setSelectedUser(row)}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <>
+      <TableContainer component={Paper} class={classes.container}>
+        <Table class={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">Name</TableCell>
+              <TableCell align="center">Email</TableCell>
+              <TableCell align="center">Registered?</TableCell>
+              <TableCell align="center">Admin?</TableCell>
+              <TableCell align="center" />
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow key={row._id}>
+                <TableCell>{[row.firstName, row.lastName].join(" ")}</TableCell>
+                <TableCell>{row.email}</TableCell>
+                <TableCell align="center">
+                  {row.status.registered ? <CheckIcon /> : <ClearIcon />}
+                </TableCell>
+                <TableCell align="center">
+                  {row.status.admin ? <CheckIcon /> : <ClearIcon />}
+                </TableCell>
+                <TableCell align="right">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setSelectedUser(row)}
+                  >
+                    <FormattedMessage id="edit" />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
       {selectedUser && (
         <UserEditModal user={selectedUser} setSelectedUser={setSelectedUser} />
       )}
-    </Fragment>
+    </>
   );
 };
 
