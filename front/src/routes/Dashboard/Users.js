@@ -17,6 +17,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell/TableCell";
 import TableBody from "@material-ui/core/TableBody";
+import Button from "@material-ui/core/Button";
 
 const UsersContext = createContext({ data: [], set: () => {} });
 
@@ -158,11 +159,13 @@ const UsersTable = ({ rows }) => {
                   {row.status.admin ? <CheckIcon /> : <ClearIcon />}
                 </TableCell>
                 <TableCell align="right">
-                  <CustomButton
-                    title="Edit"
-                    modifier="small primary"
+                  <Button
+                    variant="contained"
+                    color="primary"
                     onClick={() => setSelectedUser(row)}
-                  />
+                  >
+                    <FormattedMessage id="edit" />
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
