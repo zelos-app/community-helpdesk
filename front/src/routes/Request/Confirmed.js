@@ -22,7 +22,10 @@ function Confirmed() {
             <FormattedMessage id="confirmedHead" />
           </h1>
           <h3 className="text-alpha">
-            <FormattedMessage id="confirmedBody" />
+            <FormattedMessage
+              id="confirmedBody"
+              values={{ p: (...chunks) => <p>{chunks}</p> }}
+            />
           </h3>
           <Link to="/">
             <Button color="primary" variant="contained">
