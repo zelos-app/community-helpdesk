@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import CustomButton from "../../components/CustomButton/CustomButton";
-import CustomInput from "../../components/CustomInput/CustomInput";
+import { FormattedMessage } from "react-intl";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 export default function ResetPassword() {
   let { token } = useParams();
@@ -34,21 +35,27 @@ export default function ResetPassword() {
     <div className="auth-children">
       <div className="auth-children-wrapper">
         <div className="input-container">
-          <CustomInput
-            labelId="password"
+          <TextField
+            style={{ width: '100%' }}
+            className="input"
+            id="password"
             name="password"
-            modifier="primary"
+            label={<FormattedMessage id="password" />}
+            variant="outlined"
             type="password"
             onChange={handleInputChange}
+            required
           />
         </div>
 
         <div className="action-wrapper">
-          <CustomButton
-            titleId="sendPasswordToEmail"
-            modifier="primary"
+          <Button
+            variant="contained"
+            color="primary"
             onClick={reset}
-          />
+          >
+            <FormattedMessage id="sendPasswordToEmail" />
+          </Button>
         </div>
       </div>
     </div>
