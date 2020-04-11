@@ -11,6 +11,7 @@
   "describeYourRequest": "Describe your request",
   "enterYourDetails": "Sisesta enda andmed",
   "next": "Edasi",
+  "goBack": "Tagasi",
   "fullName": "Täisnimi",
   "phone": "Telefon",
   "address": "Address",
@@ -29,5 +30,14 @@
   "appLandingBody.wait": "Vali abipalve, mida oled valmis täitma",
   "appLandingBody.help": "Tunne rõõmu sellest, et said kedagi aidata",
   "dashboard.nav.tickets": "Tickets",
-  "dashboard.nav.settings": "Settings"
+  "dashboard.nav.settings": "Settings",
+  "back": "Tagasi esilehele",
+  "modal.comment": "Kommentaar (valikuline)",
+  "modal.approve": "Kinnita",
+  "modal.reject": "Reject",
+  "modal.resolve": "Resolve",
+  "modal.approve.description": "Kinnita kirjeldus",
+  "modal.reject.description": "Reject description",
+  "modal.resolve.description": "Resolve description",
+  "or": "või"
 }

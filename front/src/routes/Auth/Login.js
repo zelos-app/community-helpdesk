@@ -26,7 +26,10 @@ export default function Login() {
 
             return errors;
           }}
-          onSubmit={(values) => login(values.email, values.password)}
+          onSubmit={async (values, formik) => {
+            await login(values.email, values.password);
+            formik.setSubmitting(false);
+          }}
         >
           {(props) => (
             <form onSubmit={props.handleSubmit}>
@@ -51,7 +54,11 @@ export default function Login() {
                 />
               </div>
               <div className="action-wrapper">
-                <CustomButton titleId="login" modifier="primary" />
+                <CustomButton
+                  titleId="login"
+                  modifier="primary"
+                  disabled={props.isSubmitting}
+                />
               </div>
             </form>
           )}

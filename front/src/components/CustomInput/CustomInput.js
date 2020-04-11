@@ -9,6 +9,7 @@ export default (props) => {
     name = "input",
     layout = "input",
     checked = false,
+    children,
     ...rest
   } = props;
 
@@ -23,24 +24,25 @@ export default (props) => {
           </label>
 
           {/* INPUT */}
-          {layout === "input" ? <input name={name} {...rest} /> : ""}
+          {layout === "input" && <input name={name} id={name} {...rest} />}
 
           {/* TEXTAREA */}
-          {layout === "textarea" ? (
-            <textarea name={name} {...rest}></textarea>
-          ) : (
-            ""
+          {layout === "textarea" && (
+            <textarea name={name} id={name} {...rest}></textarea>
+          )}
+
+          {/* SELECT */}
+          {layout === "select" && (
+            <select name={name} id={name} {...rest}>
+              {children}
+            </select>
           )}
 
           {/* CHEKBOX */}
-          {layout === "checkbox" ? (
-            <Fragment>
-              <div className={`checkbox ${checked ? "is-checked" : ""}`}>
-                <input type="checkbox" name={name} {...rest} />
-              </div>
-            </Fragment>
-          ) : (
-            ""
+          {layout === "checkbox" && (
+            <div className={`checkbox ${checked ? "is-checked" : ""}`}>
+              <input type="checkbox" name={name} id={name} {...rest} />
+            </div>
           )}
         </div>
       </div>

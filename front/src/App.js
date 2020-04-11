@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import { IntlProvider } from "react-intl";
+import Container from "@material-ui/core/Container";
 import Router from "./Router";
 import "./main.scss";
 
@@ -57,16 +58,17 @@ export default () => {
       <ThemeProvider theme={{ ...selectedTheme, ...variables }}>
         {/* Include global styles */}
         <GlobalStyles />
+        <Container maxWidth="xl">
+          {/* Change theme */}
+          <button onClick={toggleTheme}>theme</button>
 
-        {/* Change theme */}
-        <button onClick={toggleTheme}>theme</button>
+          {/* Change language */}
+          <button onClick={() => selectLanguage("en")}>en</button>
+          <button onClick={() => selectLanguage("et")}>et</button>
 
-        {/* Change language */}
-        <button onClick={() => selectLanguage("en")}>en</button>
-        <button onClick={() => selectLanguage("et")}>et</button>
-
-        {/* Routes */}
-        <Router />
+          {/* Routes */}
+          <Router />
+        </Container>
       </ThemeProvider>
     </IntlProvider>
   );

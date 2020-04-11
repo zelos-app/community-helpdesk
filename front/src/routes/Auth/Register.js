@@ -1,88 +1,82 @@
-import axios from "axios";
-import { useParams, useHistory } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import axios from "../../utils/axios";
+import { useParams } from "react-router-dom";
+import React from "react";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import { Formik, Form, Field } from "formik";
+import history from "../../utils/history";
 
-export default function Register(props, e) {
+export default function Register() {
   let { token } = useParams();
-  const history = useHistory();
-
-  const [payload, setPayload] = useState({});
-  const [isValid, setIsValid] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-
-  async function checkToken() {
-    await axios.get(`/api/auth/reset/${token}`);
-  }
-
-  useEffect(() => {
-    checkToken();
-  }, []);
-
-  function handleInputChange({ target }) {
-    setPayload({
-      ...payload,
-      [target.name]: target.value,
-    });
-  }
-
-  async function register() {
-    setIsLoading(true);
-
-    if (!isValid) {
-      alert("token not valid");
-      return setIsLoading(false);
-    }
-
-    try {
-      await axios.put(`/api/auth/register/${token}`, payload);
-      history.push("/login");
-    } catch (error) {
-      alert(error.response.data);
-    }
-    setIsLoading(false);
-  }
 
   return (
     <div className="auth-children">
       <div className="auth-children-wrapper">
-        <div className="input-container">
-          <CustomInput
-            labelId="firstName"
-            name="firstName"
-            modifier="primary"
-            onChange={handleInputChange}
-          />
+        <Formik
+          initialValues={{
+            firstName: "",
+            lastName: "",
+            password: "",
+          }}
+          validate={(values) => {
+            const errors = {};
 
-          <CustomInput
-            labelId="lastName"
-            name="lastName"
-            modifier="primary"
-            onChange={handleInputChange}
-          />
+            if (!values.password) {
+              errors.password = "required";
+            }
 
-          <CustomInput
-            labelId="password"
-            name="password"
-            modifier="primary"
-            type="password"
-            onChange={handleInputChange}
-          />
-        </div>
+            return errors;
+          }}
+          onSubmit={async (values, formik) => {
+            await axios.put(`/api/auth/register/${token}`, values);
+            formik.setSubmitting(false);
+            formik.resetForm();
+            history.push("/auth");
+          }}
+          isInitialValid={false}
+        >
+          <Form>
+            <div className="input-container">
+              <Field
+                name="firstName"
+                as={CustomInput}
+                labelId="firstName"
+                modifier="primary"
+              />
+              <Field
+                name="lastName"
+                as={CustomInput}
+                labelId="lastName"
+                modifier="primary"
+              />
+              <Field
+                name="password"
+                as={CustomInput}
+                labelId="password"
+                modifier="primary"
+                type="password"
+                required
+              />
+            </div>
 
-        <div className="action-wrapper">
-          {isLoading ? (
-            <LoadingSpinner />
-          ) : (
-            <CustomButton
-              titleId="register"
-              modifier="primary"
-              onClick={register}
-            />
-          )}
-        </div>
+            <div className="action-wrapper">
+              <Field>
+                {({ form }) =>
+                  form.isSubmitting ? (
+                    <LoadingSpinner />
+                  ) : (
+                    <CustomButton
+                      titleId="register"
+                      modifier="primary"
+                      disabled={!form.isValid}
+                    />
+                  )
+                }
+              </Field>
+            </div>
+          </Form>
+        </Formik>
       </div>
     </div>
   );
