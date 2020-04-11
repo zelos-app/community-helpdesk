@@ -42,5 +42,7 @@
   "or": "or",
   "log_out": "Log out",
   "settings.modal.ticket.approved.message": "Thank you, the ticket has been approved and a task has been created in your Zelos workspace.",
-  "settings.modal.ticket.approved.button.text": "Thank you"
+  "settings.modal.ticket.approved.button.text": "Thank you",
+  "confirmedHead": "Your request has been sent",
+  "confirmedBody": "<p>Your help request has been sent. It will now be evaluated and we will let you know when the help request is sent to our volunteers. We appreciate your patience as we process your request.</p><p>Thank you for reaching out, have a good day.</p>"
 }
