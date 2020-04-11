@@ -23,6 +23,7 @@ instance.interceptors.response.use(
   ({ response }) => {
     if (response.status >= 400) {
       logout();
+      throw new Error(response.data);
     }
     return response;
   }

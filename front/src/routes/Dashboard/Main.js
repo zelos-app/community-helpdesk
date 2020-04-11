@@ -17,11 +17,12 @@ import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import MenuList from "@material-ui/core/MenuList";
-import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import DashboardNavigation from "../../components/DashboardNavigation/DashboardNavigation";
 import TaskModal from "../../routes/Dashboard/TaskModal";
+import { TicketApprovedDialog } from "./TicketApprovedDialog";
+import Ticket from "../../routes/Dashboard/Ticket";
 import { find } from "lodash";
 
 function Main(props) {
@@ -33,7 +34,7 @@ function Main(props) {
     "notified",
   ];
 
-  const dropdownOptions = ["resolve", "reject"];
+  const dropdownOptions = ["approve", "resolve", "reject"];
 
   const { categories, areas, users } = useContext(RequestOptionsContext);
 
@@ -52,6 +53,12 @@ function Main(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
 
+  const [showApprovedModal, setShowApprovedModal] = useState(false);
+
+  const closeApproveModal = async () => {
+    setShowApprovedModal(false);
+  };
+
   async function getTickets() {
     setIsLoadingTickets(true);
     const { data = {} } = await axios.get("/api/tickets");
@@ -67,7 +74,7 @@ function Main(props) {
 
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const handleClick = () => {
     openModal(dropdownOptions[selectedIndex]);
@@ -150,6 +157,7 @@ function Main(props) {
       method === "create"
         ? await axios.post("/api/tickets", ticketDetails)
         : await axios.put(`/api/tickets/${ticketDetails._id}`, ticketDetails);
+      setShowApprovedModal(true);
     } catch (e) {
       alert(e.message);
     }
@@ -194,32 +202,13 @@ function Main(props) {
     return categories.find((category) => ticketCategory === category._id);
   }
 
-  const Ticket = (ticket) => {
-    const date = new moment(ticket.createdAt).format("DD.MM.YY");
-    const displayedDate = date !== "invalid date" ? date : "";
-
-    return (
-      <div onClick={() => selectTicket(ticket)} className="ticket">
-        <div className="ticket-wrapper">
-          <h5>{ticket.request}</h5>
-
-          <div className="footer">
-            <h5>{displayedDate}</h5>
-            <h5>{ticket.category}</h5>
-            <h5>{ticket.area}</h5>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   const selectedCategory = ticketDetails?.category
     ? getSelectedCategory(ticketDetails.category)
     : "";
-  console.log(ticketDetails);
+
   return (
     <Fragment>
-      <Grid container spacing={0}>
+      <Grid container spacing={2}>
         <Grid item xs={12}>
           <DashboardNavigation />
           {isModalOpen && (
@@ -254,13 +243,28 @@ function Main(props) {
           </div>
         </Grid>
         <Grid item xs={6}>
-          <div className="ticket-list-wrapper">
+          <div className="tickets">
             {isLoadingTickets ? (
               <LoadingSpinner />
             ) : (
               tickets
                 .filter(ticketFilters)
-                .map((ticket) => <Ticket {...ticket} />)
+                .map((ticket) =>
+                  <Ticket
+                    key={ticket._id}
+                    ticket={ticket}
+                    active={ticketDetails && ticketDetails._id === ticket._id}
+                    category={
+                      categories &&
+                      categories.find(c => c._id === ticket.category)
+                    }
+                    area={
+                      areas &&
+                      areas.find(a => a._id === ticket.area)
+                    }
+                    selectTicket={() => selectTicket(ticket)}
+                  />
+                )
             )}
           </div>
         </Grid>
@@ -269,12 +273,12 @@ function Main(props) {
             <div className="task-manager-wrapper">
               <div className="input-container">
                 {ticketDetails && (
-                  <>
+                  <Fragment>
                     <TextField
                       className="input"
                       id="request"
                       name="request"
-                      label="request"
+                      label={<FormattedMessage id="request" />}
                       variant="outlined"
                       value={ticketDetails.request}
                       onChange={handleInputChange}
@@ -283,7 +287,7 @@ function Main(props) {
                       className="input"
                       id="requesterName"
                       name="name"
-                      label="requesterName"
+                      label={<FormattedMessage id="requesterName" />}
                       variant="outlined"
                       value={ticketDetails.name}
                       onChange={handleInputChange}
@@ -298,7 +302,7 @@ function Main(props) {
                         name="category"
                         value={ticketDetails.category}
                         onChange={handleInputChange}
-                        label="category"
+                        label={<FormattedMessage id="category" />}
                       >
                         <MenuItem value="">
                           <em>None</em>
@@ -314,7 +318,7 @@ function Main(props) {
                       className="input"
                       id="phone"
                       name="phone"
-                      label="phone"
+                      label={<FormattedMessage id="phone" />}
                       variant="outlined"
                       value={ticketDetails.phone}
                       onChange={handleInputChange}
@@ -325,7 +329,7 @@ function Main(props) {
                         className="input"
                         id="address"
                         name="address"
-                        label="address"
+                        label={<FormattedMessage id="address" />}
                         variant="outlined"
                         value={ticketDetails.address}
                         onChange={handleInputChange}
@@ -342,7 +346,7 @@ function Main(props) {
                         name="area"
                         value={ticketDetails.area}
                         onChange={handleInputChange}
-                        label="area"
+                        label={<FormattedMessage id="area" />}
                       >
                         <MenuItem value="">
                           <em>None</em>
@@ -376,9 +380,9 @@ function Main(props) {
                         ))}
                       </Select>
                     </FormControl>
-                    <Grid container spacing={0}>
-                      {!!ticketDetails._id && (
-                        <>
+                    <div className="dashboard__buttons">
+                      <Grid container spacing={4}>
+                        {!!ticketDetails._id && (
                           <Grid item xs={4}>
                             <Grid
                               container
@@ -435,7 +439,6 @@ function Main(props) {
                                               (option, index) => (
                                                 <MenuItem
                                                   key={option}
-                                                  disabled={index === 2}
                                                   selected={
                                                     index === selectedIndex
                                                   }
@@ -459,38 +462,34 @@ function Main(props) {
                               </Grid>
                             </Grid>
                           </Grid>
-                          <Grid item xs={4}>
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={() => openModal("approve")}
-                            >
-                              <FormattedMessage id="modal.approve" />
-                            </Button>
-                          </Grid>
-                        </>
-                      )}
-                      <Grid item xs={4}>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() =>
-                            confirm(!!ticketDetails?._id ? "edit" : "create")
-                          }
-                        >
-                          <FormattedMessage
-                            id={!!ticketDetails?._id ? "Save" : "Create"}
-                          />
-                        </Button>
+                        )}
+                        <Grid item xs={4}>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() =>
+                              confirm(!!ticketDetails?._id ? "edit" : "create")
+                            }
+                          >
+                            <FormattedMessage
+                              id={!!ticketDetails?._id ? "Save" : "Create"}
+                            />
+                          </Button>
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </>
+                    </div>
+                  </Fragment>
                 )}
               </div>
             </div>
           </div>
         </Grid>
       </Grid>
+
+      <TicketApprovedDialog
+        show={showApprovedModal}
+        onClose={closeApproveModal}
+      />
     </Fragment>
   );
 }

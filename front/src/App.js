@@ -1,8 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ThemeProvider } from "styled-components";
-import { IntlProvider } from "react-intl";
+import { IntlProvider, FormattedMessage } from "react-intl";
 import Container from "@material-ui/core/Container";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Menu from "@material-ui/core/Menu";
+import Button from "@material-ui/core/Button";
+import MenuItem from "@material-ui/core/MenuItem";
+import LanguageIcon from "@material-ui/icons/Language";
 import Router from "./Router";
+import { Link } from "react-router-dom";
+import { isLoggedIn, logout, LoggedInContext } from "./utils/auth";
 import "./main.scss";
 
 // Styles
@@ -15,7 +23,7 @@ import translations_et from "./translations/et.json";
 
 // i18 configs
 const i18nConfig = {
-  defaultLocale: "et",
+  defaultLocale: "en",
   messages: {
     en: translations_en,
     et: translations_et,
@@ -23,31 +31,24 @@ const i18nConfig = {
 };
 
 export default () => {
-  const [theme, setTheme] = useState("dark");
   const [locale, setLocale] = useState(i18nConfig.defaultLocale);
-
-  useEffect(() => {
-    const localTheme = localStorage.getItem("theme");
-    if (localTheme) {
-      setTheme(localTheme);
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-  };
 
   const selectLanguage = (lang) => {
     setLocale(lang);
     document.documentElement.lang = lang;
   };
 
-  const selectedTheme = {
-    light: lightTheme,
-    dark: darkTheme,
-  }[theme];
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const [isLogged, setLogged] = useState(isLoggedIn());
 
   return (
     <IntlProvider
@@ -55,20 +56,69 @@ export default () => {
       defaultLocale={i18nConfig.defaultLocale}
       messages={i18nConfig.messages[locale]}
     >
-      <ThemeProvider theme={{ ...selectedTheme, ...variables }}>
-        {/* Include global styles */}
-        <GlobalStyles />
-        <Container maxWidth="xl">
-          {/* Change theme */}
-          <button onClick={toggleTheme}>theme</button>
-
-          {/* Change language */}
-          <button onClick={() => selectLanguage("en")}>en</button>
-          <button onClick={() => selectLanguage("et")}>et</button>
-
-          {/* Routes */}
-          <Router />
-        </Container>
+      <ThemeProvider theme={{ ...lightTheme, ...variables }}>
+        <LoggedInContext.Provider value={{ data: isLogged, set: setLogged }}>
+          {/* Include global styles */}
+          <GlobalStyles />
+          <AppBar position="static">
+            <Toolbar>
+              <Button
+                aria-controls="langmenu"
+                aria-haspopup="true"
+                onClick={handleClick}
+                color="inherit"
+              >
+                <LanguageIcon />
+                {locale.toUpperCase()}
+              </Button>
+              <Menu
+                id="langmenu"
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                keepMounted
+              >
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    selectLanguage("en");
+                  }}
+                >
+                  English
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    selectLanguage("et");
+                  }}
+                >
+                  Eesti
+                </MenuItem>
+              </Menu>
+              <div style={{ flex: "1 1 auto" }} />
+              {isLogged ? (
+                <Button
+                  color="inherit"
+                  onClick={() => {
+                    logout();
+                    setLogged(false);
+                  }}
+                >
+                  <FormattedMessage id="log_out" />
+                </Button>
+              ) : (
+                <Link to="/auth">
+                  <Button color="inherit">
+                    <FormattedMessage id="login" />
+                  </Button>
+                </Link>
+              )}
+            </Toolbar>
+          </AppBar>
+          <Container maxWidth="xl">
+            <Router />
+          </Container>
+        </LoggedInContext.Provider>
       </ThemeProvider>
     </IntlProvider>
   );

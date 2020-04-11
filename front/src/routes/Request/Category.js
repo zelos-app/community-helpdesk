@@ -34,7 +34,7 @@ function Category() {
             <FormattedMessage id="categoryHead" />
           </h1>
           <h3 className="text-alpha">
-            <FormattedMessage id="categoryBody" />
+            <FormattedMessage id="categoryBody" values={{p: (...chunks) => <p>{chunks}</p>}} />
           </h3>
         </div>
 
