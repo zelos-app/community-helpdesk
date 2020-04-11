@@ -39,5 +39,7 @@
   "modal.approve.description": "Kinnita kirjeldus",
   "modal.reject.description": "Reject description",
   "modal.resolve.description": "Resolve description",
-  "or": "või"
+  "or": "või",
+  "settings.modal.ticket.approved.message": "Aitäh, sinu pilet on kinnitatud ja toiming on tehtud Zelos keskkonda.",
+  "settings.modal.ticket.approved.button.text": "Aitäh"
 }

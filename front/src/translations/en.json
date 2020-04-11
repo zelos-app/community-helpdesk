@@ -39,5 +39,7 @@
   "modal.approve.description": "Approve this help request.",
   "modal.reject.description": "Reject this help request.",
   "modal.resolve.description": "Mark this help request as resolved.",
-  "or": "or"
+  "or": "or",
+  "settings.modal.ticket.approved.message": "Thank you, the ticket has been approved and a task has been created in your Zelos workspace.",
+  "settings.modal.ticket.approved.button.text": "Thank you"
 }
