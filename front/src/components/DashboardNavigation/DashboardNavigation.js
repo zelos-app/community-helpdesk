@@ -40,6 +40,7 @@ export default function DashboardNavigation() {
 
       <Toolbar className='dashboard-nav'>
         {loggedIn && <>
+          <Button disabled={isHomePage} className='dashboard-nav-item' href="/">Home</Button>
           <Button disabled={isTicketsPage} className='dashboard-nav-item'
                   href="/dashboard">
             <FormattedMessage id="dashboard.nav.tickets"/>
@@ -49,7 +50,6 @@ export default function DashboardNavigation() {
           </Button>
           <Button disabled={isUsersPage} className='dashboard-nav-item' href="/dashboard/users">
             Users</Button>
-          <Button disabled={isHomePage} className='dashboard-nav-item' href="/">Home</Button>
 
         </>}
         {(!loggedIn && !isLoginPage) && <Button disabled={isLoginPage} className='dashboard-nav-item' href="/auth">
