@@ -4,6 +4,8 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 import { FormattedMessage } from "react-intl";
 import history from "../../utils/history";
 import { RequestOptionsContext } from "./RequestWrapper";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 
 function Category() {
   const { categories } = useContext(RequestOptionsContext);
@@ -16,13 +18,16 @@ function Category() {
 
   const SelectorButtons = () => {
     return categories.map((category) => (
-      <CustomButton
-        key={category._id}
-        title={category.name}
-        modifier="secondary"
-        type="button"
-        onClick={() => select(category._id)}
-      />
+      <Grid item key={category._id}>
+        <Button
+          key={category._id}
+          onClick={() => select(category._id)}
+          variant="contained"
+          size="large"
+        >
+          {category.name}
+        </Button>
+      </Grid>
     ));
   };
 
@@ -34,22 +39,23 @@ function Category() {
             <FormattedMessage id="categoryHead" />
           </h1>
           <h3 className="text-alpha">
-            <FormattedMessage id="categoryBody" values={{p: (...chunks) => <p>{chunks}</p>}} />
+            <FormattedMessage
+              id="categoryBody"
+              values={{ p: (...chunks) => <p>{chunks}</p> }}
+            />
           </h3>
         </div>
 
-        <div className="action-wrapper">
+        <Grid container direction="row" justify="center" spacing={2}>
           <SelectorButtons />
-        </div>
+        </Grid>
         <div className="action-wrapper">
           <FormattedMessage id="or" />
         </div>
         <div className="action-wrapper">
-          <CustomButton
-            titleId="back"
-            modifier="secondary"
-            onClick={() => history.go(-1)}
-          />
+          <Button onClick={() => history.go(-1)}>
+            <FormattedMessage id="back" />
+          </Button>
         </div>
       </div>
     </div>
