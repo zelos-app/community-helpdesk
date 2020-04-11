@@ -17,11 +17,12 @@ import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import MenuList from "@material-ui/core/MenuList";
-import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import DashboardNavigation from "../../components/DashboardNavigation/DashboardNavigation";
 import TaskModal from "../../routes/Dashboard/TaskModal";
+import { TicketApprovedDialog } from "./TicketApprovedDialog";
+import Ticket from "../../routes/Dashboard/Ticket";
 import { find } from "lodash";
 
 function Main(props) {
@@ -51,6 +52,12 @@ function Main(props) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
+
+  const [showApprovedModal, setShowApprovedModal] = useState(false);
+
+  const closeApproveModal = async () => {
+    setShowApprovedModal(false);
+  };
 
   async function getTickets() {
     setIsLoadingTickets(true);
@@ -150,6 +157,7 @@ function Main(props) {
       method === "create"
         ? await axios.post("/api/tickets", ticketDetails)
         : await axios.put(`/api/tickets/${ticketDetails._id}`, ticketDetails);
+      setShowApprovedModal(true);
     } catch (e) {
       alert(e.message);
     }
@@ -194,32 +202,13 @@ function Main(props) {
     return categories.find((category) => ticketCategory === category._id);
   }
 
-  const Ticket = (ticket) => {
-    const date = new moment(ticket.createdAt).format("DD.MM.YY");
-    const displayedDate = date !== "invalid date" ? date : "";
-
-    return (
-      <div onClick={() => selectTicket(ticket)} className="ticket">
-        <div className="ticket-wrapper">
-          <h5>{ticket.request}</h5>
-
-          <div className="footer">
-            <h5>{displayedDate}</h5>
-            <h5>{ticket.category}</h5>
-            <h5>{ticket.area}</h5>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   const selectedCategory = ticketDetails?.category
     ? getSelectedCategory(ticketDetails.category)
     : "";
-  console.log(ticketDetails);
+
   return (
     <Fragment>
-      <Grid container spacing={0}>
+      <Grid container spacing={2}>
         <Grid item xs={12}>
           <DashboardNavigation />
           {isModalOpen && (
@@ -254,13 +243,28 @@ function Main(props) {
           </div>
         </Grid>
         <Grid item xs={6}>
-          <div className="ticket-list-wrapper">
+          <div className="tickets">
             {isLoadingTickets ? (
               <LoadingSpinner />
             ) : (
               tickets
                 .filter(ticketFilters)
-                .map((ticket) => <Ticket {...ticket} />)
+                .map((ticket) =>
+                  <Ticket
+                    key={ticket._id}
+                    ticket={ticket}
+                    active={ticketDetails && ticketDetails._id === ticket._id}
+                    category={
+                      categories &&
+                      categories.find(c => c._id === ticket.category)
+                    }
+                    area={
+                      areas &&
+                      areas.find(a => a._id === ticket.area)
+                    }
+                    selectTicket={() => selectTicket(ticket)}
+                  />
+                )
             )}
           </div>
         </Grid>
@@ -481,6 +485,11 @@ function Main(props) {
           </div>
         </Grid>
       </Grid>
+
+      <TicketApprovedDialog
+        show={showApprovedModal}
+        onClose={closeApproveModal}
+      />
     </Fragment>
   );
 }
