@@ -13,6 +13,8 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import DashboardNavigation from "../../components/DashboardNavigation/DashboardNavigation";
 import { FormattedMessage } from "react-intl";
 import axios from "../../utils/axios";
+import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
 
 const UsersContext = createContext({ data: [], set: () => {} });
 
@@ -133,8 +135,8 @@ const UsersTable = ({ rows }) => {
             <tr key={row._id}>
               <td>{[row.firstName, row.lastName].join(" ")}</td>
               <td>{row.email}</td>
-              <td>{row.status.registered ? "✅" : "❌"}</td>
-              <td>{row.status.admin ? "✅" : "❌"}</td>
+              <td>{row.status.registered ?  <CheckIcon/> : <ClearIcon/>}</td>
+              <td>{row.status.admin ? <CheckIcon/> : <ClearIcon/>}</td>
               <td className="action-wrapper">
                 <CustomButton
                   title="Edit"
