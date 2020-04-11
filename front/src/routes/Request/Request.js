@@ -4,6 +4,10 @@ import { useFormikContext, Field } from "formik";
 import history from "../../utils/history";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomInput/CustomInput";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import { ReactComponent as Illustration } from "../../assets/illustration.svg";
 
 function Request() {
   const { values } = useFormikContext();
@@ -23,41 +27,56 @@ function Request() {
   }
 
   return (
-    <div className="request-children request">
-      <div className="request-children-wrapper">
-        <div className="text-wrapper">
-          <h1 className="text-alpha">
-            <FormattedMessage id="pleaseDescribeYourProblem" />
-          </h1>
-        </div>
-
-        <Field
-          name="request"
-          as={CustomInput}
-          labelId="describeYourRequest"
-          layout="textarea"
-          rows="5"
-          modifier="primary"
-          required
+    <Grid container spacing={2}>
+      <Grid item xs={5}>
+        <Illustration
+          style={{
+            position: 'absolute',
+            left: -24,
+            height: 'calc(100vh - 64px)'
+          }}
         />
+      </Grid>
+      <Grid item xs={7}>
+        <div className="request-children-wrapper">
+          <div className="text-wrapper">
+            <h1>
+              <FormattedMessage id="pleaseDescribeYourProblem" />
+            </h1>
+          </div>
 
-        <div className="action-wrapper">
-          <CustomButton
-            titleId="goBack"
-            modifier="secondary"
-            type="button"
-            onClick={back}
-          />
-          <CustomButton
-            titleId="next"
+          <Field
+            name="request"
+            style={{ width: '100%', marginTop: 24 }}
+            as={TextField}
+            label={<FormattedMessage id="describeYourRequest" />}
+            multiline
+            rows="5"
             modifier="primary"
-            onClick={next}
-            type="button"
-            disabled={!values.request}
+            required
+            variant="outlined"
           />
+
+          <div className="action-wrapper">
+            <Button
+              variant="contained"
+              color="default"
+              onClick={back}
+            >
+              <FormattedMessage id="goBack" />
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={next}
+              disabled={!values.request}
+            >
+              <FormattedMessage id="next" />
+            </Button>
+          </div>
         </div>
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 }
 

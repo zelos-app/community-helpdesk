@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useFormikContext } from "formik";
 import CustomButton from "../../components/CustomButton/CustomButton";
+import Grid from "@material-ui/core/Grid";
+import { ReactComponent as Illustration } from "../../assets/illustration.svg";
+import Button from "@material-ui/core/Button";
 import { FormattedMessage } from "react-intl";
 import history from "../../utils/history";
 
@@ -15,21 +18,37 @@ function Confirmed() {
   }, []);
 
   return (
-    <div className="request-children confirmed">
-      <div className="request-children-wrapper">
-        <div className="text-wrapper">
-          <h1 className="text-alpha">
-            <FormattedMessage id="confirmedHead" />
-          </h1>
-          <h3 className="text-alpha">
-            <FormattedMessage id="confirmedBody" />
-          </h3>
-          <Link to="/">
-            <CustomButton titleId="back" modifier="primary" />
-          </Link>
+    <Grid container spacing={2}>
+      <Grid item xs={5}>
+        <Illustration
+          style={{
+            position: 'absolute',
+            left: -24,
+            height: 'calc(100vh - 64px)'
+          }}
+        />
+      </Grid>
+      <Grid item xs={7}>
+        <div className="request-children-wrapper">
+          <div className="text-wrapper">
+            <h1>
+              <FormattedMessage id="confirmedHead" />
+            </h1>
+            <h3>
+              <FormattedMessage id="confirmedBody" />
+            </h3>
+            <Link to="/">
+              <Button
+                variant="contained"
+                color="primary"
+              >
+                <FormattedMessage id="back" />
+              </Button>
+            </Link>
+          </div>
         </div>
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 }
 
