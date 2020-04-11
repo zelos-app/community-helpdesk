@@ -54,7 +54,14 @@ export default function ListPopulationComponent() {
       .post("/api/areas/", {
         name: area,
       })
-      .then(() => getAreas());
+      .then(() => {
+        resetArea();
+        getAreas();
+      });
+  };
+
+  const resetArea = () => {
+    setArea("");
   };
 
   const deleteArea = (area) => {
