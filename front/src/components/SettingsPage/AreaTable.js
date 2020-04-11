@@ -24,16 +24,16 @@ export const AreaTable = ({areas, getAreas, deleteArea}) => {
         </thead>
         <tbody>
         {areas.map((area) => (
-            <tr key={area._id}>
-              <td>{area.name}</td>
-              <Button onClick={() => setSelectedArea(area)}> <EditIcon/></Button>
-              <Button onClick={() => deleteArea(area)}> <DeleteIcon/></Button>
-            </tr>
+          <tr key={area._id}>
+            <td>{area.name}</td>
+            <Button onClick={() => setSelectedArea(area)}> <EditIcon/></Button>
+            <Button onClick={() => deleteArea(area)}> <DeleteIcon/></Button>
+          </tr>
         ))}
         </tbody>
       </table>
       {selectedArea && (
-          <AreaEditModal area={selectedArea} selectedAreaEdited={selectedAreaEdited}/>
+        <AreaEditModal area={selectedArea} selectedAreaEdited={selectedAreaEdited}/>
       )}
     </Fragment> : <LoadingSpinner/>}
   </>);

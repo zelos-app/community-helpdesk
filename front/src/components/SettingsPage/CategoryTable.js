@@ -26,20 +26,20 @@ export const CategoryTable = ({categories, getCategories, deleteCategory}) => {
         </thead>
         <tbody>
         {categories.map((category) => (
-            <tr key={category._id}>
-              <td>{category.name}</td>
-              <td>{category.description}</td>
-              <td>{category.needsAddress ? "✅" : "❌"}</td>
+          <tr key={category._id}>
+            <td>{category.name}</td>
+            <td>{category.description}</td>
+            <td>{category.needsAddress ? "✅" : "❌"}</td>
 
-              <Button onClick={() => setSelectedCategory(category)}> <EditIcon/></Button>
-              <Button onClick={() => deleteCategory(category)}> <DeleteIcon/></Button>
-            </tr>
+            <Button onClick={() => setSelectedCategory(category)}> <EditIcon/></Button>
+            <Button onClick={() => deleteCategory(category)}> <DeleteIcon/></Button>
+          </tr>
 
         ))}
         </tbody>
       </table>
       {selectedCategory && (
-          <CategoryEditModal category={selectedCategory} selectedCategoryEdited={selectedCategoryEdited}/>
+        <CategoryEditModal category={selectedCategory} selectedCategoryEdited={selectedCategoryEdited}/>
       )}
     </Fragment> : <LoadingSpinner/>}
   </>);
