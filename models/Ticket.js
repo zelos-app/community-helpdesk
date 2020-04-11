@@ -40,8 +40,8 @@ const ticketSchema = new mongoose.Schema({
     comments: [commentSchema],
     status: {
         rejected: Boolean,
-        accepted: Boolean,
-        solved: Boolean,
+        approved: Boolean,
+        resolved: Boolean,
         archived: Boolean,
         notified: Boolean,
         task: {
