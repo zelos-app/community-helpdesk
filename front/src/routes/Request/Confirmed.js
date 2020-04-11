@@ -22,26 +22,23 @@ function Confirmed() {
       <Grid item xs={5}>
         <Illustration
           style={{
-            position: 'absolute',
+            position: "absolute",
             left: -24,
-            height: 'calc(100vh - 64px)'
+            height: "calc(100vh - 64px)",
           }}
         />
       </Grid>
       <Grid item xs={7}>
         <div className="request-children-wrapper">
           <div className="text-wrapper">
-            <h1>
+            <h1 className="text-alpha">
               <FormattedMessage id="confirmedHead" />
             </h1>
-            <h3>
+            <h3 className="text-alpha">
               <FormattedMessage id="confirmedBody" />
             </h3>
             <Link to="/">
-              <Button
-                variant="contained"
-                color="primary"
-              >
+              <Button color="primary" variant="contained">
                 <FormattedMessage id="back" />
               </Button>
             </Link>
