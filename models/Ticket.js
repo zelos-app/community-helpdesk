@@ -39,35 +39,14 @@ const ticketSchema = new mongoose.Schema({
     },
     comments: [commentSchema],
     status: {
-        rejected: {
-            type: Boolean,
-            default: false
-        },
-        accepted: {
-            type: Boolean,
-            default: false
-        },
-        solved: {
-            type: Boolean,
-            default: false
-        },
-        archived: {
-            type: Boolean,
-            default: false
-        },
-        notified: {
-            type: Boolean,
-            default: false
-        },
+        rejected: Boolean,
+        accepted: Boolean,
+        solved: Boolean,
+        archived: Boolean,
+        notified: Boolean,
         task: {
-            created: {
-                type: Boolean,
-                default: false
-            },
-            url: {
-                type: String,
-                default: ""
-            }
+            created: Boolean,
+            url: String
         }
     },
     activity: [activitySchema]
@@ -191,20 +170,41 @@ class Ticket {
     }
 
     // Reject a ticket
-    async reject(comment) {
+    async reject(comment, user, notify) {
         const ticket = await this.get();
         if (ticket.status && !(ticket.status.approved || ticket.status.resolved)) {
-            if (comment) {
-                this.addComment(comment, req.user._id)
+            // Add a comment if requested
+            if (comment && user) {
+                this.addComment(comment, user)
             }
             ticket.status.rejected = true;
-            this.activity.push({
+            ticket.activity.push({
                 action: "Ticket rejected",
                 source: {
-                    user: owner
+                    user: ticket.owner
                 }
             })
+            // Send a text
+            const sendText = (notify !== "false");
+            try {
+                if (sendText && process.env.SEND_REJECT_TEXT) {
+                    console.log(`[d] Sending reject message`);
+                    const sms = new SMS();
+                    const templates = await config.get("templates");
+                    const result = await sms.send(ticket.phone, templates.rejectText);
+                    if (result) {
+                        ticket.status.notified = true;
+                    }
+                } else {
+                    ticket.status.notified = false
+                    console.log(`[d] Skipping reject message. Global: ${process.env.SEND_REJECT_TEXT}. Query: ${notify}`)
+                }
+            } catch (err) {
+                console.error(`[!] Failed to send a text:\n${err.stack}`)
+            }
+            // Update ticket
             await ticket.save();
+            return {status: "ok", message: "Ticket rejected"}
         } else {
             const err = createError(409, {
                 status: "error",
@@ -287,8 +287,6 @@ class Ticket {
         }
         return response;
     }
-
-    // Reject a ticket
 
     // Remove a ticket
     async delete(id = this.id) {
