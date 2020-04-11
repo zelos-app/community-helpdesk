@@ -43,5 +43,11 @@
   "or": "or",
   "log_out": "Log out",
   "settings.modal.ticket.approved.message": "Thank you, the ticket has been approved and a task has been created in your Zelos workspace.",
-  "settings.modal.ticket.approved.button.text": "Thank you"
+  "settings.modal.ticket.approved.button.text": "Thank you",
+  "create": "Create",
+  "newTask": "New ticket",
+  "assignee": "Ticket owner",
+  "category": "Category",
+  "requesterName": "Requester name",
+  "request": "Request"
 }
