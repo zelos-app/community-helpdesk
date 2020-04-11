@@ -27,7 +27,7 @@
   "appLandingHead": "Help someone!",
   "appLandingBody.install": "Install the Zelos Team Management app by clicking the buttons below.",
   "appLandingBody.register": "Register as a Volunteer",
-  "appLandingBody.workspace": "Join the support community for your location: COVID-help-ESTONIA",
+  "appLandingBody.group": "Join the support community for your location: COVID-help-ESTONIA",
   "appLandingBody.wait": "Wait for tasks to come in",
   "appLandingBody.help": "Go and help someone!",
   "dashboard.nav.tickets": "Help Requests",
