@@ -4,6 +4,7 @@ import { IntlProvider } from "react-intl";
 import Container from "@material-ui/core/Container";
 import Router from "./Router";
 import "./main.scss";
+import { MuiThemeProvider } from '@material-ui/core';
 
 // Styles
 import { lightTheme, darkTheme, variables } from "./styles/theme";
@@ -12,6 +13,7 @@ import { GlobalStyles } from "./styles/global";
 // Translations
 import translations_en from "./translations/en.json";
 import translations_et from "./translations/et.json";
+import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 
 // i18 configs
 const i18nConfig = {

@@ -249,8 +249,6 @@ export default function Users() {
 
   return (
     <div className="dashboard-children users">
-      <DashboardNavigation />
-
       <div className="dashboard-children-wrapper">
         <UsersContext.Provider value={{ data: users, set: setUsers }}>
           <h1>

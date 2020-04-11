@@ -5,7 +5,6 @@ import ListPopulationComponent from "../../components/SettingsPage/ListPopulatio
 export default function Settings(props) {
   return (
     <div className="dashboard-children settings">
-      <DashboardNavigation />
       <ListPopulationComponent />
     </div>
   );

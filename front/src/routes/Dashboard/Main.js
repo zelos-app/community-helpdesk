@@ -216,12 +216,11 @@ function Main(props) {
   const selectedCategory = ticketDetails?.category
     ? getSelectedCategory(ticketDetails.category)
     : "";
-  console.log(ticketDetails);
+
   return (
     <Fragment>
       <Grid container spacing={0}>
         <Grid item xs={12}>
-          <DashboardNavigation />
           {isModalOpen && (
             <TaskModal
               onClose={() => closeModal()}

@@ -26,10 +26,12 @@ import Confirmed from "./routes/Request/Confirmed";
 
 // AppLanding
 import AppLanding from "./routes/AppLanding/AppLanding";
+import {NavigationWrapper} from "./components/Navigation/NavigationWrapper";
 
 export default () => {
   return (
     <Switch>
+      <NavigationWrapper>
       <Route exact path="/" component={Intro} />
       <Route
         path="/auth"
@@ -75,6 +77,7 @@ export default () => {
           </DashboardWrapper>
         )}
       />
+      </NavigationWrapper>
       <Redirect from="*" to="/" />
     </Switch>
   );
