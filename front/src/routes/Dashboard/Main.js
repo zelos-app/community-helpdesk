@@ -244,6 +244,7 @@ function Main(props) {
                 .filter(ticketFilters)
                 .map((ticket) =>
                   <Ticket
+                    key={ticket._id}
                     ticket={ticket}
                     active={ticketDetails && ticketDetails._id === ticket._id}
                     category={
