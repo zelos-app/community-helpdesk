@@ -210,7 +210,6 @@ function Main(props) {
     <Fragment>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <DashboardNavigation />
           {isModalOpen && (
             <TaskModal
               onClose={() => closeModal()}

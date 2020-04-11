@@ -96,7 +96,7 @@ export default () => {
                 </MenuItem>
               </Menu>
               <div style={{ flex: "1 1 auto" }} />
-              {isLogged ? (
+              {isLogged ? (<>
                 <Button
                   color="inherit"
                   onClick={() => {
@@ -106,6 +106,25 @@ export default () => {
                 >
                   <FormattedMessage id="log_out" />
                 </Button>
+                  <Link to="/dashboard">
+                    <Button color="inherit">
+                      <FormattedMessage id="dashboard" />
+                    </Button>
+                  </Link>
+
+                  <Link to="/dashboard/settings">
+                    <Button color="inherit">
+                      <FormattedMessage id="settings" />
+                    </Button>
+                  </Link>
+
+                  <Link to="/dashboard/users">
+                    <Button color="inherit">
+                      <FormattedMessage id="users" />
+                    </Button>
+                  </Link>
+
+                </>
               ) : (
                 <Link to="/auth">
                   <Button color="inherit">
