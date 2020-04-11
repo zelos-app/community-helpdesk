@@ -161,6 +161,7 @@ function Main(props) {
       alert(e.message);
     }
     getTickets();
+    newTask();
   }
 
   async function handleBtnClick(comment) {
