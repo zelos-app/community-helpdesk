@@ -23,31 +23,12 @@ const i18nConfig = {
 };
 
 export default () => {
-  const [theme, setTheme] = useState("dark");
   const [locale, setLocale] = useState(i18nConfig.defaultLocale);
-
-  useEffect(() => {
-    const localTheme = localStorage.getItem("theme");
-    if (localTheme) {
-      setTheme(localTheme);
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-  };
 
   const selectLanguage = (lang) => {
     setLocale(lang);
     document.documentElement.lang = lang;
   };
-
-  const selectedTheme = {
-    light: lightTheme,
-    dark: darkTheme,
-  }[theme];
 
   return (
     <IntlProvider
@@ -55,12 +36,10 @@ export default () => {
       defaultLocale={i18nConfig.defaultLocale}
       messages={i18nConfig.messages[locale]}
     >
-      <ThemeProvider theme={{ ...selectedTheme, ...variables }}>
+      <ThemeProvider theme={{ ...lightTheme, ...variables }}>
         {/* Include global styles */}
         <GlobalStyles />
         <Container maxWidth="xl">
-          {/* Change theme */}
-          <button onClick={toggleTheme}>theme</button>
 
           {/* Change language */}
           <button onClick={() => selectLanguage("en")}>en</button>
