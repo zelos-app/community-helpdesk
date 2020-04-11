@@ -12,11 +12,6 @@ const Config = require("./models/Config");
 mongoose.connect(process.env.DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  auth: {
-    authSource: "admin",
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-  },
 });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
