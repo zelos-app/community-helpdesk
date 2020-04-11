@@ -4,6 +4,8 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import {CategoryEditModal} from "./CategoryEditModal";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from '@material-ui/icons/Delete';
+import ClearIcon from '@material-ui/icons/Clear';
+import CheckIcon from '@material-ui/icons/Check';
 
 export const CategoryTable = ({categories, getCategories, deleteCategory}) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -29,7 +31,7 @@ export const CategoryTable = ({categories, getCategories, deleteCategory}) => {
           <tr key={category._id}>
             <td>{category.name}</td>
             <td>{category.description}</td>
-            <td>{category.needsAddress ? "✅" : "❌"}</td>
+            <td>{category.needsAddress ? <CheckIcon/> : <ClearIcon/>}</td>
 
             <Button onClick={() => setSelectedCategory(category)}> <EditIcon/></Button>
             <Button onClick={() => deleteCategory(category)}> <DeleteIcon/></Button>
