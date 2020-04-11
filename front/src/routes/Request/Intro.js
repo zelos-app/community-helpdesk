@@ -16,7 +16,7 @@ const Intro = () => {
                 <FormattedMessage id="introHead"/>
               </h1>
               <h3 className="text-alpha">
-                <FormattedMessage id="introBody"/>
+                <FormattedMessage id="introBody" values={{p: (...chunks) => <p>{chunks}</p>}} />
               </h3>
             </div>
             <div className="action-wrapper">

@@ -17,7 +17,7 @@ const areaSchema = new mongoose.Schema({
     },
     zelos: {
         hasGroup: Boolean,
-        groupId: String
+        groupId: Number
     }
 });
 

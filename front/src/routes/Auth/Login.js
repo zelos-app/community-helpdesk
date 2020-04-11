@@ -1,11 +1,13 @@
 import isEmail from "isemail";
-import React from "react";
+import React, { useContext } from "react";
 import { Formik } from "formik";
-import { login } from "../../utils/auth";
-import CustomButton from "../../components/CustomButton/CustomButton";
-import CustomInput from "../../components/CustomInput/CustomInput";
+import { login, LoggedInContext } from "../../utils/auth";
+import { FormattedMessage } from "react-intl";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 export default function Login() {
+  const { set } = useContext(LoggedInContext);
   return (
     <div className="auth-children">
       <div className="auth-children-wrapper">
@@ -27,38 +29,49 @@ export default function Login() {
             return errors;
           }}
           onSubmit={async (values, formik) => {
-            await login(values.email, values.password);
-            formik.setSubmitting(false);
+            try {
+              await login(values.email, values.password);
+              set(true);
+            } finally {
+              formik.setSubmitting(false);
+            }
           }}
         >
           {(props) => (
             <form onSubmit={props.handleSubmit}>
               <div className="input-container">
-                <CustomInput
-                  labelId="email"
+                <TextField
+                  style={{ width: '100%' }}
+                  className="input"
+                  id="email"
                   name="email"
-                  modifier="primary"
-                  type="email"
-                  onChange={props.handleChange}
+                  label={<FormattedMessage id="email" />}
+                  variant="outlined"
                   value={props.values.email}
+                  onChange={props.handleChange}
                   required
                 />
-                <CustomInput
-                  labelId="password"
+                <TextField
+                  style={{ width: '100%' }}
+                  className="input"
+                  id="password"
                   name="password"
-                  modifier="primary"
+                  label={<FormattedMessage id="password" />}
+                  variant="outlined"
                   type="password"
-                  onChange={props.handleChange}
                   value={props.values.password}
+                  onChange={props.handleChange}
                   required
                 />
               </div>
               <div className="action-wrapper">
-                <CustomButton
-                  titleId="login"
-                  modifier="primary"
-                  disabled={props.isSubmitting}
-                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  <FormattedMessage id="login" />
+                </Button>
               </div>
             </form>
           )}

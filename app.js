@@ -28,7 +28,7 @@ db.once("open", () => {
 async function init() {
   try {
     const config = new Config();
-    const settings = await config.get();
+    await config.check();
     if (
       process.env.ADMIN_CREATE &&
       process.env.ADMIN_EMAIL &&

@@ -94,24 +94,43 @@ tickets.put("/:id", async (req, res) => {
   }
 });
 
-// Moderate ticket (approve/reject/resolve)
-tickets.put("/:id/:action", async (req, res) => {
+// Approve ticket
+tickets.put("/:id/approve", async (req, res) => {
   try {
-    if (
-      req.params.action === "approve" ||
-      req.params.action === "reject" ||
-      req.params.action === "resolve"
-    ) {
-      console.log(req.params.action);
-      const ticket = new Ticket(req.params.id);
-      const result = await ticket[req.params.action](
-        req.query,
-        req.body.comment
-      );
-      res.send(result);
-    } else {
-      res.status(422).send("You can only /approve, /reject or /resolve");
-    }
+    const ticket = new Ticket(req.params.id);
+    const result = await ticket.approve(req.query);
+    res.send(result);
+  } catch (err) {
+    handleError(err, res);
+  }
+});
+
+// Resolve ticket
+tickets.put("/:id/resolve", async (req, res) => {
+  try {
+    const ticket = new Ticket(req.params.id);
+    const result = await ticket.resolve()
+    res.send(result);
+  } catch (err) {
+    handleError(err, res);
+  }
+});
+
+// Reject ticket
+tickets.put("/:id/reject", async (req, res) => {
+  try {
+    const result = await ticket.reject(req.body.comment, req.user._id, req.query.notify)
+    res.send(result)
+  } catch (err) {
+    handleError(err, res);
+  }
+});
+
+// Archive ticket
+tickets.put("/:id/archive", async (req, res) => {
+  try {
+    const ticket = new Ticket(req.params.id);
+    // TODO
   } catch (err) {
     handleError(err, res);
   }

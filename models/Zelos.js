@@ -165,7 +165,7 @@ class Zelos {
             console.log(`[i] Created ${taskUrl}`);
             return taskUrl;
         } catch (err) {
-            console.error(`[!] Failed to create task: ${err.message}`)
+            console.error(`[!] Failed to create task: ${err.response}`)
             throw err;
         }
     }

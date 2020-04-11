@@ -1,28 +1,59 @@
-import React, { useEffect, useState, useContext } from "react";
-import { useFormikContext } from "formik";
-import CustomButton from "../../components/CustomButton/CustomButton";
+import React, { useEffect, } from "react";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
-import history from "../../utils/history";
-import { RequestOptionsContext } from "./RequestWrapper";
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import PersonIcon from '@material-ui/icons/Person';
+import EventIcon from '@material-ui/icons/Event';
+import DescriptionIcon from '@material-ui/icons/Description';
+import RoomIcon from '@material-ui/icons/Room';
+import Chip from '@material-ui/core/Chip';
 
-function Ticket({ ticket, selectTicket }) {
-  const date = new moment(ticket.createdAt).format("DD.MM.YY");
+function Ticket({ ticket, active, category, area, selectTicket }) {
+  const date = new moment(ticket.createdAt).format("DD.MM.YYYY hh:mm");
   const displayedDate = date !== "invalid date" ? date : "";
 
   return (
-    <div onClick={() => selectTicket()} className="ticket">
-      <div className="ticket-wrapper">
-        <h5>{ticket.request}</h5>
-
-        <div className="footer">
-          <h5>{displayedDate}</h5>
-          <h5>{ticket.category}</h5>
-          <h5>{ticket.area}</h5>
+    <Card className={`ticket ${active ? 'ticket--active' : ''}`} onClick={() => selectTicket()}>
+      <CardContent className="ticket__content">
+        <div className="ticket__title-row">
+          <div className="ticket__icon-row">
+            <PersonIcon />
+            <h3>
+              {ticket.name}
+            </h3>
+          </div>
+          {category &&
+            <Chip label={category.name} />
+          }
         </div>
-      </div>
-    </div>
+        <div className="ticket__date-row">
+          <div className="ticket__icon-row">
+            <EventIcon />
+            <Typography color="textSecondary">
+              {displayedDate}
+            </Typography>
+          </div>
+          {area &&
+            <div className="ticket__icon-row ticket__area-row">
+              <RoomIcon />
+              <Typography color="textSecondary">
+                {area.name}
+              </Typography>
+            </div>
+          }
+        </div>
+        <div className="ticket__icon-row">
+          <DescriptionIcon />
+          <Typography variant="body2" component="p">
+            {ticket.request}
+          </Typography>
+        </div>
+      </CardContent>
+    </Card>
   );
-}
+};
 
 export default Ticket;

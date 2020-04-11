@@ -42,25 +42,28 @@ const ConfigModel = mongoose.model('Config', configSchema)
 class Config {
     constructor() {}
 
-    async get(subject, toObject = false) {
+    async check() {
         let config = await ConfigModel.findOne();
-        // See if config exists in the database
         if (!config) {
             console.log(`[i] No config found, initializing`);
-            config = await this.initDefault()
-        } else {
-            if (subject) {
-                if (toObject) {
-                    return config[subject].toObject();    
-                } else {
-                    return config[subject]
-                }
+            await this.initValues();
+            await this.createSamples();
+        }
+    }
+
+    async get(subject, toObject = false) {
+        let config = await ConfigModel.findOne();
+        if (subject) {
+            if (toObject) {
+                return config[subject].toObject();    
             } else {
-                if (toObject) {
-                     return config.toObject();
-                } else {
-                    return config
-                }
+                return config[subject]
+            }
+        } else {
+            if (toObject) {
+                    return config.toObject();
+            } else {
+                return config
             }
         }
     }
@@ -76,7 +79,21 @@ class Config {
         }
     }
 
-    async initDefault() {
+    async createSamples() {
+        // Add sample area
+        const Area = require('./Area');
+        const area = new Area();
+        await area.add({name: "Sample Area"});
+        console.log(`[i] Added sample area`);
+
+        // Add sample category
+        const Category = require('./Category');
+        const category = new Category();
+        category.add({name: "Sample Request Category", needsAddress: true});
+        console.log(`[i] Added sample category`);
+    }
+
+    async initValues() {
         const config = new ConfigModel();
 
         config.email.provider = process.env.EMAIL_PROVIDER
@@ -88,18 +105,6 @@ class Config {
         config.sms.sendRejectText = process.env.SEND_REJECT_TEXT
         config.sms.sendAcceptText = process.env.SEND_ACCEPT_TEXT
         config.sms.fromName = process.env.SMS_FROM_NAME
-
-        // Add sample area
-        const Area = require('./Area');
-        const area = new Area();
-        area.add({name: "Sample Area"}, false);
-        console.log(`[i] Added sample area`);
-
-        // Add sample category
-        const Category = require('./Category');
-        const category = new Category();
-        category.add({name: "Sample Request Category", needsAddress: true});
-        console.log(`[i] Added sample category`);
 
         await config.save();
         return config;
