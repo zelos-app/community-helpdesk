@@ -52,11 +52,9 @@ export const AreaTable = ({ areas, getAreas, deleteArea }) => {
                     <TableCell align="right">
                       <ButtonGroup>
                         <Button onClick={() => setSelectedArea(area)}>
-                          {" "}
                           <EditIcon />
                         </Button>
                         <Button onClick={() => deleteArea(area)}>
-                          {" "}
                           <DeleteIcon />
                         </Button>
                       </ButtonGroup>

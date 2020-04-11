@@ -65,11 +65,9 @@ export const CategoryTable = ({
                     <TableCell align="right">
                       <ButtonGroup>
                         <Button onClick={() => setSelectedCategory(category)}>
-                          {""}
                           <EditIcon />
                         </Button>
                         <Button onClick={() => deleteCategory(category)}>
-                          {""}
                           <DeleteIcon />
                         </Button>
                       </ButtonGroup>
