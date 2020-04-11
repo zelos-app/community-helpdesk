@@ -33,7 +33,7 @@ function Main(props) {
     "notified",
   ];
 
-  const dropdownOptions = ["resolve", "reject"];
+  const dropdownOptions = ["approve", "resolve", "reject"];
 
   const { categories, areas, users } = useContext(RequestOptionsContext);
 
@@ -67,7 +67,7 @@ function Main(props) {
 
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const handleClick = () => {
     openModal(dropdownOptions[selectedIndex]);
@@ -269,12 +269,12 @@ function Main(props) {
             <div className="task-manager-wrapper">
               <div className="input-container">
                 {ticketDetails && (
-                  <>
+                  <Fragment>
                     <TextField
                       className="input"
                       id="request"
                       name="request"
-                      label="request"
+                      label={<FormattedMessage id="request" />}
                       variant="outlined"
                       value={ticketDetails.request}
                       onChange={handleInputChange}
@@ -283,7 +283,7 @@ function Main(props) {
                       className="input"
                       id="requesterName"
                       name="name"
-                      label="requesterName"
+                      label={<FormattedMessage id="requesterName" />}
                       variant="outlined"
                       value={ticketDetails.name}
                       onChange={handleInputChange}
@@ -298,7 +298,7 @@ function Main(props) {
                         name="category"
                         value={ticketDetails.category}
                         onChange={handleInputChange}
-                        label="category"
+                        label={<FormattedMessage id="category" />}
                       >
                         <MenuItem value="">
                           <em>None</em>
@@ -314,7 +314,7 @@ function Main(props) {
                       className="input"
                       id="phone"
                       name="phone"
-                      label="phone"
+                      label={<FormattedMessage id="phone" />}
                       variant="outlined"
                       value={ticketDetails.phone}
                       onChange={handleInputChange}
@@ -325,7 +325,7 @@ function Main(props) {
                         className="input"
                         id="address"
                         name="address"
-                        label="address"
+                        label={<FormattedMessage id="address" />}
                         variant="outlined"
                         value={ticketDetails.address}
                         onChange={handleInputChange}
@@ -342,7 +342,7 @@ function Main(props) {
                         name="area"
                         value={ticketDetails.area}
                         onChange={handleInputChange}
-                        label="area"
+                        label={<FormattedMessage id="area" />}
                       >
                         <MenuItem value="">
                           <em>None</em>
@@ -376,9 +376,9 @@ function Main(props) {
                         ))}
                       </Select>
                     </FormControl>
-                    <Grid container spacing={0}>
-                      {!!ticketDetails._id && (
-                        <>
+                    <div className="dashboard__buttons">
+                      <Grid container spacing={4}>
+                        {!!ticketDetails._id && (
                           <Grid item xs={4}>
                             <Grid
                               container
@@ -435,7 +435,6 @@ function Main(props) {
                                               (option, index) => (
                                                 <MenuItem
                                                   key={option}
-                                                  disabled={index === 2}
                                                   selected={
                                                     index === selectedIndex
                                                   }
@@ -459,32 +458,23 @@ function Main(props) {
                               </Grid>
                             </Grid>
                           </Grid>
-                          <Grid item xs={4}>
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={() => openModal("approve")}
-                            >
-                              <FormattedMessage id="modal.approve" />
-                            </Button>
-                          </Grid>
-                        </>
-                      )}
-                      <Grid item xs={4}>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() =>
-                            confirm(!!ticketDetails?._id ? "edit" : "create")
-                          }
-                        >
-                          <FormattedMessage
-                            id={!!ticketDetails?._id ? "Save" : "Create"}
-                          />
-                        </Button>
+                        )}
+                        <Grid item xs={4}>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() =>
+                              confirm(!!ticketDetails?._id ? "edit" : "create")
+                            }
+                          >
+                            <FormattedMessage
+                              id={!!ticketDetails?._id ? "Save" : "Create"}
+                            />
+                          </Button>
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </>
+                    </div>
+                  </Fragment>
                 )}
               </div>
             </div>
