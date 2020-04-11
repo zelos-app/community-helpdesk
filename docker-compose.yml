@@ -31,7 +31,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./.env:/usr/src/app/.env
+      - ./:/usr/src/app/
     networks:
       - front-end
       - back-end
