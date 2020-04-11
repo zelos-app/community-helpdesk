@@ -39,5 +39,7 @@
   "modal.approve.description": "Approve description",
   "modal.reject.description": "Reject description",
   "modal.resolve.description": "Resolve description",
-  "or": "or"
+  "or": "or",
+  "log_in": "Log in",
+  "log_out": "Log out"
 }

@@ -1,11 +1,12 @@
 import isEmail from "isemail";
-import React from "react";
+import React, { useContext } from "react";
 import { Formik } from "formik";
-import { login } from "../../utils/auth";
+import { login, LoggedInContext } from "../../utils/auth";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomInput/CustomInput";
 
 export default function Login() {
+  const { set } = useContext(LoggedInContext);
   return (
     <div className="auth-children">
       <div className="auth-children-wrapper">
@@ -27,8 +28,12 @@ export default function Login() {
             return errors;
           }}
           onSubmit={async (values, formik) => {
-            await login(values.email, values.password);
-            formik.setSubmitting(false);
+            try {
+              await login(values.email, values.password);
+              set(true);
+            } finally {
+              formik.setSubmitting(false);
+            }
           }}
         >
           {(props) => (

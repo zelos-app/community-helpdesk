@@ -39,5 +39,6 @@
   "modal.approve.description": "Kinnita kirjeldus",
   "modal.reject.description": "Reject description",
   "modal.resolve.description": "Resolve description",
-  "or": "või"
+  "or": "või",
+  "log_out": "Logi välja"
 }
