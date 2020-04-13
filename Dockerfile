@@ -1,5 +1,7 @@
 FROM node:12 as build-deps
 
+ARG MEM_LIMIT=762
+
 WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 RUN npm ci --node-flags --max-old-space-size=${MEM_LIMIT}
