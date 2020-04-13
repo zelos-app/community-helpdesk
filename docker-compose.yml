@@ -1,11 +1,11 @@
 version: "3.7"
 services:
   nginx:
-    container_name: nginx
+    container_name: covid-help-front
     restart: always
-    image: nginx:latest
+    image: covid-help-front
     ports:
-      - "3000:80"
+      - "5000:80"
     volumes:
       - ./front/build:/var/www
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
@@ -23,33 +23,6 @@ services:
       - "traefik.frontend.headers.STSSeconds=315360000"
       - "traefik.frontend.headers.STSIncludeSubdomains=true"
       - "traefik.frontend.headers.STSPreload=true"
-
-  backend:
-    container_name: covid-portal-api
-    restart: always
-    image: covid-portal-api
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./:/usr/src/app/
-    networks:
-      - front-end
-      - back-end
-
-  mongodb:
-    container_name: mongodb
-    restart: always
-    image: mongo:latest
-    ports:
-      - 27017:27017
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: "rootuser"
-      MONGO_INITDB_ROOT_PASSWORD: "rootpassword"
-      MONGO_INITDB_DATABASE: "covid-help"
-    volumes:
-      - mongodb_data:/data/db
-    networks:
-      - back-end
 
   traefik:
     image: traefik:1.7.16
@@ -81,14 +54,12 @@ services:
       - front-end
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./traefik/traefik.toml:/etc/traefik/traefik.toml
-      - ./traefik/acme/gce.json:/etc/traefik/gce.json
+      - ./traefik.toml:/etc/traefik/traefik.toml
       - acme:/acme
     labels:
       - "traefik.enable=false"
 
 volumes:
-  mongodb_data:
   acme:
 
 networks:
