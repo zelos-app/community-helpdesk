@@ -1,10 +1,12 @@
 FROM node:12 as build-deps
 
+ARG
+
 WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci --node-flags --max-old-space-size=${MEM_LIMIT}
 COPY . ./
-RUN node --max-old-space-size=750 npm run build
+RUN npm run build --node-flags --max-old-space-size=${MEM_LIMIT}
 
 FROM nginx:latest
 
