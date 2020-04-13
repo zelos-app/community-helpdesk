@@ -1,9 +1,5 @@
-node_modules
-docker.env
-staging.env
-production.env
-test.js
+**/node_modules
 .vscode
-acme.json
-.env
+**/acme.json
+**/*.env
 build

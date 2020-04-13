@@ -7,15 +7,17 @@ services:
     ports:
       - "5000:80"
     volumes:
-      - ./front/build:/var/www
+      - ./build:/app
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     networks:
       - front-end
+    environment:
+      APP_DOMAIN: "yourdomain.com" ## EDIT THIS
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=front-end"
       - "traefik.frontend.priority=1"
-      - "traefik.frontend.rule=Host:${APP_DOMAIN}"
+      - "traefik.frontend.rule=Host:yourdomain.com" ## EDIT THIS
       - "traefik.frontend.passHostHeader=true"
       - "traefik.frontend.headers.customRequestHeaders=X-Forwarded-Proto:https"
       - "traefik.frontend.entryPoints=https"
@@ -41,10 +43,10 @@ services:
       - "--defaultentrypoints=http,https"
       - "--acme"
       - "--acme.acmelogging"
-      - "--acme.email=${ACME_EMAIL}"
+      - "--acme.email=yourname@email.com" ## EDIT THIS
       - "--acme.entryPoint=https"
       - "--acme.httpChallenge.entryPoint=http"
-      - "--acme.domains=${APP_DOMAIN}"
+      - "--acme.domains=yourdomain.com" ## EDIT THIS
       - "--acme.storage=/acme/cert.json"
     ports:
       - 80:80
