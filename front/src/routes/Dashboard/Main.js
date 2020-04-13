@@ -134,11 +134,11 @@ function Main(props) {
       (key) => !!filterStates[key]
     );
 
-    return (
-      activeFilters.filter((oneFilter) => {
-        return oneTicket.status[oneFilter] === false;
-      }).length === 0
-    );
+    return activeFilters.length === 0
+      ? true
+      : activeFilters.filter((oneFilter) => {
+          return oneTicket.status[oneFilter] === true;
+        }).length !== 0;
   }
 
   const newTask = () => {
