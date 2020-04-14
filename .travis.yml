@@ -27,4 +27,4 @@ jobs:
         - ssh-add /tmp/deploy_rsa
         - ssh-keyscan ${APP_DOMAIN} >> ~/.ssh/known_hosts
       script:
-        - ssh ${SSH_USER}@${APP_DOMAIN} "cd ~/COVID-Help && git pull && docker-compose pull && docker-compose up -d -e APP_DOMAIN=${APP_DOMAIN} -e ACME_EMAIL=${ACME_EMAIL}"
+        - ssh ${SSH_USER}@${APP_DOMAIN} "cd ~/COVID-Help && git pull && docker-compose pull && export APP_DOMAIN=${APP_DOMAIN} && export ACME_EMAIL=${ACME_EMAIL} && docker-compose up -d"
