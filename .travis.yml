@@ -20,10 +20,11 @@ jobs:
   include:
     - stage: build
       before_script:
+      - unset CI
       - npm ci
       script:
       - npm run build
-      - docker build -t covidhelp/covidhelp-front:latest -t covidhelp/covidhelp-front:${TRAVIS_COMMIT}
+      - docker build -t covidhelp/covidhelp-front:latest -t covidhelp/covidhelp-front:${TRAVIS_COMMIT} .
       after_success:
       - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USER}" --password-stdin
       - docker push covidhelp/covidhelp-front
