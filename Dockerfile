@@ -1,18 +1,8 @@
-FROM node:12 as build-deps
-
-ARG MEM_LIMIT=762
-
-WORKDIR /usr/src/app
-COPY package.json package-lock.json ./
-RUN npm ci --node-flags --max-old-space-size=${MEM_LIMIT}
-COPY . ./
-RUN npm run build --node-flags --max-old-space-size=${MEM_LIMIT}
-
 FROM nginx:latest
 
 COPY ./docker-entrypoint.sh /
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build-deps /usr/src/app/build /app
+COPY ./build /app
 
 EXPOSE 80
 

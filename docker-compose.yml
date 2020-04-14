@@ -1,9 +1,8 @@
 version: "3.7"
 services:
   nginx:
-    container_name: covid-help-front
+    image: covidhelp/covidhelp-front
     restart: always
-    image: covid-help-front
     ports:
       - "5000:80"
     volumes:
@@ -12,12 +11,13 @@ services:
     networks:
       - front-end
     environment:
-      APP_DOMAIN: "yourdomain.com" ## EDIT THIS
+      APP_DOMAIN: "${APP_DOMAIN}"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=front-end"
+      - "traefik.docker.domain=${APP_DOMAIN}"
       - "traefik.frontend.priority=1"
-      - "traefik.frontend.rule=Host:yourdomain.com" ## EDIT THIS
+      - "traefik.frontend.rule=Host:${APP_DOMAIN}"
       - "traefik.frontend.passHostHeader=true"
       - "traefik.frontend.headers.customRequestHeaders=X-Forwarded-Proto:https"
       - "traefik.frontend.entryPoints=https"
@@ -28,7 +28,6 @@ services:
 
   traefik:
     image: traefik:1.7.16
-    container_name: traefik
     restart: always
     logging:
       driver: "json-file"
@@ -43,10 +42,10 @@ services:
       - "--defaultentrypoints=http,https"
       - "--acme"
       - "--acme.acmelogging"
-      - "--acme.email=yourname@email.com" ## EDIT THIS
+      - "--acme.email=${ACME_EMAIL}"
       - "--acme.entryPoint=https"
       - "--acme.httpChallenge.entryPoint=http"
-      - "--acme.domains=yourdomain.com" ## EDIT THIS
+      - "--acme.domains=${APP_DOMAIN}"
       - "--acme.storage=/acme/cert.json"
     ports:
       - 80:80
