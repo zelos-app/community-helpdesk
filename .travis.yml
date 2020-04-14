@@ -27,5 +27,4 @@ jobs:
         - ssh-add /tmp/deploy_rsa
         - ssh-keyscan ${APP_DOMAIN} >> ~/.ssh/known_hosts
       script:
-        - ssh ${SSH_USER}@${APP_DOMAIN} "export APP_DOMAIN=${APP_DOMAIN} && export ACME_EMAIL=${ACME_EMAIL} && echo 1 \\$APP_DOMAIN 2 \\$ACME_EMAIL 3 \$APP_DOMAIN 4 \$ACME_EMAIL"
-        - ssh ${SSH_USER}@${APP_DOMAIN} "cd ~/${APP_FOLDER} && git pull && docker-compose pull && APP_DOMAIN=${APP_DOMAIN} ACME_EMAIL=${ACME_EMAIL} docker-compose up -d"
+        - ssh ${SSH_USER}@${APP_DOMAIN} "cd ~/${APP_FOLDER} && git pull && docker-compose pull && export APP_DOMAIN=${APP_DOMAIN} && export ACME_EMAIL=${ACME_EMAIL} && docker-compose config"
