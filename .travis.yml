@@ -15,7 +15,7 @@ jobs:
       - npm ci
       script:
       - npm run build
-      - docker build -t covidhelp/covidhelp-front:latest -t covidhelp/covidhelp-front:${TRAVIS_COMMIT} .
+      - docker build -t covidhelp/covidhelp-front:latest -t covidhelp/covidhelp-front:${TRAVIS_COMMIT::8} .
       after_success:
       - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USER}" --password-stdin
       - docker push covidhelp/covidhelp-front
@@ -27,4 +27,4 @@ jobs:
         - ssh-add /tmp/deploy_rsa
         - ssh-keyscan ${APP_DOMAIN} >> ~/.ssh/known_hosts
       script:
-        - ssh ${SSH_USER}@${APP_DOMAIN} "cd ~/COVID-Help && git pull && docker-compose pull && export APP_DOMAIN=${APP_DOMAIN} && export ACME_EMAIL=${ACME_EMAIL} && docker-compose up -d"
+        - ssh ${SSH_USER}@${APP_DOMAIN} "cd ~/COVID-Help && git pull && docker-compose pull && docker-compose up -d -e APP_DOMAIN=${APP_DOMAIN} -e ACME_EMAIL=${ACME_EMAIL}"
