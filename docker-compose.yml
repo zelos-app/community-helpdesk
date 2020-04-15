@@ -1,7 +1,8 @@
 version: "3.7"
 services:
   nginx:
-    image: covidhelp/covidhelp-front
+    container_name: covidhelp-front
+    image: covidhelp/covidhelp-front:latest
     restart: always
     ports:
       - "5000:80"
@@ -24,6 +25,7 @@ services:
       - "traefik.frontend.headers.STSPreload=true"
 
   traefik:
+    container_name: traefik
     image: traefik:1.7.16
     restart: always
     logging:
@@ -57,9 +59,36 @@ services:
     labels:
       - "traefik.enable=false"
 
+  api-server:
+    container_name: covidhelp-api
+    restart: always
+    image: covidhelp/covidhelp-api:latest
+    env_file:
+      - ./${STAGE}.env
+    ports:
+      - "8000:8000"
+    networks:
+      - front-end
+      - back-end
+
+  mongodb:
+    container_name: mongodb
+    restart: always
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "${MONGO_USER}"
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_PASSWORD}"
+      MONGO_INITDB_DATABASE: "covid-help"
+    volumes:
+      - mongodb:/data/db
+    networks:
+      - back-end
+
 volumes:
   acme:
-
+  mongodb:
 networks:
   front-end:
     name: front-end
