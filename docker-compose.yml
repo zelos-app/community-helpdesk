@@ -63,13 +63,13 @@ services:
     container_name: covidhelp-api
     restart: always
     image: covidhelp/covidhelp-api:latest
-    env_file:
-      - ./${STAGE}.env
     ports:
       - "8000:8000"
     networks:
       - front-end
       - back-end
+    volumes:
+      - ./${STAGE}.env:/usr/src/app/.env
 
   mongodb:
     container_name: mongodb
