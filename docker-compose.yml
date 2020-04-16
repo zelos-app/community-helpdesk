@@ -63,6 +63,8 @@ services:
     container_name: covidhelp-api
     restart: always
     image: covidhelp/covidhelp-api:latest
+    depends_on:
+      - mongodb
     ports:
       - "8000:8000"
     networks:

@@ -1,5 +1,12 @@
 # Ticketing system for taking and managing requests from people in need during the COVID crisis
 
-Previous project and more info here: https://github.com/zelos-app/covid-api
+## Running in dev environment
 
-Design document: https://docs.google.com/document/d/14lk_VYWYawhwIYQrUoiFxtJyjDmewsupC3jAZxB_--s/edit?ts=5e8855a6
+1. Set up API server from https://github.com/zelos-app/COVID-Help-Server
+2. Run `npm run start`
+
+## Running in staging/production
+
+1. Set up variables for docker-compose: `export APP_DOMAIN=yourdomain.com && export ACME_EMAIL=your@email.com && export MONGO_USER=root && export MONGO_PASSWORD=rootpassword && export STAGE=production/staging/...`
+2. Create and configure `${STAGE}.env` for API settings
+3. Run `docker-compose up -d`
