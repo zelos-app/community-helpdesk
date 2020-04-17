@@ -15,10 +15,10 @@ jobs:
         - npm ci
       script:
         - npm run build
-        - docker build -t covidhelp/covidhelp-front:latest -t covidhelp/covidhelp-front:${TRAVIS_COMMIT::8} .
+        - docker build -t zelosapp/community-helpdesk:latest -t zelosapp/community-helpdesk:${TRAVIS_COMMIT::8} .
       after_success:
         - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USER}" --password-stdin
-        - docker push covidhelp/covidhelp-front
+        - docker push zelosapp/community-helpdesk
     - stage: deploy
       before_script:
         - eval "$(ssh-agent -s)"

@@ -1,8 +1,8 @@
 version: "3.7"
 services:
-  nginx:
-    container_name: covidhelp-front
-    image: covidhelp/covidhelp-front:latest
+  front-end:
+    container_name: front-end
+    image: zelosapp/community-helpdesk:latest
     restart: always
     ports:
       - "5000:80"
@@ -59,10 +59,10 @@ services:
     labels:
       - "traefik.enable=false"
 
-  api-server:
-    container_name: covidhelp-api
+  back-end:
+    container_name: back-end
     restart: always
-    image: covidhelp/covidhelp-api:latest
+    image: zelosapp/community-helpdesk-api:latest
     depends_on:
       - mongodb
     ports:
@@ -82,7 +82,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: "${MONGO_USER}"
       MONGO_INITDB_ROOT_PASSWORD: "${MONGO_PASSWORD}"
-      MONGO_INITDB_DATABASE: "covid-help"
+      MONGO_INITDB_DATABASE: "community-helpdesk"
     volumes:
       - mongodb:/data/db
     networks:
