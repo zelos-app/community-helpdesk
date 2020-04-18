@@ -1,7 +1,12 @@
-import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import DashboardNavigationStyle from "./DashboardNavigationStyle";
+
+const HOME = "home";
+const SETTING_PAGE = "settings";
+const USER_PAGE = "users";
+const TICKEts_PAGE = "";
 
 export default function DashboardNavigation() {
   const isSettingsPage = window.location.pathname.includes("settings");

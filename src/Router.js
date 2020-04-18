@@ -13,7 +13,7 @@ import ResetPassword from "./routes/Auth/ResetPassword";
 
 // Dashboard
 import DashboardWrapper from "./routes/Dashboard/DashboardWrapper";
-import MainView from "./routes/Dashboard/Main";
+import MainView from "./routes/Dashboard/Main/Main";
 import Users from "./routes/Dashboard/Users";
 import Settings from "./routes/Dashboard/Settings";
 

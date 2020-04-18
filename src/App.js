@@ -97,21 +97,45 @@ export default () => {
               </Menu>
               <div style={{ flex: "1 1 auto" }} />
               {isLogged ? (
-                <Button
-                  color="inherit"
-                  onClick={() => {
-                    logout();
-                    setLogged(false);
-                  }}
-                >
-                  <FormattedMessage id="log_out" />
-                </Button>
-              ) : (
-                <Link to="/auth">
-                  <Button color="inherit">
-                    <FormattedMessage id="login" />
+                <>
+                  <Link component={Button} color="inherit" to="/dashboard">
+                    <FormattedMessage id="dashboard.nav.tickets" />
+                  </Link>
+                  <Link
+                    component={Button}
+                    color="inherit"
+                    to="/dashboard/settings"
+                  >
+                    <FormattedMessage id="dashboard.nav.settings" />
+                  </Link>
+                  <Link
+                    component={Button}
+                    color="inherit"
+                    to="/dashboard/users"
+                  >
+                    <FormattedMessage id="dashboard.nav.users" />
+                  </Link>
+                  <Button
+                    color="inherit"
+                    onClick={() => {
+                      logout();
+                      setLogged(false);
+                    }}
+                  >
+                    <FormattedMessage id="log_out" />
                   </Button>
-                </Link>
+                </>
+              ) : (
+                <>
+                  <Link component={Button} color="inherit" to="/">
+                    <FormattedMessage id="dashboard.nav.home" />
+                  </Link>
+                  <Link to="/auth">
+                    <Button color="inherit">
+                      <FormattedMessage id="login" />
+                    </Button>
+                  </Link>
+                </>
               )}
             </Toolbar>
           </AppBar>

@@ -32,7 +32,15 @@
   "appLandingBody.help": "Go and help someone!",
   "dashboard.nav.tickets": "Help Requests",
   "dashboard.nav.settings": "Settings",
+  "dashboard.nav.users": "Users",
+  "dashboard.nav.home": "Home",
   "back": "Back to the main page",
+  "filters": "Filters",
+  "filter.rejected": "Rejected",
+  "filter.approved": "Approved",
+  "filter.resolved": "Resolved",
+  "filter.archived": "Archived",
+  "filter.notified": "Notified",
   "modal.comment": "Comments and Notes (optional)",
   "modal.approve": "Approve",
   "modal.reject": "Reject",
@@ -51,5 +59,6 @@
   "assignee": "Ticket owner",
   "category": "Category",
   "requesterName": "Requester name",
-  "request": "Request"
+  "request": "Request",
+  "save": "Save"
 }
