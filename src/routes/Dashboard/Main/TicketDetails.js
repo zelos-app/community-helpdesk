@@ -1,4 +1,4 @@
-import React, {Fragment, useContext, useEffect, useState} from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import { FormattedMessage } from "react-intl";
 import FormControl from "@material-ui/core/FormControl";
@@ -15,7 +15,7 @@ import Paper from "@material-ui/core/Paper/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import MenuList from "@material-ui/core/MenuList/MenuList";
 import { RequestOptionsContext } from "../DashboardWrapper";
-import {TicketApprovedDialog} from "../TicketApprovedDialog";
+import { TicketApprovedDialog } from "../TicketApprovedDialog";
 import TaskModal from "../TaskModal";
 
 export const ticketInitialState = {
@@ -27,18 +27,26 @@ export const ticketInitialState = {
   owner: "",
 };
 
-export const TICKET_STATE_APPROVE = 'approve';
-export const TICKET_STATE_RESOLVE = 'resolve';
-export const TICKET_STATE_REJECT = 'reject';
+export const TICKET_STATE_APPROVE = "approve";
+export const TICKET_STATE_RESOLVE = "resolve";
+export const TICKET_STATE_REJECT = "reject";
 
-export const TicketDetails = ({ activeTicket, onSubmitTicket, onTicketStateChanged }) => {
+export const TicketDetails = ({
+  activeTicket,
+  onSubmitTicket,
+  onTicketStateChanged,
+}) => {
   const [ticketDetails, setTicketDetails] = useState(ticketInitialState);
 
   useEffect(() => {
     setTicketDetails(activeTicket);
   }, [activeTicket]);
 
-  const dropdownOptions = [TICKET_STATE_APPROVE, TICKET_STATE_RESOLVE, TICKET_STATE_REJECT];
+  const dropdownOptions = [
+    TICKET_STATE_APPROVE,
+    TICKET_STATE_RESOLVE,
+    TICKET_STATE_REJECT,
+  ];
   const { categories, areas, users } = useContext(RequestOptionsContext);
 
   const [open, setOpen] = React.useState(false);
@@ -59,7 +67,6 @@ export const TicketDetails = ({ activeTicket, onSubmitTicket, onTicketStateChang
     setIsModalOpen(false);
     setModalType("");
   };
-
 
   const handleInputChange = ({ target }) => {
     setTicketDetails({
@@ -221,7 +228,11 @@ export const TicketDetails = ({ activeTicket, onSubmitTicket, onTicketStateChang
                         ref={anchorRef}
                         aria-label="split button"
                       >
-                        <Button onClick={async () => { await openModal(dropdownOptions[selectedIndex]) }}>
+                        <Button
+                          onClick={async () => {
+                            await openModal(dropdownOptions[selectedIndex]);
+                          }}
+                        >
                           {dropdownOptions[selectedIndex]}
                         </Button>
                         <Button
@@ -305,7 +316,10 @@ export const TicketDetails = ({ activeTicket, onSubmitTicket, onTicketStateChang
             <TaskModal
               onClose={() => closeModal()}
               modalType={modalType}
-              handleBtnClick={(comment) => onTicketStateChanged(comment, modalType)}
+              handleBtnClick={async (comment) => {
+                await closeModal();
+                onTicketStateChanged(comment, modalType);
+              }}
               showCommentField={
                 modalType === "resolve" || modalType === "reject"
               }

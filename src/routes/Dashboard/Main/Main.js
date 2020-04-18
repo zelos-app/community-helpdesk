@@ -9,7 +9,7 @@ import {
   ticketInitialState,
   TICKET_STATE_APPROVE,
   TICKET_STATE_REJECT,
-  TicketDetails,
+  TicketDetails, TICKET_STATE_RESOLVE,
 } from "./TicketDetails";
 
 function Main() {
@@ -51,7 +51,7 @@ function Main() {
       await axios.put(`/api/tickets/${activeTicket._id}/approve`);
     } else if (state === TICKET_STATE_REJECT) {
       await axios.put(`/api/tickets/${activeTicket._id}/reject`, { comment });
-    } else if (state === TICKET_STATE_REJECT) {
+    } else if (state === TICKET_STATE_RESOLVE) {
       await axios.put(`/api/tickets/${activeTicket._id}/resolve`, { comment });
     }
   };
