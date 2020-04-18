@@ -17,6 +17,7 @@ import MenuList from "@material-ui/core/MenuList/MenuList";
 import { RequestOptionsContext } from "../DashboardWrapper";
 import { TicketApprovedDialog } from "../TicketApprovedDialog";
 import TaskModal from "../TaskModal";
+import Box from "@material-ui/core/Box";
 
 export const ticketInitialState = {
   request: "",
@@ -107,205 +108,220 @@ export const TicketDetails = ({
   return (
     <>
       {ticketDetails && (
-        <Fragment>
-          <TextField
-            className="input"
-            id="request"
-            name="request"
-            label={<FormattedMessage id="request" />}
-            variant="outlined"
-            value={ticketDetails.request}
-            onChange={handleInputChange}
-            rows={5}
-            multiline
-          />
-          <TextField
-            className="input"
-            id="requesterName"
-            name="name"
-            label={<FormattedMessage id="requesterName" />}
-            variant="outlined"
-            value={ticketDetails.name}
-            onChange={handleInputChange}
-          />
-          <FormControl className="input" variant="outlined">
-            <InputLabel id="demo-simple-select-outlined-label">
-              <FormattedMessage id="category" />
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              name="category"
-              value={ticketDetails.category}
-              onChange={handleInputChange}
-              label={<FormattedMessage id="category" />}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              {categories.map((option) => (
-                <MenuItem value={option._id} key={option._id}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <TextField
-            className="input"
-            id="phone"
-            name="phone"
-            label={<FormattedMessage id="phone" />}
-            variant="outlined"
-            value={ticketDetails.phone}
-            onChange={handleInputChange}
-          />
-
-          {selectedCategory && selectedCategory.needsAddress && (
+        <Grid container direction="column">
+          <Box mb={1}>
             <TextField
               className="input"
-              id="address"
-              name="address"
-              label={<FormattedMessage id="address" />}
+              id="request"
+              name="request"
+              label={<FormattedMessage id="request" />}
               variant="outlined"
-              value={ticketDetails.address}
+              value={ticketDetails.request}
+              onChange={handleInputChange}
+              rows={5}
+              multiline
+            />
+          </Box>
+
+          <Box mb={1}>
+            <TextField
+              className="input"
+              id="requesterName"
+              name="name"
+              label={<FormattedMessage id="requesterName" />}
+              variant="outlined"
+              value={ticketDetails.name}
               onChange={handleInputChange}
             />
+          </Box>
+
+          <Box mb={1}>
+            <FormControl className="input" variant="outlined">
+              <InputLabel>
+                <FormattedMessage id="category" />
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                name="category"
+                value={ticketDetails.category}
+                onChange={handleInputChange}
+                label={<FormattedMessage id="category" />}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {categories.map((option) => (
+                  <MenuItem value={option._id} key={option._id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+
+          <Box mb={1}>
+            <TextField
+              className="input"
+              id="phone"
+              name="phone"
+              label={<FormattedMessage id="phone" />}
+              variant="outlined"
+              value={ticketDetails.phone}
+              onChange={handleInputChange}
+            />
+          </Box>
+
+          {selectedCategory && selectedCategory.needsAddress && (
+            <Box mb={1}>
+              <TextField
+                className="input"
+                id="address"
+                name="address"
+                label={<FormattedMessage id="address" />}
+                variant="outlined"
+                value={ticketDetails.address}
+                onChange={handleInputChange}
+              />
+            </Box>
           )}
 
-          <FormControl className="input" variant="outlined">
-            <InputLabel id="demo-simple-select-outlined-label">
-              <FormattedMessage id="area" />
-            </InputLabel>
-            <Select
-              labelId="area"
-              id="area"
-              name="area"
-              value={ticketDetails.area}
-              onChange={handleInputChange}
-              label={<FormattedMessage id="area" />}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              {areas.map((option) => (
-                <MenuItem value={option._id} key={option._id}>
-                  {option.name}
+          <Box mb={1}>
+            <FormControl className="input" variant="outlined">
+              <InputLabel id="demo-simple-select-outlined-label">
+                <FormattedMessage id="area" />
+              </InputLabel>
+              <Select
+                labelId="area"
+                id="area"
+                name="area"
+                value={ticketDetails.area}
+                onChange={handleInputChange}
+                label={<FormattedMessage id="area" />}
+              >
+                <MenuItem value="">
+                  <em>None</em>
                 </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl className="input" variant="outlined">
-            <InputLabel id="demo-simple-select-outlined-label">
-              <FormattedMessage id="assignee" />
-            </InputLabel>
-            <Select
-              labelId="assignee"
-              id="assignee"
-              name="owner"
-              value={ticketDetails.owner}
-              onChange={handleInputChange}
-              label={<FormattedMessage id="assignee" />}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              {users.map((option) => (
-                <MenuItem value={option._id} key={option._id}>
-                  {option.firstName} {option.lastName}
+                {areas.map((option) => (
+                  <MenuItem value={option._id} key={option._id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+
+          <Box mb={1}>
+            <FormControl className="input" variant="outlined">
+              <InputLabel id="demo-simple-select-outlined-label">
+                <FormattedMessage id="assignee" />
+              </InputLabel>
+              <Select
+                labelId="assignee"
+                id="assignee"
+                name="owner"
+                value={ticketDetails.owner}
+                onChange={handleInputChange}
+                label={<FormattedMessage id="assignee" />}
+              >
+                <MenuItem value="">
+                  <em>None</em>
                 </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <div className="dashboard__buttons">
-            <Grid container spacing={4}>
-              {!!ticketDetails._id && (
-                <Grid item xs={4}>
-                  <Grid container direction="column" alignItems="center">
-                    <Grid item xs={12}>
-                      <ButtonGroup
-                        variant="contained"
-                        color="primary"
-                        ref={anchorRef}
-                        aria-label="split button"
-                      >
-                        <Button
-                          onClick={async () => {
-                            await openModal(dropdownOptions[selectedIndex]);
-                          }}
-                        >
-                          {dropdownOptions[selectedIndex]}
-                        </Button>
-                        <Button
-                          color="primary"
-                          size="small"
-                          aria-controls={open ? "split-button-menu" : undefined}
-                          aria-expanded={open ? "true" : undefined}
-                          aria-label="select merge strategy"
-                          aria-haspopup="menu"
-                          onClick={handleToggle}
-                        >
-                          <ArrowDropDownIcon />
-                        </Button>
-                      </ButtonGroup>
-                      <Popper
-                        open={open}
-                        anchorEl={anchorRef.current}
-                        role={undefined}
-                        transition
-                        disablePortal
-                      >
-                        {({ TransitionProps, placement }) => (
-                          <Grow
-                            {...TransitionProps}
-                            style={{
-                              transformOrigin:
-                                placement === "bottom"
-                                  ? "center top"
-                                  : "center bottom",
-                            }}
-                          >
-                            <Paper>
-                              <ClickAwayListener onClickAway={handleClose}>
-                                <MenuList id="split-button-menu">
-                                  {dropdownOptions.map((option, index) => (
-                                    <MenuItem
-                                      key={option}
-                                      selected={index === selectedIndex}
-                                      onClick={(event) =>
-                                        handleMenuItemClick(event, index)
-                                      }
-                                    >
-                                      {option}
-                                    </MenuItem>
-                                  ))}
-                                </MenuList>
-                              </ClickAwayListener>
-                            </Paper>
-                          </Grow>
-                        )}
-                      </Popper>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              )}
-              <Grid item xs={4}>
-                <Button
+                {users.map((option) => (
+                  <MenuItem value={option._id} key={option._id}>
+                    {option.firstName} {option.lastName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+
+          <Grid container direction="row" justify="flex-end">
+            {!!ticketDetails._id && (
+              <Box m={1}>
+                <ButtonGroup
                   variant="contained"
                   color="primary"
-                  onClick={() =>
-                    onSubmitTicket(
-                      !!ticketDetails?._id ? "edit" : "create",
-                      ticketDetails
-                    )
-                  }
+                  ref={anchorRef}
+                  aria-label="split button"
                 >
-                  <FormattedMessage
-                    id={!!ticketDetails?._id ? "save" : "create"}
-                  />
-                </Button>
-              </Grid>
-            </Grid>
-          </div>
+                  <Button
+                    onClick={async () => {
+                      await openModal(dropdownOptions[selectedIndex]);
+                    }}
+                  >
+                    {dropdownOptions[selectedIndex]}
+                  </Button>
+                  <Button
+                    color="primary"
+                    size="small"
+                    aria-controls={open ? "split-button-menu" : undefined}
+                    aria-expanded={open ? "true" : undefined}
+                    aria-label="select merge strategy"
+                    aria-haspopup="menu"
+                    onClick={handleToggle}
+                  >
+                    <ArrowDropDownIcon />
+                  </Button>
+                </ButtonGroup>
+
+                <Popper
+                  open={open}
+                  anchorEl={anchorRef.current}
+                  role={undefined}
+                  transition
+                  disablePortal
+                >
+                  {({ TransitionProps, placement }) => (
+                    <Grow
+                      {...TransitionProps}
+                      style={{
+                        transformOrigin:
+                          placement === "bottom"
+                            ? "center top"
+                            : "center bottom",
+                      }}
+                    >
+                      <Paper>
+                        <ClickAwayListener onClickAway={handleClose}>
+                          <MenuList id="split-button-menu">
+                            {dropdownOptions.map((option, index) => (
+                              <MenuItem
+                                key={option}
+                                selected={index === selectedIndex}
+                                onClick={(event) =>
+                                  handleMenuItemClick(event, index)
+                                }
+                              >
+                                {option}
+                              </MenuItem>
+                            ))}
+                          </MenuList>
+                        </ClickAwayListener>
+                      </Paper>
+                    </Grow>
+                  )}
+                </Popper>
+              </Box>
+            )}
+
+            <Box m={1}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() =>
+                  onSubmitTicket(
+                    !!ticketDetails?._id ? "edit" : "create",
+                    ticketDetails
+                  )
+                }
+              >
+                <FormattedMessage
+                  id={!!ticketDetails?._id ? "save" : "create"}
+                />
+              </Button>
+            </Box>
+          </Grid>
 
           <TicketApprovedDialog
             show={showApprovedModal}
@@ -325,7 +341,7 @@ export const TicketDetails = ({
               }
             />
           )}
-        </Fragment>
+        </Grid>
       )}
     </>
   );
