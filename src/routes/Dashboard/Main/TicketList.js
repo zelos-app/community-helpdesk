@@ -17,7 +17,6 @@ export const TicketList = ({}) => {
     return state.length === 0
       ? true
       : state.filter((oneFilter) => {
-        console.log(oneTicket);
           return oneTicket.status[oneFilter] === true;
         }).length !== 0;
   };
