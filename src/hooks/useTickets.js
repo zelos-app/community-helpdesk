@@ -78,7 +78,7 @@ export const putOrPostTicket = async (method, newTicket) => {
   }
 };
 
-export const updateActiveTicketState = async (comment, state) => {
+export const updateActiveTicketStatus = async (comment, state) => {
   try {
     if (state === TICKET_STATE_APPROVE) {
       await axios.put(`/api/tickets/${store.state.activeTicket._id}/approve`);

@@ -22,7 +22,7 @@ import {
   putOrPostTicket,
   TICKET_STATE_APPROVE,
   TICKET_STATE_REJECT,
-  TICKET_STATE_RESOLVE, updateActiveTicketState,
+  TICKET_STATE_RESOLVE, updateActiveTicketStatus,
   useTickets,
 } from "../../../hooks/useTickets";
 
@@ -325,7 +325,7 @@ export const TicketDetails = () => {
               modalType={modalType}
               handleBtnClick={async (comment) => {
                 await closeModal();
-                await updateActiveTicketState(comment, modalType);
+                await updateActiveTicketStatus(comment, modalType);
               }}
               showCommentField={
                 modalType === "resolve" || modalType === "reject"
