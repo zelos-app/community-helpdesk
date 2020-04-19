@@ -36,33 +36,31 @@ function Main() {
 
   return (
     <>
+      <Grid container direction="row" alignItems="flex-end">
+        <Filter />
+
+        <div className={classes.grow} />
+
+        <Button
+          variant="contained"
+          color="default"
+          onClick={() => setActiveTicket(ticketInitialState)}
+        >
+          <FormattedMessage id="newTask" />
+        </Button>
+      </Grid>
+
       <Grid container>
-        <Grid container direction="row" alignItems="flex-end" xs={12}>
-          <Filter />
-
-          <div className={classes.grow} />
-
-          <Button
-            variant="contained"
-            color="default"
-            onClick={() => setActiveTicket(ticketInitialState)}
-          >
-            <FormattedMessage id="newTask" />
-          </Button>
+        <Grid item sm={12} md={6}>
+          <Paper elevation={0} className={classes.paper}>
+            <TicketList />
+          </Paper>
         </Grid>
 
-        <Grid container>
-          <Grid item sm={12} md={6}>
-            <Paper elevation={0} className={classes.paper}>
-              <TicketList />
-            </Paper>
-          </Grid>
-
-          <Grid item sm={12} md={6}>
-            <Paper elevation={0} className={classes.paper}>
-              <TicketDetails />
-            </Paper>
-          </Grid>
+        <Grid item sm={12} md={6}>
+          <Paper elevation={0} className={classes.paper}>
+            <TicketDetails />
+          </Paper>
         </Grid>
       </Grid>
     </>
