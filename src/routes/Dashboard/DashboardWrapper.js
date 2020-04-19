@@ -5,6 +5,7 @@ import history from "../../utils/history";
 import axios from "../../utils/axios";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
 
 const defaultContext = { categories: [], areas: [], users: [] };
 export const RequestOptionsContext = createContext(defaultContext);
@@ -53,9 +54,11 @@ export default function Dashboard(props) {
   return (
     <>
       <Container maxWidth="lg">
-        <RequestOptionsContext.Provider value={requestOptions}>
-          {props.children}
-        </RequestOptionsContext.Provider>
+        <Box p={1}>
+          <RequestOptionsContext.Provider value={requestOptions}>
+            {props.children}
+          </RequestOptionsContext.Provider>
+        </Box>
       </Container>
     </>
   );
