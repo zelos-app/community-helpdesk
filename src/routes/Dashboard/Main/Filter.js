@@ -1,5 +1,8 @@
-import React from "react";
-import { setActiveFilter, useTickets } from "../../../hooks/useTickets";
+import React, { useState } from "react";
+import {
+  filterInitialState,
+  setActiveFilter,
+} from "../../../hooks/useTickets";
 import { Checkbox, createStyles, FormControlLabel } from "@material-ui/core";
 import { FormattedMessage } from "react-intl";
 import FormControl from "@material-ui/core/FormControl";
@@ -18,7 +21,7 @@ const useStyles = makeStyles(() =>
 
 export const Filter = () => {
   const classes = useStyles();
-  const [{ activeFilter }] = useTickets();
+  const [filter, setFilter] = useState(filterInitialState);
 
   const filterKeys = [
     "rejected",
@@ -30,18 +33,19 @@ export const Filter = () => {
 
   const filterChanged = async ({ target }) => {
     setActiveFilter({
-      ...activeFilter,
+      ...filter,
       [target.value]: target.checked,
     });
+
+    setFilter({...filter, [target.value]: target.checked});
   };
 
-  const checkBox = (filter, idx) => {
+  const checkBox = (filter) => {
     return (
       <Checkbox
         color="primary"
-        key={idx}
         onChange={filterChanged}
-        checked={activeFilter[filter]}
+        checked={filter[filter]}
       />
     );
   };
@@ -61,7 +65,7 @@ export const Filter = () => {
               <FormControlLabel
                 key={idx}
                 value={filter}
-                control={checkBox(filter, idx)}
+                control={checkBox(filter)}
                 label={translateLabel(filter)}
               />
             ))}
