@@ -8,7 +8,7 @@ This project was started for [The Global Hack](https://theglobalhack.com/) to pr
 
 * [Viktor Lillemäe](https://www.linkedin.com/in/viktor-lillemae/) (design, back-end)
 * Kristjan Suursoho (front-end)
-* Stepan Bolotnikov (front-end)
+* [Stepan Bolotnikov](https://github.com/Stopa) (front-end)
 * Triinu Liis Kelder (front-end)
 * [Raner Piibur](https://www.linkedin.com/in/raner-piibur-712858b2/) (front-end)
 * Mariam Reintop (front-end)
