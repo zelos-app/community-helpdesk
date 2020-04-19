@@ -10,8 +10,21 @@ import {
   ticketInitialState,
   setActiveTicket,
 } from "../../../hooks/useTickets";
+import Paper from "@material-ui/core/Paper";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    paper: {
+      padding: theme.spacing(2),
+      height: "100%",
+    },
+  })
+);
 
 function Main() {
+  const classes = useStyles();
+
   useEffect(() => {
     (async () => {
       await fetchTickets();
@@ -22,13 +35,8 @@ function Main() {
     <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <div className="filter-list">
-            <h5>
-              <FormattedMessage id="filters" />
-            </h5>
-            <div className="filters">
-              <Filter />
-            </div>
+          <Grid container direction="column" justify="flex-start">
+            <Filter />
             <Button
               variant="contained"
               color="default"
@@ -36,13 +44,19 @@ function Main() {
             >
               <FormattedMessage id="newTask" />
             </Button>
-          </div>
+          </Grid>
         </Grid>
+
         <Grid item xs={6}>
-          <TicketList />
+          <Paper elevation={0} className={classes.paper}>
+            <TicketList />
+          </Paper>
         </Grid>
+
         <Grid item xs={6}>
-          <TicketDetails />
+          <Paper elevation={0} className={classes.paper}>
+            <TicketDetails />
+          </Paper>
         </Grid>
       </Grid>
     </>

@@ -22,11 +22,31 @@ import {
   putOrPostTicket,
   TICKET_STATE_APPROVE,
   TICKET_STATE_REJECT,
-  TICKET_STATE_RESOLVE, updateActiveTicketStatus,
+  TICKET_STATE_RESOLVE,
+  updateActiveTicketStatus,
   useTickets,
 } from "../../../hooks/useTickets";
+import { makeStyles } from "@material-ui/core/styles";
+import { createStyles } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    root: {
+      display: "flex",
+      flexWrap: "wrap",
+      "& .MuiTextField-root": {
+        marginBottom: theme.spacing(1),
+      },
+      "& .MuiFormControl-root": {
+        marginBottom: theme.spacing(1),
+      },
+    },
+  })
+);
 
 export const TicketDetails = () => {
+  const classes = useStyles();
+
   const [draftTicket, setDraftTicket] = useState();
   const [tickets] = useTickets();
 
@@ -99,8 +119,8 @@ export const TicketDetails = () => {
   return (
     <>
       {draftTicket && (
-        <Grid container direction="column">
-          <Box mb={1}>
+        <Box component="div">
+          <form className={classes.root}>
             <TextField
               className="input"
               id="request"
@@ -110,24 +130,22 @@ export const TicketDetails = () => {
               value={draftTicket.request}
               onChange={handleInputChange}
               rows={5}
+              fullWidth
               multiline
             />
-          </Box>
 
-          <Box mb={1}>
             <TextField
               className="input"
               id="requesterName"
               name="name"
               label={<FormattedMessage id="requesterName" />}
               variant="outlined"
+              fullWidth
               value={draftTicket.name}
               onChange={handleInputChange}
             />
-          </Box>
 
-          <Box mb={1}>
-            <FormControl className="input" variant="outlined">
+            <FormControl className="input" variant="outlined" fullWidth>
               <InputLabel>
                 <FormattedMessage id="category" />
               </InputLabel>
@@ -136,6 +154,7 @@ export const TicketDetails = () => {
                 id="demo-simple-select-outlined"
                 name="category"
                 value={draftTicket.category}
+                variant="outlined"
                 onChange={handleInputChange}
                 label={<FormattedMessage id="category" />}
               >
@@ -149,43 +168,40 @@ export const TicketDetails = () => {
                 ))}
               </Select>
             </FormControl>
-          </Box>
 
-          <Box mb={1}>
             <TextField
               className="input"
               id="phone"
               name="phone"
               label={<FormattedMessage id="phone" />}
               variant="outlined"
+              fullWidth
               value={draftTicket.phone}
               onChange={handleInputChange}
             />
-          </Box>
 
-          {selectedCategory && selectedCategory.needsAddress && (
-            <Box mb={1}>
+            {selectedCategory && selectedCategory.needsAddress && (
               <TextField
                 className="input"
                 id="address"
                 name="address"
                 label={<FormattedMessage id="address" />}
                 variant="outlined"
+                fullWidth
                 value={draftTicket.address}
                 onChange={handleInputChange}
               />
-            </Box>
-          )}
+            )}
 
-          <Box mb={1}>
-            <FormControl className="input" variant="outlined">
-              <InputLabel id="demo-simple-select-outlined-label">
+            <FormControl className="input" variant="outlined" fullWidth>
+              <InputLabel>
                 <FormattedMessage id="area" />
               </InputLabel>
               <Select
                 labelId="area"
                 id="area"
                 name="area"
+                variant="outlined"
                 value={draftTicket.area}
                 onChange={handleInputChange}
                 label={<FormattedMessage id="area" />}
@@ -200,17 +216,16 @@ export const TicketDetails = () => {
                 ))}
               </Select>
             </FormControl>
-          </Box>
 
-          <Box mb={1}>
-            <FormControl className="input" variant="outlined">
-              <InputLabel id="demo-simple-select-outlined-label">
+            <FormControl className="input" variant="outlined" fullWidth>
+              <InputLabel>
                 <FormattedMessage id="assignee" />
               </InputLabel>
               <Select
                 labelId="assignee"
                 id="assignee"
                 name="owner"
+                variant="outlined"
                 value={draftTicket.owner}
                 onChange={handleInputChange}
                 label={<FormattedMessage id="assignee" />}
@@ -225,114 +240,113 @@ export const TicketDetails = () => {
                 ))}
               </Select>
             </FormControl>
-          </Box>
 
-          <Grid container direction="row" justify="flex-end">
-            {!!draftTicket._id && (
-              <Box m={1}>
-                <ButtonGroup
-                  variant="contained"
-                  color="primary"
-                  ref={anchorRef}
-                  aria-label="split button"
-                >
-                  <Button
-                    onClick={async () => {
-                      await openModal(dropdownOptions[selectedIndex]);
-                    }}
-                  >
-                    {dropdownOptions[selectedIndex]}
-                  </Button>
-                  <Button
+            <Grid container direction="row" justify="flex-end">
+              {!!draftTicket._id && (
+                <>
+                  <ButtonGroup
+                    variant="contained"
                     color="primary"
-                    size="small"
-                    aria-controls={open ? "split-button-menu" : undefined}
-                    aria-expanded={open ? "true" : undefined}
-                    aria-label="select merge strategy"
-                    aria-haspopup="menu"
-                    onClick={handleToggle}
+                    ref={anchorRef}
+                    aria-label="split button"
                   >
-                    <ArrowDropDownIcon />
-                  </Button>
-                </ButtonGroup>
-
-                <Popper
-                  open={open}
-                  anchorEl={anchorRef.current}
-                  role={undefined}
-                  transition
-                  disablePortal
-                >
-                  {({ TransitionProps, placement }) => (
-                    <Grow
-                      {...TransitionProps}
-                      style={{
-                        transformOrigin:
-                          placement === "bottom"
-                            ? "center top"
-                            : "center bottom",
+                    <Button
+                      onClick={async () => {
+                        await openModal(dropdownOptions[selectedIndex]);
                       }}
                     >
-                      <Paper>
-                        <ClickAwayListener onClickAway={handleClose}>
-                          <MenuList id="split-button-menu">
-                            {dropdownOptions.map((option, index) => (
-                              <MenuItem
-                                key={option}
-                                selected={index === selectedIndex}
-                                onClick={(event) =>
-                                  handleMenuItemClick(event, index)
-                                }
-                              >
-                                {option}
-                              </MenuItem>
-                            ))}
-                          </MenuList>
-                        </ClickAwayListener>
-                      </Paper>
-                    </Grow>
-                  )}
-                </Popper>
+                      {dropdownOptions[selectedIndex]}
+                    </Button>
+                    <Button
+                      color="primary"
+                      aria-controls={open ? "split-button-menu" : undefined}
+                      aria-expanded={open ? "true" : undefined}
+                      aria-label="select merge strategy"
+                      aria-haspopup="menu"
+                      onClick={handleToggle}
+                    >
+                      <ArrowDropDownIcon />
+                    </Button>
+                  </ButtonGroup>
+
+                  <Popper
+                    open={open}
+                    anchorEl={anchorRef.current}
+                    role={undefined}
+                    transition
+                    disablePortal
+                  >
+                    {({ TransitionProps, placement }) => (
+                      <Grow
+                        {...TransitionProps}
+                        style={{
+                          transformOrigin:
+                            placement === "bottom"
+                              ? "center top"
+                              : "center bottom",
+                        }}
+                      >
+                        <Paper>
+                          <ClickAwayListener onClickAway={handleClose}>
+                            <MenuList>
+                              {dropdownOptions.map((option, index) => (
+                                <MenuItem
+                                  key={option}
+                                  selected={index === selectedIndex}
+                                  onClick={(event) =>
+                                    handleMenuItemClick(event, index)
+                                  }
+                                >
+                                  {option}
+                                </MenuItem>
+                              ))}
+                            </MenuList>
+                          </ClickAwayListener>
+                        </Paper>
+                      </Grow>
+                    )}
+                  </Popper>
+                </>
+              )}
+
+              <Box ml={1}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() =>
+                    putOrPostTicket(
+                      !!draftTicket?._id ? "edit" : "create",
+                      draftTicket
+                    )
+                  }
+                >
+                  <FormattedMessage
+                    id={!!draftTicket?._id ? "save" : "create"}
+                  />
+                </Button>
               </Box>
-            )}
+            </Grid>
 
-            <Box m={1}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() =>
-                  putOrPostTicket(
-                    !!draftTicket?._id ? "edit" : "create",
-                    draftTicket
-                  )
-                }
-              >
-                <FormattedMessage
-                  id={!!draftTicket?._id ? "save" : "create"}
-                />
-              </Button>
-            </Box>
-          </Grid>
-
-          <TicketApprovedDialog
-            show={showApprovedModal}
-            onClose={closeApproveModal}
-          />
-
-          {isModalOpen && (
-            <TaskModal
-              onClose={() => closeModal()}
-              modalType={modalType}
-              handleBtnClick={async (comment) => {
-                await closeModal();
-                await updateActiveTicketStatus(comment, modalType);
-              }}
-              showCommentField={
-                modalType === "resolve" || modalType === "reject"
-              }
+            <TicketApprovedDialog
+              show={showApprovedModal}
+              onClose={closeApproveModal}
             />
-          )}
-        </Grid>
+
+            {isModalOpen && (
+              <TaskModal
+                onClose={() => closeModal()}
+                modalType={modalType}
+                handleBtnClick={async (comment) => {
+                  await closeModal();
+                  await updateActiveTicketStatus(comment, modalType);
+                }}
+                showCommentField={
+                  modalType === "resolve" || modalType === "reject"
+                }
+              />
+            )}
+          </form>
+        </Box>
       )}
     </>
   );

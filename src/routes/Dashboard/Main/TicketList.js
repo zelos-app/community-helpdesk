@@ -4,6 +4,7 @@ import React, { useContext } from "react";
 import { RequestOptionsContext } from "../DashboardWrapper";
 import { orderBy } from "lodash";
 import { setActiveTicket, useTickets } from "../../../hooks/useTickets";
+import Box from "@material-ui/core/Box";
 
 export const TicketList = ({}) => {
   const [tickets] = useTickets();
@@ -45,7 +46,7 @@ export const TicketList = ({}) => {
   };
 
   return (
-    <>
+    <Box component="div">
       {tickets.isLoading ? (
         <LoadingSpinner />
       ) : (
@@ -66,6 +67,6 @@ export const TicketList = ({}) => {
             />
           ))
       )}
-    </>
+    </Box>
   );
 };
