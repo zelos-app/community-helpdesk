@@ -46,16 +46,16 @@ export const Filter = () => {
     );
   };
 
-  const FormLabel = (props) => <Typography variant="h5" {...props} />;
+  const Label = (props) => <Typography variant="h5" {...props} />;
   const translateLabel = (label) => <FormattedMessage id={`filter.${label}`} />;
 
   return (
     <>
       <div className={classes.root}>
         <FormControl component="fieldset">
-          <FormLabel component={FormLabel}>
+          <Label component={FormLabel}>
             <FormattedMessage id="filters" />
-          </FormLabel>
+          </Label>
           <FormGroup row>
             {filterKeys.map((filter, idx) => (
               <FormControlLabel

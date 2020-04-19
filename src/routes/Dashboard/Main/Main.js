@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) =>
       padding: theme.spacing(2),
       height: "100%",
     },
+    grow: {
+      flexGrow: 1,
+    },
   })
 );
 
@@ -33,30 +36,33 @@ function Main() {
 
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Grid container direction="column" justify="flex-start">
-            <Filter />
-            <Button
-              variant="contained"
-              color="default"
-              onClick={() => setActiveTicket(ticketInitialState)}
-            >
-              <FormattedMessage id="newTask" />
-            </Button>
+      <Grid container>
+        <Grid container direction="row" alignItems="flex-end" xs={12}>
+          <Filter />
+
+          <div className={classes.grow} />
+
+          <Button
+            variant="contained"
+            color="default"
+            onClick={() => setActiveTicket(ticketInitialState)}
+          >
+            <FormattedMessage id="newTask" />
+          </Button>
+        </Grid>
+
+        <Grid container>
+          <Grid item sm={12} md={6}>
+            <Paper elevation={0} className={classes.paper}>
+              <TicketList />
+            </Paper>
           </Grid>
-        </Grid>
 
-        <Grid item xs={6}>
-          <Paper elevation={0} className={classes.paper}>
-            <TicketList />
-          </Paper>
-        </Grid>
-
-        <Grid item xs={6}>
-          <Paper elevation={0} className={classes.paper}>
-            <TicketDetails />
-          </Paper>
+          <Grid item sm={12} md={6}>
+            <Paper elevation={0} className={classes.paper}>
+              <TicketDetails />
+            </Paper>
+          </Grid>
         </Grid>
       </Grid>
     </>
