@@ -94,7 +94,6 @@ export const updateActiveTicketStatus = async (comment, state) => {
   } catch (error) {
     console.log(error);
   } finally {
-    await fetchTickets();
   }
 };
 
