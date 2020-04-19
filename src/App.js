@@ -40,6 +40,7 @@ export default () => {
       defaultLocale={i18nConfig.defaultLocale}
       messages={i18nConfig.messages[locale]}
     >
+      // TODO: This throws error I suppose because when we started moving to Material UI it want the MUI theme provider. This is styled.
       <ThemeProvider theme={{ ...lightTheme, ...variables }}>
         <LoggedInContext.Provider value={{ data: isLogged, set: setLogged }}>
           {/* Include global styles */}
