@@ -59,20 +59,24 @@ export const fetchTickets = async () => {
   }
 };
 
+const appendTicket = (newTicket) => {
+  const filteredTickets = store.state.items.filter(
+    (ticket) => ticket._id !== newTicket._id
+  );
+
+  store.set({
+    ...store.state,
+    items: [...filteredTickets, newTicket],
+  });
+};
+
 export const putOrPostTicket = async (method, newTicket) => {
   try {
     method === "create"
       ? await axios.post("/api/tickets", newTicket)
       : await axios.put(`/api/tickets/${newTicket._id}`, newTicket);
 
-    const filteredTickets = store.state.items.filter(
-      (ticket) => ticket._id !== newTicket._id
-    );
-
-    store.set({
-      ...store.state,
-      items: [...filteredTickets, newTicket],
-    });
+    appendTicket(newTicket);
   } catch (e) {
     alert(e.message);
   }
@@ -94,6 +98,8 @@ export const updateActiveTicketStatus = async (comment, state) => {
   } catch (error) {
     console.log(error);
   } finally {
+    // TODO: Should not really fetch all, put update the active ticket and set it to the list.
+    await fetchTickets();
   }
 };
 
