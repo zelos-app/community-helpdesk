@@ -1,82 +1,22 @@
-import React, { useEffect, useState } from "react";
-import axios from "../../../utils/axios";
+import React, { useEffect } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { Filter, filterInitialState } from "./Filter";
+import { Filter } from "./Filter";
 import { TicketList } from "./TicketList";
+import { TicketDetails } from "./TicketDetails";
 import {
+  fetchTickets,
   ticketInitialState,
-  TICKET_STATE_APPROVE,
-  TICKET_STATE_REJECT,
-  TicketDetails, TICKET_STATE_RESOLVE,
-} from "./TicketDetails";
+  setActiveTicket,
+} from "../../../hooks/useTickets";
 
 function Main() {
-  const [activeTicket, setActiveTicket] = useState();
-  const [activeFilterState, setActiveFilterState] = useState(filterInitialState);
-  const [tickets, setTickets] = useState([]);
-  const [isLoadingTickets, setIsLoadingTickets] = useState(false);
-
-  const fetchTickets = async () => {
-    setIsLoadingTickets(true);
-    const { data = {} } = await axios.get("/api/tickets");
-    setTickets(data.tickets || []);
-    setIsLoadingTickets(false);
-  };
-
   useEffect(() => {
     (async () => {
       await fetchTickets();
     })();
   }, []);
-
-  const onSubmitTicket = async (method, newTicket) => {
-    try {
-      method === "create"
-        ? await axios.post("/api/tickets", newTicket)
-        : await axios.put(`/api/tickets/${newTicket._id}`, newTicket);
-
-      const filteredTickets = tickets.filter(
-        (ticket) => ticket._id !== newTicket._id
-      );
-      setTickets([...filteredTickets, newTicket]);
-    } catch (e) {
-      alert(e.message);
-    }
-  };
-
-  const onTicketStateChanged = async (comment, state) => {
-    if (state === TICKET_STATE_APPROVE) {
-      await axios.put(`/api/tickets/${activeTicket._id}/approve`);
-    } else if (state === TICKET_STATE_REJECT) {
-      await axios.put(`/api/tickets/${activeTicket._id}/reject`, { comment });
-    } else if (state === TICKET_STATE_RESOLVE) {
-      await axios.put(`/api/tickets/${activeTicket._id}/resolve`, { comment });
-    }
-  };
-
-  const onTicketSelected = ({
-    request,
-    name,
-    area,
-    phone,
-    address,
-    category,
-    owner,
-    _id,
-  }) => {
-    setActiveTicket({
-      request,
-      name,
-      area,
-      phone,
-      address,
-      category,
-      owner,
-      _id,
-    });
-  };
 
   return (
     <>
@@ -87,7 +27,7 @@ function Main() {
               <FormattedMessage id="filters" />
             </h5>
             <div className="filters">
-              <Filter onFilterChanged={(state) => setActiveFilterState(state)} />
+              <Filter />
             </div>
             <Button
               variant="contained"
@@ -99,20 +39,10 @@ function Main() {
           </div>
         </Grid>
         <Grid item xs={6}>
-          <TicketList
-            tickets={tickets}
-            isLoadingTickets={isLoadingTickets}
-            activeTicket={activeTicket}
-            activeFilterState={activeFilterState}
-            onTicketSelected={onTicketSelected}
-          />
+          <TicketList />
         </Grid>
         <Grid item xs={6}>
-          <TicketDetails
-            activeTicket={activeTicket}
-            onSubmitTicket={onSubmitTicket}
-            onTicketStateChanged={onTicketStateChanged}
-          />
+          <TicketDetails />
         </Grid>
       </Grid>
     </>

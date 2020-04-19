@@ -1,14 +1,10 @@
 import CustomInput from "../../../components/CustomInput/CustomInput";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { setActiveFilter, useTickets } from "../../../hooks/useTickets";
 
-export const filterInitialState = {
-  new: false,
-  mine: false,
-  resolved: false,
-  rejected: false,
-};
+export const Filter = () => {
+  const [{activeFilter}] = useTickets();
 
-export const Filter = ({onFilterChanged}) => {
   const filterKeys = [
     "rejected",
     "approved",
@@ -17,18 +13,12 @@ export const Filter = ({onFilterChanged}) => {
     "notified",
   ];
 
-  const [state, setState] = useState(filterInitialState);
-
   const filterChanged = async ({ target }) => {
-    setState({
-      ...state,
+    setActiveFilter({
+      ...activeFilter,
       [target.name]: target.checked,
     });
   };
-
-  useEffect(() => {
-    onFilterChanged(state);
-  }, [state]);
 
   return (
     <>
@@ -39,7 +29,7 @@ export const Filter = ({onFilterChanged}) => {
           name={filter}
           modifier="secondary"
           layout="checkbox"
-          checked={state[filter]}
+          checked={activeFilter[filter]}
           onChange={filterChanged}
         />
       ))}

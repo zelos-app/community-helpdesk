@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import { FormattedMessage } from "react-intl";
 import FormControl from "@material-ui/core/FormControl";
@@ -18,30 +18,21 @@ import { RequestOptionsContext } from "../DashboardWrapper";
 import { TicketApprovedDialog } from "../TicketApprovedDialog";
 import TaskModal from "../TaskModal";
 import Box from "@material-ui/core/Box";
+import {
+  putOrPostTicket,
+  TICKET_STATE_APPROVE,
+  TICKET_STATE_REJECT,
+  TICKET_STATE_RESOLVE, updateActiveTicketState,
+  useTickets,
+} from "../../../hooks/useTickets";
 
-export const ticketInitialState = {
-  request: "",
-  name: "",
-  category: "",
-  phone: "",
-  area: "",
-  owner: "",
-};
-
-export const TICKET_STATE_APPROVE = "approve";
-export const TICKET_STATE_RESOLVE = "resolve";
-export const TICKET_STATE_REJECT = "reject";
-
-export const TicketDetails = ({
-  activeTicket,
-  onSubmitTicket,
-  onTicketStateChanged,
-}) => {
-  const [ticketDetails, setTicketDetails] = useState(ticketInitialState);
+export const TicketDetails = () => {
+  const [draftTicket, setDraftTicket] = useState();
+  const [tickets] = useTickets();
 
   useEffect(() => {
-    setTicketDetails(activeTicket);
-  }, [activeTicket]);
+    setDraftTicket(tickets.activeTicket);
+  }, [tickets.activeTicket]);
 
   const dropdownOptions = [
     TICKET_STATE_APPROVE,
@@ -70,8 +61,8 @@ export const TicketDetails = ({
   };
 
   const handleInputChange = ({ target }) => {
-    setTicketDetails({
-      ...ticketDetails,
+    setDraftTicket({
+      ...draftTicket,
       [target.name]: target.value,
     });
   };
@@ -80,8 +71,8 @@ export const TicketDetails = ({
     return categories.find((category) => ticketCategory === category._id);
   };
 
-  const selectedCategory = activeTicket?.category
-    ? getSelectedCategory(activeTicket.category)
+  const selectedCategory = tickets.activeTicket?.category
+    ? getSelectedCategory(tickets.activeTicket.category)
     : "";
 
   const handleMenuItemClick = (event, index) => {
@@ -107,7 +98,7 @@ export const TicketDetails = ({
 
   return (
     <>
-      {ticketDetails && (
+      {draftTicket && (
         <Grid container direction="column">
           <Box mb={1}>
             <TextField
@@ -116,7 +107,7 @@ export const TicketDetails = ({
               name="request"
               label={<FormattedMessage id="request" />}
               variant="outlined"
-              value={ticketDetails.request}
+              value={draftTicket.request}
               onChange={handleInputChange}
               rows={5}
               multiline
@@ -130,7 +121,7 @@ export const TicketDetails = ({
               name="name"
               label={<FormattedMessage id="requesterName" />}
               variant="outlined"
-              value={ticketDetails.name}
+              value={draftTicket.name}
               onChange={handleInputChange}
             />
           </Box>
@@ -144,7 +135,7 @@ export const TicketDetails = ({
                 labelId="demo-simple-select-outlined-label"
                 id="demo-simple-select-outlined"
                 name="category"
-                value={ticketDetails.category}
+                value={draftTicket.category}
                 onChange={handleInputChange}
                 label={<FormattedMessage id="category" />}
               >
@@ -167,7 +158,7 @@ export const TicketDetails = ({
               name="phone"
               label={<FormattedMessage id="phone" />}
               variant="outlined"
-              value={ticketDetails.phone}
+              value={draftTicket.phone}
               onChange={handleInputChange}
             />
           </Box>
@@ -180,7 +171,7 @@ export const TicketDetails = ({
                 name="address"
                 label={<FormattedMessage id="address" />}
                 variant="outlined"
-                value={ticketDetails.address}
+                value={draftTicket.address}
                 onChange={handleInputChange}
               />
             </Box>
@@ -195,7 +186,7 @@ export const TicketDetails = ({
                 labelId="area"
                 id="area"
                 name="area"
-                value={ticketDetails.area}
+                value={draftTicket.area}
                 onChange={handleInputChange}
                 label={<FormattedMessage id="area" />}
               >
@@ -220,7 +211,7 @@ export const TicketDetails = ({
                 labelId="assignee"
                 id="assignee"
                 name="owner"
-                value={ticketDetails.owner}
+                value={draftTicket.owner}
                 onChange={handleInputChange}
                 label={<FormattedMessage id="assignee" />}
               >
@@ -237,7 +228,7 @@ export const TicketDetails = ({
           </Box>
 
           <Grid container direction="row" justify="flex-end">
-            {!!ticketDetails._id && (
+            {!!draftTicket._id && (
               <Box m={1}>
                 <ButtonGroup
                   variant="contained"
@@ -310,14 +301,14 @@ export const TicketDetails = ({
                 variant="contained"
                 color="primary"
                 onClick={() =>
-                  onSubmitTicket(
-                    !!ticketDetails?._id ? "edit" : "create",
-                    ticketDetails
+                  putOrPostTicket(
+                    !!draftTicket?._id ? "edit" : "create",
+                    draftTicket
                   )
                 }
               >
                 <FormattedMessage
-                  id={!!ticketDetails?._id ? "save" : "create"}
+                  id={!!draftTicket?._id ? "save" : "create"}
                 />
               </Button>
             </Box>
@@ -334,7 +325,7 @@ export const TicketDetails = ({
               modalType={modalType}
               handleBtnClick={async (comment) => {
                 await closeModal();
-                onTicketStateChanged(comment, modalType);
+                await updateActiveTicketState(comment, modalType);
               }}
               showCommentField={
                 modalType === "resolve" || modalType === "reject"

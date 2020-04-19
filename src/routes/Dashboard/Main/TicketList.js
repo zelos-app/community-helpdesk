@@ -3,40 +3,62 @@ import Ticket from "../Ticket";
 import React, { useContext } from "react";
 import { RequestOptionsContext } from "../DashboardWrapper";
 import { orderBy } from "lodash";
+import { setActiveTicket, useTickets } from "../../../hooks/useTickets";
 
-export const TicketList = ({
-  tickets,
-  isLoadingTickets,
-  activeFilterState,
-  onTicketSelected,
-  activeTicket,
-}) => {
+export const TicketList = ({}) => {
+  const [tickets] = useTickets();
   const { categories, areas } = useContext(RequestOptionsContext);
 
   const ticketFilters = (oneTicket) => {
-    const filterState = Object.keys(activeFilterState).filter(
-      (key) => !!activeFilterState[key]
+    const state = Object.keys(tickets.activeFilter).filter(
+      (key) => !!tickets.activeFilter[key]
     );
 
-    return filterState.length === 0
+    return state.length === 0
       ? true
-      : filterState.filter((oneFilter) => {
+      : state.filter((oneFilter) => {
+        console.log(oneTicket);
           return oneTicket.status[oneFilter] === true;
         }).length !== 0;
   };
 
+  const onTicketSelected = ({
+    request,
+    name,
+    area,
+    phone,
+    address,
+    category,
+    owner,
+    _id,
+  }) => {
+    setActiveTicket({
+      ...tickets.activeTicket,
+      request,
+      name,
+      area,
+      phone,
+      address,
+      category,
+      owner,
+      _id,
+    });
+  };
+
   return (
     <>
-      {isLoadingTickets ? (
+      {tickets.isLoading ? (
         <LoadingSpinner />
       ) : (
-        orderBy(tickets, ["name"], ["asc"])
+        orderBy(tickets.items, ["name"], ["asc"])
           .filter(ticketFilters)
           .map((ticket, idx) => (
             <Ticket
               key={idx}
               ticket={ticket}
-              active={activeTicket && activeTicket._id === ticket._id}
+              active={
+                tickets.activeTicket && tickets.activeTicket._id === ticket._id
+              }
               category={
                 categories && categories.find((c) => c._id === ticket.category)
               }
