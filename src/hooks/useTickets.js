@@ -42,7 +42,6 @@ export const fetchTickets = async () => {
   try {
     const { data = {} } = await axios.get("/api/tickets");
     tickets = (data && data.tickets) || [];
-    console.log(tickets);
   } catch (error) {
     console.error("Could not load tickets");
 
