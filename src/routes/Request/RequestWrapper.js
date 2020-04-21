@@ -5,16 +5,8 @@ import history from "../../utils/history";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 const defaultContext = { categories: [], areas: [] };
-const defaultRequest = {
-  phone: "+372",
-};
 
 export const RequestOptionsContext = createContext(defaultContext);
-
-export const RequestDataContext = createContext({
-  data: defaultRequest,
-  update: () => {},
-});
 
 export default function RequestWrapper(props) {
   const [isLoaded, setIsLoaded] = useState(false);

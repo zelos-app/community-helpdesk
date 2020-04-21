@@ -4,13 +4,11 @@ import { isLoggedIn } from "../../utils/auth";
 import history from "../../utils/history";
 import axios from "../../utils/axios";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
 
 const defaultContext = { categories: [], areas: [], users: [] };
 export const RequestOptionsContext = createContext(defaultContext);
-export const RequestDataContext = createContext({
-  data: {},
-  update: () => {},
-});
 
 export default function Dashboard(props) {
   const [loginChecked, setLoginChecked] = useState(false);
@@ -54,12 +52,14 @@ export default function Dashboard(props) {
   if (!loginChecked || !isLoaded) return <LoadingSpinner />;
 
   return (
-    <div className="dashboard">
-      <div className="dashboard-wrapper">
-        <RequestOptionsContext.Provider value={requestOptions}>
-          {props.children}
-        </RequestOptionsContext.Provider>
-      </div>
-    </div>
+    <>
+      <Container maxWidth="lg">
+        <Box p={1}>
+          <RequestOptionsContext.Provider value={requestOptions}>
+            {props.children}
+          </RequestOptionsContext.Provider>
+        </Box>
+      </Container>
+    </>
   );
 }
