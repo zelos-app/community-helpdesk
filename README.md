@@ -20,6 +20,13 @@ This project was started for [The Global Hack](https://theglobalhack.com/) to pr
 
 ## Running in staging/production
 
-1. Set up variables for docker-compose: `export APP_DOMAIN=yourdomain.com && export ACME_EMAIL=your@email.com && export MONGO_USER=root && export MONGO_PASSWORD=rootpassword && export STAGE=production/staging/...`
+1. Set up variables for docker-compose:
+```
+export APP_DOMAIN=yourdomain.com \
+&& export ACME_EMAIL=your@email.com \
+&& export MONGO_USER=root \
+&& export MONGO_PASSWORD=rootpassword \
+&& export STAGE=production|staging|...
+```
 2. Create and configure `${STAGE}.env` for API settings
 3. Run `docker-compose up -d`
