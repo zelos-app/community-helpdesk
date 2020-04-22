@@ -4,7 +4,6 @@ import isEmail from "isemail";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
-import DashboardNavigation from "../../components/DashboardNavigation/DashboardNavigation";
 import { FormattedMessage } from "react-intl";
 import axios from "../../utils/axios";
 import CheckIcon from "@material-ui/icons/Check";
@@ -276,8 +275,6 @@ export default function Users() {
 
   return (
     <div className="dashboard-children users">
-      <DashboardNavigation />
-
       <div className="dashboard-children-wrapper">
         <UsersContext.Provider value={{ data: users, set: setUsers }}>
           <h1>
