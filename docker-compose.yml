@@ -23,6 +23,7 @@ services:
       - "traefik.frontend.headers.STSSeconds=315360000"
       - "traefik.frontend.headers.STSIncludeSubdomains=true"
       - "traefik.frontend.headers.STSPreload=true"
+      - "com.centurylinklabs.watchtower.enable=true"
 
   traefik:
     container_name: traefik
@@ -72,6 +73,8 @@ services:
       - back-end
     volumes:
       - ./${STAGE}.env:/usr/src/app/.env
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   mongodb:
     container_name: mongodb
@@ -87,6 +90,14 @@ services:
       - mongodb:/data/db
     networks:
       - back-end
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+    command:
+      - "--label-enable"
 
 volumes:
   acme:
