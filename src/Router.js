@@ -14,7 +14,6 @@ import ResetPassword from "./routes/Auth/ResetPassword";
 // Dashboard
 import DashboardWrapper from "./routes/Dashboard/DashboardWrapper";
 import MainView from "./routes/Dashboard/Main/Main";
-import Users from "./routes/Dashboard/Users";
 import Settings from "./routes/Dashboard/Settings";
 
 // Request
@@ -69,8 +68,7 @@ export default () => {
           <DashboardWrapper>
             <Switch>
               <Route exact path={path} component={MainView} />
-              <Route path={`${path}/settings`} component={Settings} />
-              <Route path={`${path}/users`} component={Users} />
+              <Route path={`${path}/settings/:slug?`} component={Settings} />
             </Switch>
           </DashboardWrapper>
         )}

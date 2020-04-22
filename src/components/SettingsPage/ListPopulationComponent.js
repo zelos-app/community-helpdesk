@@ -5,8 +5,12 @@ import React, { useEffect, useState } from "react";
 import { CategoryTable } from "./CategoryTable";
 import { AreaTable } from "./AreaTable";
 import Grid from "@material-ui/core/Grid";
+import {SettingNavigation} from './SettingNavigation';
+import Users from "../../routes/Dashboard/Users";
+import {  useParams } from "react-router-dom";
 
 export default function ListPopulationComponent() {
+  const { slug= "category" } = useParams();
   const [category, setCategory] = useState([]);
   const [categoryDescription, setCategoryDescription] = useState("");
   const [categories, setCategories] = useState();
@@ -73,25 +77,29 @@ export default function ListPopulationComponent() {
   };
 
   return (
+    <>
+    <SettingNavigation/>
     <Grid container direction="row" spacing={0} justify="space-between">
+      
       {/*for creating category list*/}
-      <Grid item xs={12} sm={6}>
+      {slug === 'category' &&
+      <Grid item xs={12}>
         <CustomInput
-          labelId="Category name"
+          labelId="categoryName"
           name="category"
           modifier="secondary"
           value={category}
           onChange={(event) => setCategory(event.target.value)}
         />
         <CustomInput
-          labelId="Category description"
+          labelId="categorDescription"
           name="description"
           modifier="secondary"
           value={categoryDescription}
           onChange={(event) => setCategoryDescription(event.target.value)}
         />
         <CustomInput
-          labelId="Needs address"
+          labelId="needsAddress"
           name="needsAddress"
           modifier="secondary"
           layout="checkbox"
@@ -100,7 +108,7 @@ export default function ListPopulationComponent() {
         />
 
         <CustomButton
-          titleId="create a category"
+          titleId="createCategory"
           modifier="secondary"
           onClick={() => {
             createCategory();
@@ -113,11 +121,12 @@ export default function ListPopulationComponent() {
           deleteCategory={(category) => deleteCategory(category)}
         />
       </Grid>
-
+      }
       {/*for creating area list*/}
-      <Grid item xs={12} sm={5}>
+      {slug === 'area' &&
+      <Grid item xs={12} >
         <CustomInput
-          labelId="Area name"
+          labelId="areaName"
           name="area"
           modifier="secondary"
           value={area}
@@ -125,7 +134,7 @@ export default function ListPopulationComponent() {
         />
 
         <CustomButton
-          titleId="create an area"
+          titleId="createArea"
           modifier="secondary"
           onClick={() => {
             createArea();
@@ -138,6 +147,11 @@ export default function ListPopulationComponent() {
           deleteArea={(area) => deleteArea(area)}
         />
       </Grid>
+      }
+      {slug === 'users' && 
+      <Users/>
+    }
     </Grid>
+    </>
   );
 }

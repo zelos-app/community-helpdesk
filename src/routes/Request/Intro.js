@@ -7,11 +7,18 @@ import { Grid } from "@material-ui/core";
 function Intro() {
   return (
     <Grid container spacing={0}>
-      <Grid item xs={5}>
+      <Grid item md={5} xs={12}>
         <div className="illustration" />
       </Grid>
-      <Grid item xs={7}>
-        <div className="request-children-wrapper">
+      <Grid item md={7} xs={12}>
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justify="center"
+          style={{ minHeight: "100vh" }}
+        >
           <div className="text-wrapper">
             <h1 className="text-alpha">
               <FormattedMessage id="introHead" />
@@ -25,13 +32,13 @@ function Intro() {
           </div>
           <div className="action-wrapper">
             <Link to="/request">
-              <CustomButton titleId="iNeedHelp" modifier="primary" />
+              <CustomButton titleId="landing.buttons.request" modifier="primary" />
             </Link>
             <Link to="/app">
               <CustomButton titleId="iWantToHelp" modifier="secondary" />
             </Link>
-          </div>
-        </div>
+           </div>
+        </Grid>
       </Grid>
     </Grid>
   );

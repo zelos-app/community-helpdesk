@@ -37,8 +37,8 @@ export const AreaTable = ({ areas, getAreas, deleteArea }) => {
     <>
       {areas ? (
         <>
-          <TableContainer component={Paper} class={classes.container}>
-            <Table class={classes.table}>
+          <TableContainer component={Paper} className={classes.container}>
+            <Table className={classes.table}>
               <TableHead>
                 <TableRow>
                   <TableCell align="center">Name</TableCell>

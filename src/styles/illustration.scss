@@ -1,8 +1,12 @@
 .illustration {
   background-image: url('../assets/bg.jpg');
   width: 100%;
-  height: calc(100vh - 64px);
+  height: 100vh;
   margin-left: -24px;
   background-size: cover;
   background-position: center;
+  @media only screen and (max-width: 900px) {
+    height: 50vh;
+    margin: 0px;
+  }
 }
