@@ -71,8 +71,8 @@ services:
     networks:
       - front-end
       - back-end
-    volumes:
-      - ./${STAGE}.env:/usr/src/app/.env
+    env_file:
+      - ${STAGE}.env
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
 
