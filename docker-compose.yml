@@ -9,13 +9,13 @@ services:
     networks:
       - front-end
     environment:
-      APP_DOMAIN: "${APP_DOMAIN}"
+      APP_HOST: "${APP_HOST}"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=front-end"
-      - "traefik.docker.domain=${APP_DOMAIN}"
+      - "traefik.docker.domain=${APP_HOST}"
       - "traefik.frontend.priority=1"
-      - "traefik.frontend.rule=Host:${APP_DOMAIN}"
+      - "traefik.frontend.rule=Host:${APP_HOST}"
       - "traefik.frontend.passHostHeader=true"
       - "traefik.frontend.headers.customRequestHeaders=X-Forwarded-Proto:https"
       - "traefik.frontend.entryPoints=https"
@@ -45,7 +45,7 @@ services:
       - "--acme.email=${ACME_EMAIL}"
       - "--acme.entryPoint=https"
       - "--acme.httpChallenge.entryPoint=http"
-      - "--acme.domains=${APP_DOMAIN}"
+      - "--acme.domains=${APP_HOST}"
       - "--acme.storage=/acme/cert.json"
     ports:
       - 80:80
