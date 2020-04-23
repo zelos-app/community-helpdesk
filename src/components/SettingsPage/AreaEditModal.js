@@ -55,7 +55,7 @@ export const AreaEditModal = ({data, deleteArea, areaEdited}) => {
   return (
     <Dialog onClose={() => areaEdited()} aria-labelledby="customized-dialog-title" open={true}>
     <DialogTitle id="customized-dialog-title" onClose={() => areaEdited()}>
-      {`${action === 'edit' ? 'Edit' : 'New'} Category`}
+      {`${action === 'edit' ? 'Edit' : 'New'} Area`}
     </DialogTitle>
     <DialogContent dividers>
         <Formik

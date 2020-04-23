@@ -11,7 +11,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { Paper } from "@material-ui/core";
-import { NewLocaleModal } from './newLocaleModal'
+import { NewLocaleModal } from "./newLocaleModal";
 import Typography from "@material-ui/core/Typography";
 
 import { FormattedMessage } from "react-intl";
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     elevation: 0,
   },
   margin: {
-    margin: theme.spacing(1),
+    margin:  theme.spacing(1),
     float: "left",
   },
   extendedIcon: {
@@ -43,16 +43,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const languages = [
+  { id: "en", name: "English" },
+  { id: "et", name: "Estonian" },
+];
+
 export const LocaleTable = () => {
   const classes = useStyles();
 
+  const [defaultLanguage, setDefaultLanguage] = useState("en");
   const [locales, setLocales] = useState(null);
   const [localeModal, setLocaleModal] = useState(null);
 
   const getLocales = async () => {
     const { data = {} } = await axios.get("/api/locales");
-    console.log('---dapi', data)
-    setLocales(data.categories || []);
+    console.log("---dapi", data);
+    setLocales(data || []);
   };
 
   useEffect(() => {
@@ -63,50 +69,52 @@ export const LocaleTable = () => {
     console.log("===creat elocales");
   };
 
-  const openLocaleModal = () => { console.log('open modal')
-    setLocaleModal(['en','et'])
-  }
+  const openLocaleModal = () => {
+    const langList = languages.map(lang => lang.id);
+    setLocaleModal(langList);
+  };
 
   const saveNewLocale = (newLocale) => {
-    console.log('newlocale', newLocale)
-    setLocaleModal(null)
-  }
+    console.log("newlocale", newLocale);
+    setLocaleModal(null);
+  };
+
+  const setActiveLanguage = (lang) => {
+    setDefaultLanguage(lang);
+  };
 
   return (
     <>
       <Grid container spacing={0} justify="space-between">
         <Grid item xs={6}>
           <Box m={2}>
-            <Button
-              variant="contained"
-              size="small"
-              color="primary"
-              className={classes.margin}
-           >
-              English
-            </Button>
-            <Button
-              variant="contained"
-              size="small"
-              color="primary"
-              className={classes.margin}
+            {languages.map((lang) => (
+              <Button
+                variant={lang.id === defaultLanguage ? "contained" : "outlined"}
+                size="small"
+                color="primary"
+                className={classes.margin}
+                key={lang.id}
+                onClick={() => setActiveLanguage(lang.id)}
+              >
+                {lang.name}
+              </Button>
+            ))}
+
+            <IconButton
+              aria-label="delete"
+              onClick={() => openLocaleModal()}
             >
-              Estonian
-            </Button>
-            <IconButton aria-label="delete" className={classes.margin}  onClick={() =>
-                openLocaleModal()
-              }>
               <AddIcon fontSize="small" />
             </IconButton>
           </Box>
         </Grid>
-        <Grid item xs={6} style={{ flex: 1 }}>
+        <Grid item xs={6} style={{flexBasis: "auto"}}>
           <Box m={2}>
             <Switch
               color="primary"
               name="newlocale"
               className={classes.margin}
-             
             />
             <Button
               variant="contained"
@@ -156,12 +164,8 @@ export const LocaleTable = () => {
             </Grid>
           </Grid>
 
-         
           {localeModal && (
-            <NewLocaleModal
-              data={localeModal}
-              saveNewLocale={saveNewLocale}
-            />
+            <NewLocaleModal data={localeModal} saveNewLocale={saveNewLocale} />
           )}
         </div>
       ) : (

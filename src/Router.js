@@ -4,6 +4,9 @@ import { Route, Switch, Redirect } from "react-router-dom";
 // Routes
 import Intro from "./routes/Request/Intro";
 
+import Launch from "./routes/Request/Launch";
+import MoreInfo from "./routes/Request/MoreInfo";
+
 // Auth
 import AuthWrapper from "./routes/Auth/AuthWrapper";
 import Login from "./routes/Auth/Login";
@@ -30,7 +33,7 @@ export default () => {
   return (
     <Switch>
       <Route exact path="/" component={Intro} />
-      <Route
+     <Route
         path="/auth"
         render={({ match: { path } }) => (
           <AuthWrapper>
@@ -58,6 +61,18 @@ export default () => {
               <Route path={`${path}/request`} component={Request} />
               <Route path={`${path}/details`} component={Details} />
               <Route path={`${path}/confirmed`} component={Confirmed} />
+            </Switch>
+          </RequestWrapper>
+        )}
+      />
+       <Route
+        path="/launch"
+        render={({ match: { path } }) => (
+          <RequestWrapper>
+            <Switch>
+              <Redirect exact from={path} to={`${path}/start`} />
+              <Route path={`${path}/start`} component={Launch} />
+              <Route path={`${path}/moreinfo`} component={MoreInfo} />
             </Switch>
           </RequestWrapper>
         )}
