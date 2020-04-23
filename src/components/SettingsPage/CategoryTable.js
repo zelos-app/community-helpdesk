@@ -34,7 +34,7 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "row-reverse",
     marginTop: "10px",
-  }
+  },
 });
 
 export const CategoryTable = ({
@@ -45,14 +45,14 @@ export const CategoryTable = ({
   const classes = useStyles();
 
   const [category, setCategory] = useState(null);
-  
+
   const categoryEdited = () => {
     setCategory(null);
     getCategories();
   };
 
   const createCategory = () => {
-    setCategory({action: 'add', selected: null});
+    setCategory({ action: "add", selected: null });
   };
 
   return (
@@ -79,7 +79,11 @@ export const CategoryTable = ({
                     </TableCell>
                     <TableCell align="right">
                       <ButtonGroup>
-                        <Button onClick={() => setCategory({action: 'edit', selected: category})}>
+                        <Button
+                          onClick={() =>
+                            setCategory({ action: "edit", selected: category })
+                          }
+                        >
                           <EditIcon />
                         </Button>
                         <Button onClick={() => deleteCategory(category)}>

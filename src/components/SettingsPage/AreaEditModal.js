@@ -47,7 +47,6 @@ const DialogContent = withStyles((theme) => ({
 
 export const AreaEditModal = ({data, deleteArea, areaEdited}) => {
   const { action, selected: area } = data;
-  console.log('=====', data);
   const handleDelete = () => {
     deleteArea(area);
     areaEdited();
@@ -65,8 +64,12 @@ export const AreaEditModal = ({data, deleteArea, areaEdited}) => {
           }}
           onSubmit={async (values, formik) => {
             try {
+              if (action === "add") {
+                await axios.post("/api/areas/", values);
+                  
+                } else {
               await axios.put(`/api/areas/${area._id}`, values);
-
+                }
               formik.setSubmitting(false);
               areaEdited();
             } catch (e) {
@@ -86,7 +89,7 @@ export const AreaEditModal = ({data, deleteArea, areaEdited}) => {
               <Field
                 name="name"
                 as={CustomInput}
-                labelId="Name"
+                labelId="name"
                 layout="input"
               />
             </div>
@@ -94,7 +97,7 @@ export const AreaEditModal = ({data, deleteArea, areaEdited}) => {
               <Field>
                 {({form}) => (
                   <CustomButton
-                    titleId="Save"
+                    titleId="save"
                     modifier="primary"
                     type="submit"
                     disabled={form.isSubmitting || !form.isValid}

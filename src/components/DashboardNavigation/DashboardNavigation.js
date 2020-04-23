@@ -36,7 +36,7 @@ export default function DashboardNavigation() {
           }`}
         >
           <Link to="/dashboard/users">Users</Link>
-        </div>
+        </div>        
       </div>
     </Fragment>
   );

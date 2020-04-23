@@ -1,12 +1,11 @@
 import axios from "../../utils/axios";
-import CustomInput from "../CustomInput/CustomInput";
-import CustomButton from "../CustomButton/CustomButton";
 import React, { useEffect, useState } from "react";
 import { CategoryTable } from "./CategoryTable";
 import { AreaTable } from "./AreaTable";
 import Grid from "@material-ui/core/Grid";
 import {SettingNavigation} from './SettingNavigation';
 import Users from "../../routes/Dashboard/Users";
+import {LocaleTable} from "./LocaleTable";
 import {  useParams } from "react-router-dom";
 
 export default function ListPopulationComponent() {
@@ -105,6 +104,12 @@ export default function ListPopulationComponent() {
       }
       {slug === 'users' && 
       <Users/>
+    }
+     {slug === 'locales' && 
+        <Grid item xs={12}>
+    
+        <LocaleTable/>
+      </Grid>
     }
     </Grid>
     </>

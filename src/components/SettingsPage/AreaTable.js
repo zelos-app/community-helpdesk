@@ -17,7 +17,7 @@ import { FormattedMessage } from "react-intl";
 
 const useStyles = makeStyles({
   container: {
-    padding: '8 0 8 0',
+    padding: "8 0 8 0",
     elevation: 0,
   },
   table: {
@@ -31,7 +31,7 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "row-reverse",
     marginTop: "10px",
-  }
+  },
 });
 
 export const AreaTable = ({ areas, getAreas, deleteArea }) => {
@@ -44,13 +44,13 @@ export const AreaTable = ({ areas, getAreas, deleteArea }) => {
   };
 
   const createArea = () => {
-    setArea({action: 'add', selected: null});
+    setArea({ action: "add", selected: null });
   };
 
   return (
     <>
       {areas ? (
-        <>
+        <div className={classes.wapper}>
           <TableContainer component={Paper} className={classes.container}>
             <Table className={classes.table}>
               <TableHead>
@@ -65,7 +65,11 @@ export const AreaTable = ({ areas, getAreas, deleteArea }) => {
                     <TableCell>{area.name}</TableCell>
                     <TableCell align="right">
                       <ButtonGroup>
-                        <Button onClick={() => setArea({action: 'edit', selected: area})}>
+                        <Button
+                          onClick={() =>
+                            setArea({ action: "edit", selected: area })
+                          }
+                        >
                           <EditIcon />
                         </Button>
                         <Button onClick={() => deleteArea(area)}>
@@ -86,7 +90,7 @@ export const AreaTable = ({ areas, getAreas, deleteArea }) => {
                 createArea();
               }}
             >
-              <FormattedMessage id="createCategory" />
+              <FormattedMessage id="createArea" />
             </Button>
           </div>
           {area && (
@@ -96,7 +100,7 @@ export const AreaTable = ({ areas, getAreas, deleteArea }) => {
               areaEdited={areaEdited}
             />
           )}
-        </>
+        </div>
       ) : (
         <LoadingSpinner />
       )}

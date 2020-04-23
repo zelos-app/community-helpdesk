@@ -39,6 +39,15 @@ export const SettingNavigation = () => {
             <FormattedMessage id="area" />
           </Link>
         </div>
+        <div
+          className={`dashboard-nav__item ${
+            isCAreaPage ? "dashboard-nav__item--active" : ""
+          }`}
+        >
+          <Link to="/dashboard/settings/locales">
+            <FormattedMessage id="locales" />
+          </Link>
+        </div>
         <div />
       </div>
     </Fragment>

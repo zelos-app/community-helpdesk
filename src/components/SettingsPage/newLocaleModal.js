@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Field, Form } from "formik";
 import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
+import Select from "@material-ui/core/Select/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import CustomButton from "../../components/CustomButton/CustomButton";
-import CustomInput from "../../components/CustomInput/CustomInput";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import { FormattedMessage } from "react-intl";
 import axios from "../../utils/axios";
 
 const styles = (theme) => ({
@@ -45,74 +49,76 @@ const DialogContent = withStyles((theme) => ({
 }))(MuiDialogContent);
 
 
-export const CategoryEditModal = ({ data, deleteCategory, selectedCategoryEdited }) => {
-  const { action, selected: category } = data;
-  
-  const handleDelete = () => {
-    deleteCategory(category);
-    selectedCategoryEdited();
-  }
+export const NewLocaleModal = ({ data, saveNewLocale }) => {
+    const [locale, setLocale] = useState();
+
+    useEffect(() => {
+        setLocale(data[0]);
+      }, []);
+
+    const handleInputChange = ({ target }) => {
+         setLocale(target.value);
+      };
+    
  
   return (
-    <Dialog onClose={() => selectedCategoryEdited()} aria-labelledby="customized-dialog-title" open={true}>
-    <DialogTitle id="customized-dialog-title" onClose={() => selectedCategoryEdited()}>
-      {`${action === 'edit' ? 'Edit' : 'New'} Category`}
+    <Dialog onClose={() => saveNewLocale()} aria-labelledby="customized-dialog-title" open={true}>
+    <DialogTitle id="customized-dialog-title" onClose={() => saveNewLocale()}>
+     New Locale 
     </DialogTitle>
     <DialogContent dividers>
         <Formik
           initialValues={{
-            name: category?.name || "",
-            description: category?.description || "",
-            needsAddress: category?.needsAddress || false,
+            locales: locale || [],
           }}
           onSubmit={async (values, formik) => {
-            try { console.log('====', action, values);
-              if (action === "add") {
-                await axios.post("/api/categories/", values);
-                
-              } else {
-                await axios.put(`/api/categories/${category._id}`, values);
-              }
-
+            try { 
+            
+              //  await axios.put(`/api/locales`, values);
+            
               formik.setSubmitting(false);
-              selectedCategoryEdited();
+              saveNewLocale();
             } catch (e) {
               alert(e.message);
             }
           }}
           validate={(values) => {
             const errors = {};
-            if (!values.name) {
-              errors.name = "required";
+            if (!values.locales) {
+              errors.locales = "required";
             }
             return errors;
           }}
         >
           <Form>
             <div className="inputContainer">
-              <Field
-                name="name"
-                as={CustomInput}
-                labelId="name"
-                layout="input"
-              />
-              <Field
-                name="description"
-                as={CustomInput}
-                labelId="description"
-                layout="input"
-              />
+            
 
-              <Field name="needsAddress">
+              <Field name="locales">
                 {({ field }) => (
-                  <CustomInput
-                    name={field.name}
-                    labelId="needsAddress"
-                    layout="checkbox"
-                    modifier="secondary"
-                    checked={field.value}
-                    {...field}
-                  />
+                  <FormControl className="input" variant="outlined" fullWidth>
+                  <InputLabel>
+                    <FormattedMessage id="locales" />
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    name="Locales"
+                    variant="outlined"
+                    value={locale}
+                    onChange={handleInputChange}
+                    label={<FormattedMessage id="locales" />}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {data.map((option) => (
+                      <MenuItem value={option} key={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
                 )}
               </Field>
             </div>
@@ -131,16 +137,9 @@ export const CategoryEditModal = ({ data, deleteCategory, selectedCategoryEdited
                 titleId="cancel"
                 modifier="secondary"
                 type="button"
-                onClick={() => selectedCategoryEdited()}
+                onClick={() => saveNewLocale()}
               />
-              {action === 'edit' ?
-               <CustomButton
-                titleId="delete"
-                modifier="secondary"
-                type="button"
-                onClick={() => handleDelete()}
-              /> : <div/>
-                } 
+             
             </div>
           </Form>
         </Formik>
