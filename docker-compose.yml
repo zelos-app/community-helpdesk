@@ -10,6 +10,7 @@ services:
       - front-end
     environment:
       APP_HOST: "${APP_HOST}"
+      API_HOST: back-end
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=front-end"
