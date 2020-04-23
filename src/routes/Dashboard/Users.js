@@ -191,7 +191,7 @@ const InviteUserForm = () => {
       justify="flex-end"
       direction="row"
     >
-      <Grid item xs={12} sm={8}>
+      <Grid item xs={12}>
         <Formik
           onSubmit={async (values, formik) => {
             try {
@@ -225,7 +225,6 @@ const InviteUserForm = () => {
                 as={CustomInput}
                 name="email"
                 type="email"
-                modifier="secondary"
                 required
               />
               <Field name="admin">
@@ -234,19 +233,16 @@ const InviteUserForm = () => {
                     name={field.name}
                     labelId="admin"
                     layout="checkbox"
-                    modifier="secondary"
                     checked={field.value}
                     {...field}
                   />
                 )}
               </Field>
-
-              {/* here's a little lesson in trickery */}
-              <Field>
+               <Field>
                 {({ form }) => (
                   <CustomButton
                     titleId="invite"
-                    modifier="primary"
+                    modifier="secondary"
                     type="submit"
                     disabled={form.isSubmitting || !form.isValid}
                   />

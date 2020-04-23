@@ -25,3 +25,14 @@
 td.action-wrapper {
   margin: 0;
 }
+
+.category-action {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  margin-top: 40px;
+  div:last-child {
+    margin-right: auto;
+  }
+}
