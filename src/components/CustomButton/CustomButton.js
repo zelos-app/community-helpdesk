@@ -1,7 +1,11 @@
 import React from "react";
-import { createMuiTheme,  makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import { lightBlue,  lightGreen } from '@material-ui/core/colors';
+import {
+  createMuiTheme,
+  makeStyles,
+  ThemeProvider,
+} from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import { lightBlue, lightGreen } from "@material-ui/core/colors";
 import { FormattedMessage } from "react-intl";
 
 const useStyles = makeStyles((theme) => ({
@@ -13,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 const theme = createMuiTheme({
   palette: {
     primary: lightGreen,
-    secondary: lightBlue
+    secondary: lightBlue,
   },
 });
 
@@ -23,12 +27,15 @@ export default (props) => {
   const classes = useStyles();
 
   return (
-    <div>
-      <ThemeProvider theme={theme}>
-        <Button variant="contained" color={modifier} className={classes.margin} {...rest}>
-           {titleId === "" ? title : <FormattedMessage id={titleId} />}
-        </Button>
-       </ThemeProvider>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Button
+        variant="contained"
+        color={modifier}
+        className={classes.margin}
+        {...rest}
+      >
+        {titleId === "" ? title : <FormattedMessage id={titleId} />}
+      </Button>
+    </ThemeProvider>
   );
 };

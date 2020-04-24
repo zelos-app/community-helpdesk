@@ -1,52 +1,32 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import DashboardNavigationStyle from "../DashboardNavigation/DashboardNavigationStyle";
 
 export const SettingNavigation = () => {
-  const isCAreaPage = window.location.pathname.includes("area");
-  const isUsersPage = window.location.pathname.includes("users");
-  const isCategoryPage = !isCAreaPage && !isUsersPage;
-
   return (
     <Fragment>
       <DashboardNavigationStyle />
       <div className="dashboard-nav">
-        <div
-          className={`dashboard-nav__item ${
-            isUsersPage ? "dashboard-nav__item--active" : ""
-          }`}
-        >
-          <Link to="/dashboard/settings/users">
+         <div className="dashboard-nav__item" >
+           <NavLink exact to="/dashboard/settings/users" activeClassName="dashboard-nav__item--active">
             <FormattedMessage id="dashboard.nav.users" />
-          </Link>
+          </NavLink>
         </div>
-        <div
-          className={`dashboard-nav__item ${
-            isCategoryPage ? "dashboard-nav__item--active" : ""
-          }`}
-        >
-          <Link to="/dashboard/settings/category">
+        <div className="dashboard-nav__item" >
+          <NavLink exact to="/dashboard/settings/category" activeClassName="dashboard-nav__item--active">
             <FormattedMessage id="category" />
-          </Link>
+          </NavLink>
         </div>
-        <div
-          className={`dashboard-nav__item ${
-            isCAreaPage ? "dashboard-nav__item--active" : ""
-          }`}
-        >
-          <Link to="/dashboard/settings/area">
+        <div className="dashboard-nav__item" >
+          <NavLink exact to="/dashboard/settings/area" activeClassName="dashboard-nav__item--active">
             <FormattedMessage id="area" />
-          </Link>
+          </NavLink>
         </div>
-        <div
-          className={`dashboard-nav__item ${
-            isCAreaPage ? "dashboard-nav__item--active" : ""
-          }`}
-        >
-          <Link to="/dashboard/settings/locales">
+        <div className="dashboard-nav__item" >
+          <NavLink exact to="/dashboard/settings/locales" activeClassName="dashboard-nav__item--active">
             <FormattedMessage id="locales" />
-          </Link>
+          </NavLink>
         </div>
         <div />
       </div>

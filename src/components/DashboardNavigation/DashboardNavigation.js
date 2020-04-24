@@ -1,41 +1,25 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { NavLink  } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import DashboardNavigationStyle from "./DashboardNavigationStyle";
 
 export default function DashboardNavigation() {
-  const isSettingsPage = window.location.pathname.includes("settings");
-  const isUsersPage = window.location.pathname.includes("users");
-  const isTicketsPage = !isSettingsPage && !isUsersPage;
-
   return (
-    <Fragment>
+    <Fragment>  
       <DashboardNavigationStyle />
       <div className="dashboard-nav">
-        <div
-          className={`dashboard-nav__item ${
-            isTicketsPage ? "dashboard-nav__item--active" : ""
-          }`}
-        >
-          <Link to="/dashboard">
+        <div className="dashboard-nav__item" >
+          <NavLink exact to="/dashboard" activeClassName="dashboard-nav__item--active">
             <FormattedMessage id="dashboard.nav.tickets" />
-          </Link>
+          </NavLink>
         </div>
-        <div
-          className={`dashboard-nav__item ${
-            isSettingsPage ? "dashboard-nav__item--active" : ""
-          }`}
-        >
-          <Link to="/dashboard/settings">
+        <div className="dashboard-nav__item" >
+          <NavLink exact to="/dashboard/settings" activeClassName="dashboard-nav__item--active">
             <FormattedMessage id="dashboard.nav.settings" />
-          </Link>
+          </NavLink>
         </div>
-        <div
-          className={`dashboard-nav__item ${
-            isUsersPage ? "dashboard-nav__item--active" : ""
-          }`}
-        >
-          <Link to="/dashboard/users">Users</Link>
+        <div className="dashboard-nav__item" >
+          <NavLink exact to="/dashboard/users" activeClassName="dashboard-nav__item--active">Users</NavLink>
         </div>        
       </div>
     </Fragment>
