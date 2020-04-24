@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Bar = ({ locale, selectLanguage, isLoggedIn, setLogged }) => {
+export const Bar = ({ locale, isLoggedIn, setLogged }) => {
   const classes = useStyles();
 
   const location = useLocation();
@@ -101,41 +101,7 @@ export const Bar = ({ locale, selectLanguage, isLoggedIn, setLogged }) => {
     <AppBar position="static">
       <Toolbar>
         {isLoggedIn ? loggedInRoutes() : loggedOutRoutes()}
-
-        <Button
-          aria-controls="langmenu"
-          aria-haspopup="true"
-          onClick={handleClick}
-          color="inherit"
-        >
-          <LanguageIcon />
-          {locale && locale.toUpperCase()}
-        </Button>
-
-        <Menu
-          id="langmenu"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-          keepMounted
-        >
-          <MenuItem
-            onClick={() => {
-              handleClose();
-              selectLanguage("en");
-            }}
-          >
-            English
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              handleClose();
-              selectLanguage("et");
-            }}
-          >
-            Eesti
-          </MenuItem>
-        </Menu>
+      
       </Toolbar>
     </AppBar>
   );

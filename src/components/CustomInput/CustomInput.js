@@ -19,9 +19,11 @@ export default (props) => {
       <div className={`input ${modifier}`}>
         <div className={`input-wrapper layout-${layout}`}>
           {/* LABEL */}
+          {labelId && 
           <label htmlFor={name}>
             <FormattedMessage dataset="ok" id={labelId} />
           </label>
+}
 
           {/* INPUT */}
           {layout === "input" && <input name={name} id={name} {...rest} />}

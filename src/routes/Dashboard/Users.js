@@ -10,6 +10,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import TableContainer from "@material-ui/core/TableContainer";
+import Grid from "@material-ui/core/Grid";
 import { Paper } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
@@ -135,8 +136,8 @@ const UsersTable = ({ rows }) => {
 
   return (
     <>
-      <TableContainer component={Paper} class={classes.container}>
-        <Table class={classes.table}>
+      <TableContainer component={Paper} className={classes.container}>
+        <Table className={classes.table}>
           <TableHead>
             <TableRow>
               <TableCell align="center">Name</TableCell>
@@ -183,74 +184,74 @@ const InviteUserForm = () => {
   const { data, set } = useContext(UsersContext);
 
   return (
-    <Formik
-      onSubmit={async (values, formik) => {
-        try {
-          const {
-            data: { id },
-          } = await axios.post("/api/users/invite", values);
-          formik.resetForm();
-          const { data: user } = await axios.get(`/api/users/${id}`);
-          set(data.concat([user]));
-          formik.setSubmitting(false);
-        } catch (e) {
-          alert(e.message);
-        }
-      }}
-      initialValues={{ admin: false, email: "" }}
-      validate={(values) => {
-        const errors = {};
-
-        if (!values.email) {
-          errors.email = "required";
-        } else if (!isEmail.validate(values.email)) {
-          errors.email = "Incorrect";
-        }
-
-        return errors;
-      }}
-      isInitialValid={false}
+    <Grid
+      container
+      spacing={0}
+      alignItems="flex-start"
+      justify="flex-end"
+      direction="row"
     >
-      <Form>
-        <div className="input-container">
-          <Field
-            as={CustomInput}
-            name="email"
-            labelId="email"
-            type="email"
-            modifier="secondary"
-            required
-          />
-        </div>
+      <Grid item xs={12}>
+        <Formik
+          onSubmit={async (values, formik) => {
+            try {
+              const {
+                data: { id },
+              } = await axios.post("/api/users/invite", values);
+              formik.resetForm();
+              const { data: user } = await axios.get(`/api/users/${id}`);
+              set(data.concat([user]));
+              formik.setSubmitting(false);
+            } catch (e) {
+              alert(e.message);
+            }
+          }}
+          initialValues={{ admin: false, email: "" }}
+          validate={(values) => {
+            const errors = {};
 
-        <div className="action-wrapper invite-users">
-          <Field name="admin">
-            {({ field }) => (
-              <CustomInput
-                name={field.name}
-                labelId="admin"
-                layout="checkbox"
-                modifier="secondary"
-                checked={field.value}
-                {...field}
-              />
-            )}
-          </Field>
+            if (!values.email) {
+              errors.email = "required";
+            } else if (!isEmail.validate(values.email)) {
+              errors.email = "Incorrect";
+            }
 
-          {/* here's a little lesson in trickery */}
-          <Field>
-            {({ form }) => (
-              <CustomButton
-                titleId="invite"
-                modifier="primary"
-                type="submit"
-                disabled={form.isSubmitting || !form.isValid}
+            return errors;
+          }}
+          isInitialValid={false}
+        >
+          <Form className="input-container">
+              <Field
+                as={CustomInput}
+                name="email"
+                type="email"
+                required
               />
-            )}
-          </Field>
-        </div>
-      </Form>
-    </Formik>
+              <Field name="admin">
+                {({ field }) => (
+                  <CustomInput
+                    name={field.name}
+                    labelId="admin"
+                    layout="checkbox"
+                    checked={field.value}
+                    {...field}
+                  />
+                )}
+              </Field>
+               <Field>
+                {({ form }) => (
+                  <CustomButton
+                    titleId="invite"
+                    modifier="secondary"
+                    type="submit"
+                    disabled={form.isSubmitting || !form.isValid}
+                  />
+                )}
+              </Field>
+          </Form>
+        </Formik>
+      </Grid>
+    </Grid>
   );
 };
 
@@ -277,15 +278,9 @@ export default function Users() {
     <div className="dashboard-children users">
       <div className="dashboard-children-wrapper">
         <UsersContext.Provider value={{ data: users, set: setUsers }}>
-          <h1>
-            <FormattedMessage id="inviteUser" />
-          </h1>
-
-          <InviteUserForm />
-
           <div className="users-wrapper">
-            <h1>Users</h1>
             {isLoadingUsers ? <LoadingSpinner /> : <UsersTable rows={users} />}
+            <InviteUserForm />
           </div>
         </UsersContext.Provider>
       </div>

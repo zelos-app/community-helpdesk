@@ -1,24 +1,77 @@
 import React from "react";
 import {Formik, Field, Form} from "formik";
+import { withStyles } from '@material-ui/core/styles';
+import Dialog from '@material-ui/core/Dialog';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Typography from '@material-ui/core/Typography';
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import axios from "../../utils/axios";
 
+const styles = (theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(2),
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+});
 
-export const AreaEditModal = ({area, selectedAreaEdited}) => {
+const DialogTitle = withStyles(styles)((props) => {
+  const { children, classes, onClose, ...other } = props;
   return (
-    <div className="modal">
-      <div className="modal__content">
+    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+      <Typography variant="h6">{children}</Typography>
+      {onClose ? (
+        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </MuiDialogTitle>
+  );
+});
+
+const DialogContent = withStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+}))(MuiDialogContent);
+
+
+export const AreaEditModal = ({data, deleteArea, areaEdited}) => {
+  const { action, selected: area } = data;
+  const handleDelete = () => {
+    deleteArea(area);
+    areaEdited();
+  }
+
+  return (
+    <Dialog onClose={() => areaEdited()} aria-labelledby="customized-dialog-title" open={true}>
+    <DialogTitle id="customized-dialog-title" onClose={() => areaEdited()}>
+      {`${action === 'edit' ? 'Edit' : 'New'} Area`}
+    </DialogTitle>
+    <DialogContent dividers>
         <Formik
           initialValues={{
-            name: area.name,
+            name: area?.name || "",
           }}
           onSubmit={async (values, formik) => {
             try {
+              if (action === "add") {
+                await axios.post("/api/areas/", values);
+                  
+                } else {
               await axios.put(`/api/areas/${area._id}`, values);
-
+                }
               formik.setSubmitting(false);
-              selectedAreaEdited();
+              areaEdited();
             } catch (e) {
               alert(e.message);
             }
@@ -36,15 +89,15 @@ export const AreaEditModal = ({area, selectedAreaEdited}) => {
               <Field
                 name="name"
                 as={CustomInput}
-                labelId="Name"
+                labelId="name"
                 layout="input"
               />
             </div>
-            <div className="action-wrapper">
+            <div className="category-action">
               <Field>
                 {({form}) => (
                   <CustomButton
-                    titleId="Save"
+                    titleId="save"
                     modifier="primary"
                     type="submit"
                     disabled={form.isSubmitting || !form.isValid}
@@ -52,15 +105,23 @@ export const AreaEditModal = ({area, selectedAreaEdited}) => {
                 )}
               </Field>
               <CustomButton
-                titleId="Cancel"
+                titleId="cancel"
                 modifier="secondary"
                 type="button"
-                onClick={() => selectedAreaEdited()}
+                onClick={() => areaEdited()}
               />
+              {action === 'edit' ?
+               <CustomButton
+                titleId="delete"
+                modifier="secondary"
+                type="button"
+                onClick={() => handleDelete()}
+              /> : <div/>
+                } 
             </div>
           </Form>
         </Formik>
-      </div>
-    </div>
+        </DialogContent>
+       </Dialog>
   );
 };

@@ -21,6 +21,6 @@ export const darkTheme = {
 
 export const variables = {
   text_m: "14pt",
-  weight_m: "600",
+  weight_m: "400",
   radius_m: "2pt",
 };

@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import {
-  filterInitialState,
-  setActiveFilter,
-} from "../../../hooks/useTickets";
+import { filterInitialState, setActiveFilter } from "../../../hooks/useTickets";
 import { Checkbox, createStyles, FormControlLabel } from "@material-ui/core";
 import { FormattedMessage } from "react-intl";
 import FormControl from "@material-ui/core/FormControl";
@@ -15,7 +12,11 @@ const useStyles = makeStyles(() =>
   createStyles({
     root: {
       display: "flex",
+      justifyContent: "space-between"
     },
+    label: {
+      padding: "10px 20px"
+    }
   })
 );
 
@@ -37,30 +38,31 @@ export const Filter = () => {
       [target.value]: target.checked,
     });
 
-    setFilter({...filter, [target.value]: target.checked});
+    setFilter({ ...filter, [target.value]: target.checked });
   };
 
   const checkBox = (filter) => {
     return (
       <Checkbox
         color="primary"
+        size="small"
         onChange={filterChanged}
         checked={filter[filter]}
       />
     );
   };
 
-  const Label = (props) => <Typography variant="h5" {...props} />;
+  const Label = (props) => <Typography variant="h5" className={classes.label} {...props} />;
   const translateLabel = (label) => <FormattedMessage id={`filter.${label}`} />;
 
   return (
     <>
       <div className={classes.root}>
         <FormControl component="fieldset">
-          <Label component={FormLabel}>
-            <FormattedMessage id="filters" />
-          </Label>
           <FormGroup row>
+            <Label component={FormLabel}>
+              <FormattedMessage id="filters" />
+            </Label>
             {filterKeys.map((filter, idx) => (
               <FormControlLabel
                 key={idx}

@@ -312,7 +312,7 @@ export const TicketDetails = () => {
               <Box ml={1}>
                 <Button
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   onClick={() =>
                     putOrPostTicket(
                       !!draftTicket?._id ? "edit" : "create",

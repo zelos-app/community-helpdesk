@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { injectIntl } from "react-intl";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
+import CustomButton from "../../../components/CustomButton/CustomButton";
 import { Filter } from "./Filter";
 import { TicketList } from "./TicketList";
 import { TicketDetails } from "./TicketDetails";
@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) =>
     grow: {
       flexGrow: 1,
     },
+    newTicket: {
+      textAlign: "right"
+    }
   })
 );
 
@@ -36,20 +39,20 @@ function Main() {
 
   return (
     <>
+   
       <Grid container direction="row" alignItems="flex-end">
-        <Filter />
-
-        <div className={classes.grow} />
-
-        <Button
-          variant="contained"
-          color="default"
-          onClick={() => setActiveTicket(ticketInitialState)}
-        >
-          <FormattedMessage id="newTask" />
-        </Button>
+        <Grid item md={8} xs={12}>
+          <Filter />
+        </Grid>
+        <Grid item md={4} xs={12} className={classes.newTicket}>
+          <CustomButton
+            titleId="newTask"
+            modifier="primary"
+            onClick={() => setActiveTicket(ticketInitialState)}
+          />
+        </Grid>
       </Grid>
-
+      
       <Grid container>
         <Grid item sm={12} md={6}>
           <Paper elevation={0} className={classes.paper}>

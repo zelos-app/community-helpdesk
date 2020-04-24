@@ -36,7 +36,6 @@ export default createGlobalStyle`
         font-weight: ${({ theme }) => theme.weight_m};
         border-radius: ${({ theme }) => theme.radius_m};
         padding: 0 16pt;
-        line-height: 35pt;
         transition: all .12s ease-in-out;}
 
         .input-wrapper input[type=checkbox] {
@@ -85,7 +84,7 @@ export default createGlobalStyle`
           color: ${({ theme }) => theme.input.primary.color.main};
           background: ${({ theme }) => theme.input.primary.background.main};
           border: solid ${({ theme }) =>
-            theme.input.primary.borderColor.main} 2px;}
+          theme.input.primary.borderColor.active} 2px;}
 
           .primary .input-wrapper input:hover,
           .primary .input-wrapper textarea:hover {
@@ -113,7 +112,7 @@ export default createGlobalStyle`
           color: ${({ theme }) => theme.input.secondary.color.main};
           background: ${({ theme }) => theme.input.secondary.background.main};
           border: solid ${({ theme }) =>
-            theme.input.secondary.borderColor.main} 2px;}
+            theme.input.secondary.borderColor.active} 2px;}
 
           .secondary .input-wrapper input:hover,
           .secondary .input-wrapper textarea:hover,
