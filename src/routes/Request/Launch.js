@@ -4,7 +4,7 @@ import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 
-function Intro() {
+function Launch() {
   return (
     <Grid container spacing={0}>
       <Grid item md={5} xs={12}>
@@ -21,7 +21,7 @@ function Intro() {
         >
           <div className="text-wrapper">
             <h1 className="text-alpha">
-              <FormattedMessage id="introHead" />
+              <FormattedMessage id="launchHead" />
             </h1>
             <h3 className="text-alpha">
               <FormattedMessage
@@ -31,17 +31,17 @@ function Intro() {
             </h3>
           </div>
           <div className="action-wrapper">
-            <Link to="/request">
-              <CustomButton titleId="landing.buttons.request" modifier="primary" />
+            <Link to="/launch/moreinfo">
+              <CustomButton titleId="launch.buttons.moreInfo" modifier="primary" />
             </Link>
-            <Link to="/app">
-              <CustomButton titleId="iWantToHelp" modifier="secondary" />
+            <Link to="/getstarted">
+              <CustomButton titleId="launch.buttons.getStarted" modifier="secondary" />
             </Link>
            </div>
         </Grid>
       </Grid>
     </Grid>
   );
-}
+} 
 
-export default Intro;
+export default Launch;

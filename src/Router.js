@@ -4,6 +4,9 @@ import { Route, Switch, Redirect } from "react-router-dom";
 // Routes
 import Intro from "./routes/Request/Intro";
 
+import Launch from "./routes/Request/Launch";
+import MoreInfo from "./routes/Request/MoreInfo";
+
 // Auth
 import AuthWrapper from "./routes/Auth/AuthWrapper";
 import Login from "./routes/Auth/Login";
@@ -14,7 +17,6 @@ import ResetPassword from "./routes/Auth/ResetPassword";
 // Dashboard
 import DashboardWrapper from "./routes/Dashboard/DashboardWrapper";
 import MainView from "./routes/Dashboard/Main/Main";
-import Users from "./routes/Dashboard/Users";
 import Settings from "./routes/Dashboard/Settings";
 
 // Request
@@ -31,7 +33,7 @@ export default () => {
   return (
     <Switch>
       <Route exact path="/" component={Intro} />
-      <Route
+     <Route
         path="/auth"
         render={({ match: { path } }) => (
           <AuthWrapper>
@@ -63,14 +65,25 @@ export default () => {
           </RequestWrapper>
         )}
       />
+       <Route
+        path="/launch"
+        render={({ match: { path } }) => (
+          <RequestWrapper>
+            <Switch>
+              <Redirect exact from={path} to={`${path}/start`} />
+              <Route path={`${path}/start`} component={Launch} />
+              <Route path={`${path}/moreinfo`} component={MoreInfo} />
+            </Switch>
+          </RequestWrapper>
+        )}
+      />
       <Route
         path="/dashboard"
         render={({ match: { path } }) => (
           <DashboardWrapper>
             <Switch>
               <Route exact path={path} component={MainView} />
-              <Route path={`${path}/settings`} component={Settings} />
-              <Route path={`${path}/users`} component={Users} />
+              <Route path={`${path}/settings/:slug?`} component={Settings} />
             </Switch>
           </DashboardWrapper>
         )}

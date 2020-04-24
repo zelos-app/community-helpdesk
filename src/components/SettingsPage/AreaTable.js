@@ -13,32 +13,46 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { Paper } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
+import { FormattedMessage } from "react-intl";
 
 const useStyles = makeStyles({
   container: {
-    padding: '8 0 8 0',
+    padding: "8 0 8 0",
     elevation: 0,
   },
   table: {
     minWidth: "100%",
   },
+  wapper: {
+    padding: "24px",
+    backgroundColor: "#f5f5f5",
+  },
+  newarea: {
+    display: "flex",
+    flexDirection: "row-reverse",
+    marginTop: "10px",
+  },
 });
 
 export const AreaTable = ({ areas, getAreas, deleteArea }) => {
   const classes = useStyles();
-  const [selectedArea, setSelectedArea] = useState(null);
+  const [area, setArea] = useState(null);
 
-  const selectedAreaEdited = () => {
-    setSelectedArea(null);
+  const areaEdited = () => {
+    setArea(null);
     getAreas();
+  };
+
+  const createArea = () => {
+    setArea({ action: "add", selected: null });
   };
 
   return (
     <>
       {areas ? (
-        <>
-          <TableContainer component={Paper} class={classes.container}>
-            <Table class={classes.table}>
+        <div className={classes.wapper}>
+          <TableContainer component={Paper} className={classes.container}>
+            <Table className={classes.table}>
               <TableHead>
                 <TableRow>
                   <TableCell align="center">Name</TableCell>
@@ -51,7 +65,11 @@ export const AreaTable = ({ areas, getAreas, deleteArea }) => {
                     <TableCell>{area.name}</TableCell>
                     <TableCell align="right">
                       <ButtonGroup>
-                        <Button onClick={() => setSelectedArea(area)}>
+                        <Button
+                          onClick={() =>
+                            setArea({ action: "edit", selected: area })
+                          }
+                        >
                           <EditIcon />
                         </Button>
                         <Button onClick={() => deleteArea(area)}>
@@ -64,14 +82,25 @@ export const AreaTable = ({ areas, getAreas, deleteArea }) => {
               </TableBody>
             </Table>
           </TableContainer>
-
-          {selectedArea && (
+          <div className={classes.newarea}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                createArea();
+              }}
+            >
+              <FormattedMessage id="createArea" />
+            </Button>
+          </div>
+          {area && (
             <AreaEditModal
-              area={selectedArea}
-              selectedAreaEdited={selectedAreaEdited}
+              data={area}
+              deleteArea={deleteArea}
+              areaEdited={areaEdited}
             />
           )}
-        </>
+        </div>
       ) : (
         <LoadingSpinner />
       )}

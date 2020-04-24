@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import EditIcon from "@material-ui/icons/Edit";
+import axios from "../../utils/axios";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -15,6 +16,7 @@ import { CategoryEditModal } from "./CategoryEditModal";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { Paper } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
+import { FormattedMessage } from "react-intl";
 
 const useStyles = makeStyles({
   container: {
@@ -23,6 +25,15 @@ const useStyles = makeStyles({
   },
   table: {
     minWidth: "100%",
+  },
+  wapper: {
+    padding: "24px",
+    backgroundColor: "#f5f5f5",
+  },
+  newcategory: {
+    display: "flex",
+    flexDirection: "row-reverse",
+    marginTop: "10px",
   },
 });
 
@@ -33,19 +44,23 @@ export const CategoryTable = ({
 }) => {
   const classes = useStyles();
 
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [category, setCategory] = useState(null);
 
-  const selectedCategoryEdited = () => {
-    setSelectedCategory(null);
+  const categoryEdited = () => {
+    setCategory(null);
     getCategories();
+  };
+
+  const createCategory = () => {
+    setCategory({ action: "add", selected: null });
   };
 
   return (
     <>
       {categories ? (
-        <>
-          <TableContainer component={Paper} class={classes.container}>
-            <Table class={classes.table}>
+        <div className={classes.wapper}>
+          <TableContainer component={Paper} className={classes.container}>
+            <Table className={classes.table}>
               <TableHead>
                 <TableRow>
                   <TableCell align="center">Name</TableCell>
@@ -64,7 +79,11 @@ export const CategoryTable = ({
                     </TableCell>
                     <TableCell align="right">
                       <ButtonGroup>
-                        <Button onClick={() => setSelectedCategory(category)}>
+                        <Button
+                          onClick={() =>
+                            setCategory({ action: "edit", selected: category })
+                          }
+                        >
                           <EditIcon />
                         </Button>
                         <Button onClick={() => deleteCategory(category)}>
@@ -77,14 +96,25 @@ export const CategoryTable = ({
               </TableBody>
             </Table>
           </TableContainer>
-
-          {selectedCategory && (
+          <div className={classes.newcategory}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                createCategory();
+              }}
+            >
+              <FormattedMessage id="createCategory" />
+            </Button>
+          </div>
+          {category && (
             <CategoryEditModal
-              category={selectedCategory}
-              selectedCategoryEdited={selectedCategoryEdited}
+              data={category}
+              deleteCategory={deleteCategory}
+              selectedCategoryEdited={categoryEdited}
             />
           )}
-        </>
+        </div>
       ) : (
         <LoadingSpinner />
       )}
