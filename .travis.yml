@@ -25,4 +25,4 @@ jobs:
         - ssh-add <(echo "$SSH_DEPLOY_KEY" | base64 --decode) > /dev/null
         - ssh-keyscan ${APP_DOMAIN} >> ~/.ssh/known_hosts
       script:
-        - ssh ${SSH_USER}@${APP_DOMAIN} "cd ~/${APP_FOLDER} && git pull && export APP_DOMAIN=${APP_DOMAIN} && export ACME_EMAIL=${ACME_EMAIL} && export MONGO_USER=${MONGO_USER} && export MONGO_PASSWORD=${MONGO_PASSWORD} && export STAGE=${STAGE} && docker-compose pull && docker-compose up -d"
+        - ssh ${SSH_USER}@${APP_DOMAIN} "cd ~/${APP_FOLDER} && git pull"

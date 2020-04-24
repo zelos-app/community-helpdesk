@@ -22,7 +22,7 @@ This project was started for [The Global Hack](https://theglobalhack.com/) to pr
 
 1. Set up variables for docker-compose:
 ```
-export APP_DOMAIN=yourdomain.com \
+export APP_HOST=yourdomain.com \
 && export ACME_EMAIL=your@email.com \
 && export MONGO_USER=root \
 && export MONGO_PASSWORD=rootpassword \

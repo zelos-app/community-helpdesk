@@ -2,5 +2,5 @@
 .vscode
 **/acme.json
 **/*.env
-!**/*.example.env
+!**/*example.env
 build

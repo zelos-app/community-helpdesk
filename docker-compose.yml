@@ -9,13 +9,14 @@ services:
     networks:
       - front-end
     environment:
-      APP_DOMAIN: "${APP_DOMAIN}"
+      APP_HOST: "${APP_HOST}"
+      API_HOST: back-end
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=front-end"
-      - "traefik.docker.domain=${APP_DOMAIN}"
+      - "traefik.docker.domain=${APP_HOST}"
       - "traefik.frontend.priority=1"
-      - "traefik.frontend.rule=Host:${APP_DOMAIN}"
+      - "traefik.frontend.rule=Host:${APP_HOST}"
       - "traefik.frontend.passHostHeader=true"
       - "traefik.frontend.headers.customRequestHeaders=X-Forwarded-Proto:https"
       - "traefik.frontend.entryPoints=https"
@@ -23,6 +24,7 @@ services:
       - "traefik.frontend.headers.STSSeconds=315360000"
       - "traefik.frontend.headers.STSIncludeSubdomains=true"
       - "traefik.frontend.headers.STSPreload=true"
+      - "com.centurylinklabs.watchtower.enable=true"
 
   traefik:
     container_name: traefik
@@ -44,7 +46,7 @@ services:
       - "--acme.email=${ACME_EMAIL}"
       - "--acme.entryPoint=https"
       - "--acme.httpChallenge.entryPoint=http"
-      - "--acme.domains=${APP_DOMAIN}"
+      - "--acme.domains=${APP_HOST}"
       - "--acme.storage=/acme/cert.json"
     ports:
       - 80:80
@@ -70,8 +72,10 @@ services:
     networks:
       - front-end
       - back-end
-    volumes:
-      - ./${STAGE}.env:/usr/src/app/.env
+    env_file:
+      - ${STAGE}.env
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   mongodb:
     container_name: mongodb
@@ -80,13 +84,22 @@ services:
     ports:
       - 27017:27017
     environment:
-      MONGO_INITDB_ROOT_USERNAME: "${MONGO_USER}"
-      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_PASSWORD}"
+      MONGO_INITDB_ROOT_USERNAME: "root"
+      MONGO_INITDB_ROOT_PASSWORD: "rootpassword"
       MONGO_INITDB_DATABASE: "community-helpdesk"
     volumes:
       - mongodb:/data/db
     networks:
       - back-end
+
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+    command:
+      - "--label-enable"
 
 volumes:
   acme:
