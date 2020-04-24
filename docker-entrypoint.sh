@@ -6,5 +6,6 @@ function config() {
 }
 
 config
+sleep 5
 
 exec "$@"
