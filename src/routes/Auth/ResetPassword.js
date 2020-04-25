@@ -9,15 +9,15 @@ export default function ResetPassword() {
   let { token } = useParams();
 
   const [payload, setPayload] = useState({});
-  const [isValid, setIsValid] = useState(true);
-
-  async function checkToken() {
-    await axios.get(`/api/auth/reset/${token}`);
-  }
+  const [isValid] = useState(true);
 
   useEffect(() => {
+    async function checkToken() {
+      await axios.get(`/api/auth/reset/${token}`);
+    }
+    
     checkToken();
-  }, []);
+  }, [token]);
 
   function handleInputChange({ target }) {
     setPayload({

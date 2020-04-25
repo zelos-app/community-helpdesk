@@ -7,9 +7,7 @@ import { RequestOptionsContext } from "./RequestWrapper";
 import {
   TextField,
   Button,
-  Select,
   MenuItem,
-  InputLabel,
   Grid,
 } from "@material-ui/core";
 

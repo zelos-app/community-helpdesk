@@ -1,6 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
 import { Formik, Form } from "formik";
-import axios from "../../utils/axios";
 import history from "../../utils/history";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 

@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, Fragment } from "react";
+import React, { useContext, Fragment } from "react";
 import { Field, useFormikContext } from "formik";
 import { FormattedMessage } from "react-intl";
-import history from "../../utils/history";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { MoreInfoRequestOptionsContext } from "./MoreInfoRequestWrapper";
 import {

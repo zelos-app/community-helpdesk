@@ -65,9 +65,9 @@ export const LocaleTable = () => {
     getLocales();
   }, []);
 
-  const createLocale = () => {
-    console.log("===creat elocales");
-  };
+  // const createLocale = () => {
+  //   console.log("===creat elocales");
+  // };
 
   const openLocaleModal = () => {
     const langList = languages.map(lang => lang.id);

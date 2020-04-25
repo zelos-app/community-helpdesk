@@ -11,7 +11,6 @@ import MoreInfo from "./routes/Request/MoreInfo";
 import AuthWrapper from "./routes/Auth/AuthWrapper";
 import Login from "./routes/Auth/Login";
 import Register from "./routes/Auth/Register";
-import ResetEmail from "./routes/Auth/ResetEmail";
 import ResetPassword from "./routes/Auth/ResetPassword";
 
 // Dashboard

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import EditIcon from "@material-ui/icons/Edit";
-import axios from "../../utils/axios";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";

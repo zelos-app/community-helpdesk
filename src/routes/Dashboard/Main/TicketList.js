@@ -6,7 +6,7 @@ import { orderBy } from "lodash";
 import { setActiveTicket, useTickets } from "../../../hooks/useTickets";
 import Box from "@material-ui/core/Box";
 
-export const TicketList = ({}) => {
+export const TicketList = () => {
   const [tickets] = useTickets();
   const { categories, areas } = useContext(RequestOptionsContext);
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { IntlProvider } from "react-intl";
 import Container from "@material-ui/core/Container";
@@ -16,7 +16,7 @@ import translations_en from "./translations/en.json";
 import translations_et from "./translations/et.json";
 
 import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
-import { Bar, LangBar } from "./components/Bar";
+import { LangBar } from "./components/Bar";
 
 // i18 configs
 const i18nConfig = {
