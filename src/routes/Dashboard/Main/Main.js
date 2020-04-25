@@ -8,22 +8,21 @@ import { TicketDetails } from "./TicketDetails";
 import {
   fetchTickets,
   ticketInitialState,
-  setActiveTicket,
+  useTickets,
+  startEditing,
 } from "../../../hooks/useTickets";
 import Paper from "@material-ui/core/Paper";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
-    paper: {
-      padding: theme.spacing(2),
-      height: "100%",
-    },
-    grow: {
-      flexGrow: 1,
-    },
     newTicket: {
       textAlign: "right",
+    },
+    ticketPlaceholder: {
+      padding: theme.spacing(2),
+      minHeight: "400px",
+      textAlign: "center",
     },
   })
 );
@@ -37,35 +36,44 @@ function Main() {
     })();
   }, []);
 
+  const [tickets] = useTickets();
+  const { activeTicket, isEditing } = tickets;
+
   return (
-    <>
-      <Grid container direction="row" alignItems="flex-end">
+    <Grid container spacing={2}>
+      <Grid container item direction="row" alignItems="flex-end">
         <Grid item md={8} xs={12}>
           <Filter />
         </Grid>
         <Grid item md={4} xs={12} className={classes.newTicket}>
-          <CustomButton
-            titleId="newTask"
-            modifier="primary"
-            onClick={() => setActiveTicket(ticketInitialState)}
-          />
+          {!isEditing && (
+            <CustomButton
+              titleId="newTask"
+              modifier="primary"
+              onClick={() => startEditing(ticketInitialState)}
+            />
+          )}
         </Grid>
       </Grid>
 
-      <Grid container>
+      <Grid container item spacing={2}>
         <Grid item sm={12} md={6}>
-          <Paper elevation={0} className={classes.paper}>
+          <Paper elevation={0}>
             <TicketList />
           </Paper>
         </Grid>
 
         <Grid item sm={12} md={6}>
-          <Paper elevation={0} className={classes.paper}>
-            <TicketDetails />
+          <Paper elevation={3} className={classes.ticketPlaceholder}>
+            {activeTicket || isEditing ? (
+              <TicketDetails />
+            ) : (
+              <h3>Select a ticket or create a new one</h3>
+            )}
           </Paper>
         </Grid>
       </Grid>
-    </>
+    </Grid>
   );
 }
 
