@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     elevation: 0,
   },
   margin: {
-    margin:  theme.spacing(1),
+    margin: theme.spacing(1),
     float: "left",
   },
   extendedIcon: {
@@ -65,12 +65,12 @@ export const LocaleTable = () => {
     getLocales();
   }, []);
 
-  const createLocale = () => {
-    console.log("===creat elocales");
-  };
+  // const createLocale = () => {
+  //   console.log("===creat elocales");
+  // };
 
   const openLocaleModal = () => {
-    const langList = languages.map(lang => lang.id);
+    const langList = languages.map((lang) => lang.id);
     setLocaleModal(langList);
   };
 
@@ -101,15 +101,12 @@ export const LocaleTable = () => {
               </Button>
             ))}
 
-            <IconButton
-              aria-label="delete"
-              onClick={() => openLocaleModal()}
-            >
+            <IconButton aria-label="delete" onClick={() => openLocaleModal()}>
               <AddIcon fontSize="small" />
             </IconButton>
           </Box>
         </Grid>
-        <Grid item xs={6} style={{flexBasis: "auto"}}>
+        <Grid item xs={6} style={{ flexBasis: "auto" }}>
           <Box m={2}>
             <Switch
               color="primary"

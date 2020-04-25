@@ -1,12 +1,12 @@
 import React from "react";
 import { Formik, Field, Form } from "formik";
-import { withStyles } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import MuiDialogContent from '@material-ui/core/DialogContent';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
+import { withStyles } from "@material-ui/core/styles";
+import Dialog from "@material-ui/core/Dialog";
+import MuiDialogTitle from "@material-ui/core/DialogTitle";
+import MuiDialogContent from "@material-ui/core/DialogContent";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import Typography from "@material-ui/core/Typography";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import axios from "../../utils/axios";
@@ -17,7 +17,7 @@ const styles = (theme) => ({
     padding: theme.spacing(2),
   },
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500],
@@ -30,7 +30,11 @@ const DialogTitle = withStyles(styles)((props) => {
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
       <Typography variant="h6">{children}</Typography>
       {onClose ? (
-        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+        <IconButton
+          aria-label="close"
+          className={classes.closeButton}
+          onClick={onClose}
+        >
           <CloseIcon />
         </IconButton>
       ) : null}
@@ -44,21 +48,31 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-
-export const CategoryEditModal = ({ data, deleteCategory, selectedCategoryEdited }) => {
+export const CategoryEditModal = ({
+  data,
+  deleteCategory,
+  selectedCategoryEdited,
+}) => {
   const { action, selected: category } = data;
-  
+
   const handleDelete = () => {
     deleteCategory(category);
     selectedCategoryEdited();
-  }
- 
+  };
+
   return (
-    <Dialog onClose={() => selectedCategoryEdited()} aria-labelledby="customized-dialog-title" open={true}>
-    <DialogTitle id="customized-dialog-title" onClose={() => selectedCategoryEdited()}>
-      {`${action === 'edit' ? 'Edit' : 'New'} Category`}
-    </DialogTitle>
-    <DialogContent dividers>
+    <Dialog
+      onClose={() => selectedCategoryEdited()}
+      aria-labelledby="customized-dialog-title"
+      open={true}
+    >
+      <DialogTitle
+        id="customized-dialog-title"
+        onClose={() => selectedCategoryEdited()}
+      >
+        {`${action === "edit" ? "Edit" : "New"} Category`}
+      </DialogTitle>
+      <DialogContent dividers>
         <Formik
           initialValues={{
             name: category?.name || "",
@@ -66,10 +80,10 @@ export const CategoryEditModal = ({ data, deleteCategory, selectedCategoryEdited
             needsAddress: category?.needsAddress || false,
           }}
           onSubmit={async (values, formik) => {
-            try { console.log('====', action, values);
+            try {
+              console.log("====", action, values);
               if (action === "add") {
                 await axios.post("/api/categories/", values);
-                
               } else {
                 await axios.put(`/api/categories/${category._id}`, values);
               }
@@ -133,18 +147,20 @@ export const CategoryEditModal = ({ data, deleteCategory, selectedCategoryEdited
                 type="button"
                 onClick={() => selectedCategoryEdited()}
               />
-              {action === 'edit' ?
-               <CustomButton
-                titleId="delete"
-                modifier="secondary"
-                type="button"
-                onClick={() => handleDelete()}
-              /> : <div/>
-                } 
+              {action === "edit" ? (
+                <CustomButton
+                  titleId="delete"
+                  modifier="secondary"
+                  type="button"
+                  onClick={() => handleDelete()}
+                />
+              ) : (
+                <div />
+              )}
             </div>
           </Form>
         </Formik>
-        </DialogContent>
-       </Dialog>
+      </DialogContent>
+    </Dialog>
   );
 };

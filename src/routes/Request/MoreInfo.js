@@ -1,20 +1,13 @@
-import React, { useContext, useEffect, Fragment } from "react";
+import React, { useContext, Fragment } from "react";
 import { Field, useFormikContext } from "formik";
 import { FormattedMessage } from "react-intl";
-import history from "../../utils/history";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { MoreInfoRequestOptionsContext } from "./MoreInfoRequestWrapper";
-import {
-  TextField,
-  Button,
-  MenuItem,
-  Grid,
-} from "@material-ui/core";
+import { TextField, Button, MenuItem, Grid } from "@material-ui/core";
 
 function MoreInfo() {
   const { country } = useContext(MoreInfoRequestOptionsContext);
   const { values, isValid, isSubmitting } = useFormikContext();
-
 
   return (
     <Grid container spacing={0}>
@@ -28,7 +21,6 @@ function MoreInfo() {
               <FormattedMessage id="aboutYourself" />
             </h1>
           </div>
-
           <div className="input-container">
             <Grid container spacing={2} direction="column" alignItems="stretch">
               <Grid item>
@@ -52,14 +44,14 @@ function MoreInfo() {
                   required
                   select
                 >
-                    <MenuItem value="" key="select-country">
-                     Select Country
+                  <MenuItem value="" key="select-country">
+                    Select Country
+                  </MenuItem>
+                  {country.map((option) => (
+                    <MenuItem value={option} key={option}>
+                      {option}
                     </MenuItem>
-                     {country.map((option) => (
-                      <MenuItem value={option} key={option}>
-                        {option}
-                      </MenuItem>
-                    ))}
+                  ))}
                 </Field>
               </Grid>
               <Grid item>
@@ -112,7 +104,7 @@ function MoreInfo() {
               </Grid>
             </Grid>
           </div>
-    ==>=={country}
+          ==>=={country}
           <div className="action-wrapper">
             {isSubmitting ? (
               <LoadingSpinner />

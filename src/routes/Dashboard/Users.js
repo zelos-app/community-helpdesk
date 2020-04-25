@@ -221,33 +221,28 @@ const InviteUserForm = () => {
           isInitialValid={false}
         >
           <Form className="input-container">
-              <Field
-                as={CustomInput}
-                name="email"
-                type="email"
-                required
-              />
-              <Field name="admin">
-                {({ field }) => (
-                  <CustomInput
-                    name={field.name}
-                    labelId="admin"
-                    layout="checkbox"
-                    checked={field.value}
-                    {...field}
-                  />
-                )}
-              </Field>
-               <Field>
-                {({ form }) => (
-                  <CustomButton
-                    titleId="invite"
-                    modifier="secondary"
-                    type="submit"
-                    disabled={form.isSubmitting || !form.isValid}
-                  />
-                )}
-              </Field>
+            <Field as={CustomInput} name="email" type="email" required />
+            <Field name="admin">
+              {({ field }) => (
+                <CustomInput
+                  name={field.name}
+                  labelId="admin"
+                  layout="checkbox"
+                  checked={field.value}
+                  {...field}
+                />
+              )}
+            </Field>
+            <Field>
+              {({ form }) => (
+                <CustomButton
+                  titleId="invite"
+                  modifier="secondary"
+                  type="submit"
+                  disabled={form.isSubmitting || !form.isValid}
+                />
+              )}
+            </Field>
           </Form>
         </Formik>
       </Grid>

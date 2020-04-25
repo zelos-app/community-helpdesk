@@ -1,5 +1,4 @@
 import React from "react";
-import CustomButton from "../../components/CustomButton/CustomButton";
 import mobileApplication from "../../assets/mobileApplication.png";
 import { ReactComponent as AppStore } from "../../assets/appStore.svg";
 import { ReactComponent as PlayStore } from "../../assets/playStore.svg";

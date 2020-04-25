@@ -41,7 +41,7 @@ export default function Login() {
             <form onSubmit={props.handleSubmit}>
               <div className="input-container">
                 <TextField
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   className="input"
                   id="email"
                   name="email"
@@ -52,7 +52,7 @@ export default function Login() {
                   required
                 />
                 <TextField
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   className="input"
                   id="password"
                   name="password"
@@ -65,11 +65,7 @@ export default function Login() {
                 />
               </div>
               <div className="action-wrapper">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                >
+                <Button variant="contained" color="primary" type="submit">
                   <FormattedMessage id="login" />
                 </Button>
               </div>

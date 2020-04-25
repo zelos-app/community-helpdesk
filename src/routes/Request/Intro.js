@@ -32,12 +32,15 @@ function Intro() {
           </div>
           <div className="action-wrapper">
             <Link to="/request">
-              <CustomButton titleId="landing.buttons.request" modifier="primary" />
+              <CustomButton
+                titleId="landing.buttons.request"
+                modifier="primary"
+              />
             </Link>
             <Link to="/app">
               <CustomButton titleId="iWantToHelp" modifier="secondary" />
             </Link>
-           </div>
+          </div>
         </Grid>
       </Grid>
     </Grid>

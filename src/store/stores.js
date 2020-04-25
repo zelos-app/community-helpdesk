@@ -7,7 +7,7 @@ export const useStore = (store) => {
   useEffect(() => {
     store.subscribe(setState);
     return () => store.unsubscribe(setState);
-  }, []);
+  }, [store]);
 
   return [state, store.set];
 };

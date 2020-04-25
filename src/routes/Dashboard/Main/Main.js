@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme) =>
       flexGrow: 1,
     },
     newTicket: {
-      textAlign: "right"
-    }
+      textAlign: "right",
+    },
   })
 );
 
@@ -39,7 +39,6 @@ function Main() {
 
   return (
     <>
-   
       <Grid container direction="row" alignItems="flex-end">
         <Grid item md={8} xs={12}>
           <Filter />
@@ -52,7 +51,7 @@ function Main() {
           />
         </Grid>
       </Grid>
-      
+
       <Grid container>
         <Grid item sm={12} md={6}>
           <Paper elevation={0} className={classes.paper}>

@@ -26,7 +26,7 @@
   "dashboard.nav.settings": "Settings",
   "dashboard.nav.tickets": "Tickets",
   "dashboard.nav.users": "Users",
-  "dashboard.nav.locales":"Locales",
+  "dashboard.nav.locales": "Locales",
   "delete": "delete",
   "describeYourRequest": "Add details about your problem ",
   "description": "Description",
@@ -47,8 +47,8 @@
   "introBody": "<p>Things get better with a little help from a friend... or a neighbor! Through this platform you can request help or offer support to people of your community.</p><p>Powerful things can happen when people come together. Please sign up and share your page among your friends. Your community needs you.</p><p>Have a lovely (and helpful) day!</p>",
   "introHead": "Let's fight this crisis together!",
   "launchHead": "Launch your own Zeloss Community Helpdesk",
-  "launch.buttons.moreInfo":"More Info",
-  "launch.buttons.getStarted":"Get Started",
+  "launch.buttons.moreInfo": "More Info",
+  "launch.buttons.getStarted": "Get Started",
   "invite": "Invite",
   "inviteUser": "Invite user",
   "iWantToHelp": "I want to help",
@@ -79,7 +79,7 @@
   "settings.modal.ticket.approved.message": "Thank you, the ticket has been approved and a task has been created in your Zelos workspace.",
   "shopping": "Grocery Delivery",
   "walkingAPet": "Walking a Pet",
-  "locales":"Locales",
+  "locales": "Locales",
   "locale.field.name": "Field Name",
   "locale.field.value": "Field value"
 }
