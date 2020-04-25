@@ -26,7 +26,8 @@ export const initialState = {
   items: [],
   isLoading: false,
   isError: false,
-  activeTicket: ticketInitialState,
+  isEditing: false,
+  activeTicket: undefined,
   activeFilter: filterInitialState,
 };
 
@@ -76,10 +77,27 @@ export const putOrPostTicket = async (method, newTicket) => {
       ? await axios.post("/api/tickets", newTicket)
       : await axios.put(`/api/tickets/${newTicket._id}`, newTicket);
 
+    setActiveTicket(newTicket);
     appendTicket(newTicket);
+    stopEditing();
   } catch (e) {
     alert(e.message);
   }
+};
+
+export const startEditing = (ticket) => {
+  store.set({
+    ...store.state,
+    draftTicket: ticket,
+    isEditing: true,
+  });
+};
+
+export const stopEditing = () => {
+  store.set({
+    ...store.state,
+    isEditing: false,
+  });
 };
 
 export const updateActiveTicketStatus = async (comment, state) => {
