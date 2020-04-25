@@ -32,16 +32,22 @@ function Launch() {
           </div>
           <div className="action-wrapper">
             <Link to="/launch/moreinfo">
-              <CustomButton titleId="launch.buttons.moreInfo" modifier="primary" />
+              <CustomButton
+                titleId="launch.buttons.moreInfo"
+                modifier="primary"
+              />
             </Link>
             <Link to="/getstarted">
-              <CustomButton titleId="launch.buttons.getStarted" modifier="secondary" />
+              <CustomButton
+                titleId="launch.buttons.getStarted"
+                modifier="secondary"
+              />
             </Link>
-           </div>
+          </div>
         </Grid>
       </Grid>
     </Grid>
   );
-} 
+}
 
 export default Launch;

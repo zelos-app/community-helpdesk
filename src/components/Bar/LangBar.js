@@ -23,7 +23,8 @@ export const LangBar = ({ langs, selectLanguage }) => {
     <div className={classes.root}>
       <ButtonGroup size="small" aria-label="small outlined button group">
         {langs.map((lang) => (
-          <Button key={lang}
+          <Button
+            key={lang}
             onClick={() => {
               selectLanguage(lang);
             }}

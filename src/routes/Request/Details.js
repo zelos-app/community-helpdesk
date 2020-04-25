@@ -4,12 +4,7 @@ import { FormattedMessage } from "react-intl";
 import history from "../../utils/history";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { RequestOptionsContext } from "./RequestWrapper";
-import {
-  TextField,
-  Button,
-  MenuItem,
-  Grid,
-} from "@material-ui/core";
+import { TextField, Button, MenuItem, Grid } from "@material-ui/core";
 
 function Details() {
   const { categories, areas } = useContext(RequestOptionsContext);

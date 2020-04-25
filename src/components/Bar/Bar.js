@@ -96,10 +96,7 @@ export const Bar = ({ locale, isLoggedIn, setLogged }) => {
 
   return (
     <AppBar position="static">
-      <Toolbar>
-        {isLoggedIn ? loggedInRoutes() : loggedOutRoutes()}
-      
-      </Toolbar>
+      <Toolbar>{isLoggedIn ? loggedInRoutes() : loggedOutRoutes()}</Toolbar>
     </AppBar>
   );
 };

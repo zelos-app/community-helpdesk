@@ -32,7 +32,7 @@ export default () => {
   return (
     <Switch>
       <Route exact path="/" component={Intro} />
-     <Route
+      <Route
         path="/auth"
         render={({ match: { path } }) => (
           <AuthWrapper>
@@ -64,7 +64,7 @@ export default () => {
           </RequestWrapper>
         )}
       />
-       <Route
+      <Route
         path="/launch"
         render={({ match: { path } }) => (
           <RequestWrapper>

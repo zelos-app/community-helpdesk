@@ -12,11 +12,11 @@ const useStyles = makeStyles(() =>
   createStyles({
     root: {
       display: "flex",
-      justifyContent: "space-between"
+      justifyContent: "space-between",
     },
     label: {
-      padding: "10px 20px"
-    }
+      padding: "10px 20px",
+    },
   })
 );
 
@@ -52,7 +52,9 @@ export const Filter = () => {
     );
   };
 
-  const Label = (props) => <Typography variant="h5" className={classes.label} {...props} />;
+  const Label = (props) => (
+    <Typography variant="h5" className={classes.label} {...props} />
+  );
   const translateLabel = (label) => <FormattedMessage id={`filter.${label}`} />;
 
   return (

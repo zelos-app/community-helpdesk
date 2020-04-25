@@ -43,7 +43,7 @@ export default function MoreInfoRequestWrapper(props) {
             }}
             validate={(values) => {
               const errors = {};
-            
+
               if (!values.orgname) {
                 errors.request = "required";
               }

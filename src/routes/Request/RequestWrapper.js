@@ -37,7 +37,7 @@ export default function RequestWrapper(props) {
         <RequestOptionsContext.Provider value={requestOptions}>
           <Formik
             initialValues={{
-              phone: "+372"
+              phone: "+372",
             }}
             onSubmit={(values, form) => {
               async function next() {
@@ -50,7 +50,7 @@ export default function RequestWrapper(props) {
             }}
             validate={(values) => {
               const errors = {};
-           
+
               if (!values.request) {
                 errors.request = "required";
               }
