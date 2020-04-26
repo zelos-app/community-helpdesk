@@ -36,31 +36,40 @@ function Category() {
         <div className="illustration" />
       </Grid>
       <Grid item xs={7}>
-        <div className="request-children-wrapper">
-          <div className="text-wrapper">
-            <h1 className="text-alpha">
-              <FormattedMessage id="categoryHead" />
-            </h1>
-            <h3 className="text-alpha">
-              <FormattedMessage
-                id="categoryBody"
-                values={{ p: (...chunks) => <p>{chunks}</p> }}
-              />
-            </h3>
-          </div>
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justify="center"
+          style={{ minHeight: "100vh" }}
+        >
+          <div className="request-children-wrapper">
+            <div className="text-wrapper">
+              <h1 className="text-alpha">
+                <FormattedMessage id="categoryHead" />
+              </h1>
+              <h3 className="text-alpha">
+                <FormattedMessage
+                  id="categoryBody"
+                  values={{ p: (...chunks) => <p>{chunks}</p> }}
+                />
+              </h3>
+            </div>
 
-          <Grid container direction="row" justify="center" spacing={2}>
-            <SelectorButtons />
-          </Grid>
-          <div className="action-wrapper">
-            <FormattedMessage id="or" />
+            <Grid container direction="row" justify="center" spacing={2}>
+              <SelectorButtons />
+            </Grid>
+            <div className="action-wrapper">
+              <FormattedMessage id="or" />
+            </div>
+            <div className="action-wrapper">
+              <Button onClick={() => history.go(-1)}>
+                <FormattedMessage id="back" />
+              </Button>
+            </div>
           </div>
-          <div className="action-wrapper">
-            <Button onClick={() => history.go(-1)}>
-              <FormattedMessage id="back" />
-            </Button>
-          </div>
-        </div>
+        </Grid>
       </Grid>
     </Grid>
   );

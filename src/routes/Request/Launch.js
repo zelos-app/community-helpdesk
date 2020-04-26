@@ -10,7 +10,7 @@ function Launch() {
       <Grid item md={5} xs={12}>
         <div className="illustration" />
       </Grid>
-      <Grid item md={7} xs={12}>
+      <Grid item md={7} xs={12} className="right-block">
         <Grid
           container
           spacing={0}
