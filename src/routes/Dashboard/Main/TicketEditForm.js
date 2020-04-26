@@ -10,10 +10,11 @@ import { RequestOptionsContext } from "../DashboardWrapper";
 
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
-import { createStyles } from "@material-ui/core";
+import { createStyles, FormHelperText } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { Formik } from "formik";
+import { ErrorsHandlingHelper } from "../../../utils/errosHandling";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -43,27 +44,22 @@ export const TicketEditForm = (props) => {
     return categories.find((category) => ticketCategory === category._id);
   };
 
-  console.log(users);
-
   return (
     <Box component="div">
       <Formik
         initialValues={ticket}
         onSubmit={async (values, formik) => {
           try {
-            (await props.onSubmit) && props.onSubmit({ ...ticket, ...values });
-
-            formik.setSubmitting(false);
+            props.onSubmit && (await props.onSubmit({ ...ticket, ...values }));
           } catch (e) {
-            alert(e.message);
+            if (ErrorsHandlingHelper.isValidationError(e)) {
+              const errors = ErrorsHandlingHelper.errorToValidationMessages(e);
+              formik.setErrors(errors);
+              return;
+            }
+
+            alert(ErrorsHandlingHelper.extractMessage(e));
           }
-        }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.name) {
-            errors.name = "required";
-          }
-          return errors;
         }}
       >
         {(fProps) => (
@@ -79,6 +75,8 @@ export const TicketEditForm = (props) => {
               multiline
               onChange={fProps.handleChange}
               value={fProps.values.request}
+              error={!!fProps.errors?.request}
+              helperText={fProps.errors.request}
             />
 
             <TextField
@@ -90,9 +88,16 @@ export const TicketEditForm = (props) => {
               fullWidth
               onChange={fProps.handleChange}
               value={fProps.values.name}
+              error={!!fProps.errors?.name}
+              helperText={fProps.errors.name}
             />
 
-            <FormControl className="input" variant="outlined" fullWidth>
+            <FormControl
+              className="input"
+              variant="outlined"
+              fullWidth
+              error={!!fProps.errors?.category}
+            >
               <InputLabel>
                 <FormattedMessage id="category" />
               </InputLabel>
@@ -105,6 +110,7 @@ export const TicketEditForm = (props) => {
                 variant="outlined"
                 style={{ textAlign: "left" }}
                 label={<FormattedMessage id="category" />}
+                error={!!fProps.errors?.category}
               >
                 <MenuItem value="">
                   <em>None</em>
@@ -115,6 +121,9 @@ export const TicketEditForm = (props) => {
                   </MenuItem>
                 ))}
               </Select>
+              <FormHelperText id="component-error-text">
+                {fProps.errors?.category}
+              </FormHelperText>
             </FormControl>
 
             <TextField
@@ -126,6 +135,8 @@ export const TicketEditForm = (props) => {
               fullWidth
               onChange={fProps.handleChange}
               value={fProps.values.phone}
+              error={!!fProps.errors?.phone}
+              helperText={fProps.errors.phone}
             />
 
             {ticket.category &&
@@ -139,10 +150,17 @@ export const TicketEditForm = (props) => {
                   fullWidth
                   onChange={fProps.handleChange}
                   value={fProps.values.address}
+                  error={!!fProps.errors?.address}
+                  helperText={fProps.errors.address}
                 />
               )}
 
-            <FormControl className="input" variant="outlined" fullWidth>
+            <FormControl
+              className="input"
+              variant="outlined"
+              fullWidth
+              error={!!fProps.errors?.area}
+            >
               <InputLabel>
                 <FormattedMessage id="area" />
               </InputLabel>
@@ -165,9 +183,17 @@ export const TicketEditForm = (props) => {
                   </MenuItem>
                 ))}
               </Select>
+              <FormHelperText id="component-error-text">
+                {fProps.errors?.area}
+              </FormHelperText>
             </FormControl>
 
-            <FormControl className="input" variant="outlined" fullWidth>
+            <FormControl
+              className="input"
+              variant="outlined"
+              fullWidth
+              error={!!fProps.errors?.owner}
+            >
               <InputLabel>
                 <FormattedMessage id="assignee" />
               </InputLabel>
@@ -190,6 +216,9 @@ export const TicketEditForm = (props) => {
                   </MenuItem>
                 ))}
               </Select>
+              <FormHelperText id="component-error-text">
+                {fProps.errors?.owner}
+              </FormHelperText>
             </FormControl>
 
             <Grid container direction="row" justify="flex-end">

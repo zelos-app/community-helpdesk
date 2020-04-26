@@ -28,6 +28,7 @@
 
   &--active {
     transform: scale(1.015);
+    border: 1px solid lightgray;
   }
 
   &__icon-row {
@@ -53,5 +54,6 @@
 
   &__area-row {
     margin-left: 12px;
+    margin-bottom: 12px;
   }
 }
