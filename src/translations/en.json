@@ -1,6 +1,7 @@
 {
   "address": "Address",
   "admin": "Admin",
+  "status": "Status",
   "appLandingBody.group": "Join the support community for your location: COVID-help-ESTONIA",
   "appLandingBody.help": "Go and help someone!",
   "appLandingBody.install": "Install the Zelos Team Management app by clicking the buttons below.",

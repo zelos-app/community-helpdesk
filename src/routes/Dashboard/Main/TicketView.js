@@ -99,7 +99,7 @@ export const TicketVew = (props) => {
           <FormattedMessage id={labelId} />
         </Typography>
 
-        <Typography variant="body2">{value}</Typography>
+        <Typography variant="body1">{value}</Typography>
       </div>
     );
   };
@@ -115,6 +115,7 @@ export const TicketVew = (props) => {
   return (
     <>
       <Box component="div" style={{ textAlign: "left" }}>
+        {renderItem("status", ticket.status)}
         {renderItem("request", ticket.request)}
         {renderItem("requesterName", ticket.name)}
         {renderItem("category", getOption(categories, ticket.category)?.name)}

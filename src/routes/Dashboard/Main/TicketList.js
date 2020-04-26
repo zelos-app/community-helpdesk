@@ -38,6 +38,7 @@ export const TicketList = () => {
     address,
     category,
     owner,
+    status,
     _id,
   }) => {
     setActiveTicket({
@@ -49,6 +50,7 @@ export const TicketList = () => {
       address,
       category,
       owner,
+      status,
       _id,
     });
   };
