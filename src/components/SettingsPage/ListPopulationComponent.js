@@ -7,6 +7,8 @@ import { SettingNavigation } from "./SettingNavigation";
 import Users from "../../routes/Dashboard/Users";
 import { LocaleTable } from "./LocaleTable";
 import { useParams } from "react-router-dom";
+import { Zelos } from "../../routes/Dashboard/Zelos";
+import { Sms } from "../../routes/Dashboard/Sms";
 
 export default function ListPopulationComponent() {
   const { slug = "category" } = useParams();
@@ -99,10 +101,24 @@ export default function ListPopulationComponent() {
             />
           </Grid>
         )}
-        {slug === "users" && <Users />}
+        {slug === "users" && (
+          <Grid item xs={12}>
+            <Users />
+          </Grid>
+        )}
         {slug === "locales" && (
           <Grid item xs={12}>
             <LocaleTable />
+          </Grid>
+        )}
+        {slug === "zelos" && (
+          <Grid item xs={12}>
+            <Zelos />
+          </Grid>
+        )}
+        {slug === "sms" && (
+          <Grid item xs={12}>
+            <Sms />
           </Grid>
         )}
       </Grid>

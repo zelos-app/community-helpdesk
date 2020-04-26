@@ -4,3 +4,4 @@
 **/*.env
 !**/*example.env
 build
+.idea

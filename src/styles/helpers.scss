@@ -38,3 +38,26 @@ h3.text-alpha {
     margin-bottom: 20px;
   }
 }
+
+.flex {
+  display: flex;
+
+  &_reverse {
+    flex-direction: row-reverse;
+  }
+}
+
+$spaces: (10, 20);
+$sides: (top, bottom, left, right);
+
+@each $space in $spaces {
+  @each $side in $sides {
+    .m#{str-slice($side, 0, 1)}-#{$space} {
+      margin-#{$side}: #{$space}px !important;
+    }
+
+    .p#{str-slice($side, 0, 1)}-#{$space} {
+      padding-#{$side}: #{$space}px !important;
+    }
+  }
+}

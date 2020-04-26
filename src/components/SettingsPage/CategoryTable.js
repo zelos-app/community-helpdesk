@@ -62,7 +62,7 @@ export const CategoryTable = ({
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <TableCell align="center">Name</TableCell>
+                  <TableCell>Name</TableCell>
                   <TableCell align="center">Description</TableCell>
                   <TableCell align="center">Address needed</TableCell>
                   <TableCell align="center" />
@@ -72,7 +72,7 @@ export const CategoryTable = ({
                 {categories.map((category) => (
                   <TableRow key={category._id}>
                     <TableCell>{category.name}</TableCell>
-                    <TableCell>{category.description}</TableCell>
+                    <TableCell align="center">{category.description}</TableCell>
                     <TableCell align="center">
                       {category.needsAddress ? <CheckIcon /> : <ClearIcon />}
                     </TableCell>
