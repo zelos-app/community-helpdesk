@@ -42,7 +42,7 @@ export default function Register() {
               <Field
                 name="firstName"
                 className="input"
-                style={{ width: '100%' }}
+                style={{ width: "100%" }}
                 as={TextField}
                 label={<FormattedMessage id="firstName" />}
                 modifier="primary"
@@ -51,7 +51,7 @@ export default function Register() {
               <Field
                 name="lastName"
                 className="input"
-                style={{ width: '100%' }}
+                style={{ width: "100%" }}
                 as={TextField}
                 label={<FormattedMessage id="lastName" />}
                 modifier="primary"
@@ -60,7 +60,7 @@ export default function Register() {
               <Field
                 name="password"
                 className="input"
-                style={{ width: '100%' }}
+                style={{ width: "100%" }}
                 as={TextField}
                 label={<FormattedMessage id="password" />}
                 modifier="primary"

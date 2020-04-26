@@ -12,7 +12,7 @@ export const ticketInitialState = {
   phone: "",
   area: "",
   owner: "",
-  status: "",
+  status: "new",
 };
 
 export const filterInitialState = {
@@ -26,7 +26,8 @@ export const initialState = {
   items: [],
   isLoading: false,
   isError: false,
-  activeTicket: ticketInitialState,
+  isEditing: false,
+  activeTicket: undefined,
   activeFilter: filterInitialState,
 };
 
@@ -71,15 +72,30 @@ const appendTicket = (newTicket) => {
 };
 
 export const putOrPostTicket = async (method, newTicket) => {
-  try {
+  const idData =
     method === "create"
       ? await axios.post("/api/tickets", newTicket)
       : await axios.put(`/api/tickets/${newTicket._id}`, newTicket);
 
-    appendTicket(newTicket);
-  } catch (e) {
-    alert(e.message);
-  }
+  const updatedTicket = { _id: idData?.data?.id, ...newTicket };
+  setActiveTicket(updatedTicket);
+  appendTicket(updatedTicket);
+  stopEditing();
+};
+
+export const startEditing = (ticket) => {
+  store.set({
+    ...store.state,
+    draftTicket: ticket,
+    isEditing: true,
+  });
+};
+
+export const stopEditing = () => {
+  store.set({
+    ...store.state,
+    isEditing: false,
+  });
 };
 
 export const updateActiveTicketStatus = async (comment, state) => {
@@ -95,8 +111,8 @@ export const updateActiveTicketStatus = async (comment, state) => {
         comment,
       });
     }
-  } catch (error) {
-    console.log(error);
+
+    setActiveTicket(undefined);
   } finally {
     // TODO: Should not really fetch all, put update the active ticket and set it to the list.
     await fetchTickets();

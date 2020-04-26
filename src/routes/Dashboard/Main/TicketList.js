@@ -6,7 +6,7 @@ import { orderBy } from "lodash";
 import { setActiveTicket, useTickets } from "../../../hooks/useTickets";
 import Box from "@material-ui/core/Box";
 
-export const TicketList = ({}) => {
+export const TicketList = () => {
   const [tickets] = useTickets();
   const { categories, areas } = useContext(RequestOptionsContext);
 
@@ -15,11 +15,19 @@ export const TicketList = ({}) => {
       (key) => !!tickets.activeFilter[key]
     );
 
-    return state.length === 0
-      ? true
-      : state.filter((oneFilter) => {
-          return oneTicket.status[oneFilter] === true;
-        }).length !== 0;
+    if (state.length === 0) {
+      return oneTicket.status === "new";
+    }
+
+    return (
+      state.filter((filter) => {
+        if (filter === "notified") {
+          return oneTicket.notified;
+        }
+
+        return oneTicket.status === filter;
+      }).length !== 0
+    );
   };
 
   const onTicketSelected = ({
@@ -30,6 +38,7 @@ export const TicketList = ({}) => {
     address,
     category,
     owner,
+    status,
     _id,
   }) => {
     setActiveTicket({
@@ -41,6 +50,7 @@ export const TicketList = ({}) => {
       address,
       category,
       owner,
+      status,
       _id,
     });
   };

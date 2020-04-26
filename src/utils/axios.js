@@ -24,7 +24,7 @@ instance.interceptors.response.use(
     if (response.status === 400 || response.status === 401) {
       logout();
     }
-    return response;
+    return Promise.reject(response);
   }
 );
 

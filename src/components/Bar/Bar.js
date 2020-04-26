@@ -1,7 +1,5 @@
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { logout } from "../../utils/auth";
@@ -9,7 +7,6 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import SvgIcon from "@material-ui/core/SvgIcon";
-import LanguageIcon from "@material-ui/icons/Language";
 import { makeStyles } from "@material-ui/styles";
 
 const HomeIcon = (props) => {
@@ -36,15 +33,15 @@ export const Bar = ({ locale, isLoggedIn, setLogged }) => {
     setIsHome(location.pathname === "/");
   }, [location]);
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  // const [setAnchorEl] = React.useState(null);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleClick = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
   const loggedInRoutes = () => {
     return (
@@ -99,10 +96,7 @@ export const Bar = ({ locale, isLoggedIn, setLogged }) => {
 
   return (
     <AppBar position="static">
-      <Toolbar>
-        {isLoggedIn ? loggedInRoutes() : loggedOutRoutes()}
-      
-      </Toolbar>
+      <Toolbar>{isLoggedIn ? loggedInRoutes() : loggedOutRoutes()}</Toolbar>
     </AppBar>
   );
 };

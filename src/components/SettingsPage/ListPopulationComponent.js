@@ -3,13 +3,15 @@ import React, { useEffect, useState } from "react";
 import { CategoryTable } from "./CategoryTable";
 import { AreaTable } from "./AreaTable";
 import Grid from "@material-ui/core/Grid";
-import {SettingNavigation} from './SettingNavigation';
+import { SettingNavigation } from "./SettingNavigation";
 import Users from "../../routes/Dashboard/Users";
-import {LocaleTable} from "./LocaleTable";
-import {  useParams } from "react-router-dom";
+import { LocaleTable } from "./LocaleTable";
+import { useParams } from "react-router-dom";
+import { Zelos } from "../../routes/Dashboard/Zelos";
+import { Sms } from "../../routes/Dashboard/Sms";
 
 export default function ListPopulationComponent() {
-  const { slug= "category" } = useParams();
+  const { slug = "category" } = useParams();
   const [category, setCategory] = useState([]);
   const [categoryDescription, setCategoryDescription] = useState("");
   const [categories, setCategories] = useState();
@@ -77,41 +79,49 @@ export default function ListPopulationComponent() {
 
   return (
     <>
-    <SettingNavigation/>
-    <Grid container direction="row" spacing={0} justify="space-between">
-      
-      {/*for creating category list*/}
-      {slug === 'category' &&
-      <Grid item xs={12}>
-    
-        <CategoryTable
-          categories={categories}
-          getCategories={() => getCategories()}
-          deleteCategory={(category) => deleteCategory(category)}
-        />
+      <SettingNavigation />
+      <Grid container direction="row" spacing={0} justify="space-between">
+        {/*for creating category list*/}
+        {slug === "category" && (
+          <Grid item xs={12}>
+            <CategoryTable
+              categories={categories}
+              getCategories={() => getCategories()}
+              deleteCategory={(category) => deleteCategory(category)}
+            />
+          </Grid>
+        )}
+        {/*for creating area list*/}
+        {slug === "area" && (
+          <Grid item xs={12}>
+            <AreaTable
+              areas={areas}
+              getAreas={() => getAreas()}
+              deleteArea={(area) => deleteArea(area)}
+            />
+          </Grid>
+        )}
+        {slug === "users" && (
+          <Grid item xs={12}>
+            <Users />
+          </Grid>
+        )}
+        {slug === "locales" && (
+          <Grid item xs={12}>
+            <LocaleTable />
+          </Grid>
+        )}
+        {slug === "zelos" && (
+          <Grid item xs={12}>
+            <Zelos />
+          </Grid>
+        )}
+        {slug === "sms" && (
+          <Grid item xs={12}>
+            <Sms />
+          </Grid>
+        )}
       </Grid>
-      }
-      {/*for creating area list*/}
-      {slug === 'area' &&
-      <Grid item xs={12} >
-        
-        <AreaTable
-          areas={areas}
-          getAreas={() => getAreas()}
-          deleteArea={(area) => deleteArea(area)}
-        />
-      </Grid>
-      }
-      {slug === 'users' && 
-      <Users/>
-    }
-     {slug === 'locales' && 
-        <Grid item xs={12}>
-    
-        <LocaleTable/>
-      </Grid>
-    }
-    </Grid>
     </>
   );
 }

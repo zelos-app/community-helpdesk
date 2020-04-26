@@ -4,7 +4,7 @@
   align-items: center;
   flex-wrap: wrap;
   margin-top: 40px;
-  
+
   > *:not(:first-child) {
     margin-left: 20px;
   }
@@ -29,9 +29,8 @@ td.action-wrapper {
 .category-action {
   display: flex;
   width: 100%;
-  justify-content: space-between;
   flex-direction: row-reverse;
-  margin-top: 40px;
+  margin-top: 20px;
   div:last-child {
     margin-right: auto;
   }

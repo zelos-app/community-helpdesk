@@ -9,15 +9,15 @@ export default function ResetPassword() {
   let { token } = useParams();
 
   const [payload, setPayload] = useState({});
-  const [isValid, setIsValid] = useState(true);
-
-  async function checkToken() {
-    await axios.get(`/api/auth/reset/${token}`);
-  }
+  const [isValid] = useState(true);
 
   useEffect(() => {
+    async function checkToken() {
+      await axios.get(`/api/auth/reset/${token}`);
+    }
+
     checkToken();
-  }, []);
+  }, [token]);
 
   function handleInputChange({ target }) {
     setPayload({
@@ -36,7 +36,7 @@ export default function ResetPassword() {
       <div className="auth-children-wrapper">
         <div className="input-container">
           <TextField
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             className="input"
             id="password"
             name="password"
@@ -49,11 +49,7 @@ export default function ResetPassword() {
         </div>
 
         <div className="action-wrapper">
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={reset}
-          >
+          <Button variant="contained" color="primary" onClick={reset}>
             <FormattedMessage id="sendPasswordToEmail" />
           </Button>
         </div>

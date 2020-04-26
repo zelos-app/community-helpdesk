@@ -84,7 +84,7 @@ export default createGlobalStyle`
           color: ${({ theme }) => theme.input.primary.color.main};
           background: ${({ theme }) => theme.input.primary.background.main};
           border: solid ${({ theme }) =>
-          theme.input.primary.borderColor.active} 2px;}
+            theme.input.primary.borderColor.active} 2px;}
 
           .primary .input-wrapper input:hover,
           .primary .input-wrapper textarea:hover {

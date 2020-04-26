@@ -10,7 +10,7 @@ function Intro() {
       <Grid item md={5} xs={12}>
         <div className="illustration" />
       </Grid>
-      <Grid item md={7} xs={12}>
+      <Grid item md={7} xs={12} className="right-block">
         <Grid
           container
           spacing={0}
@@ -32,12 +32,15 @@ function Intro() {
           </div>
           <div className="action-wrapper">
             <Link to="/request">
-              <CustomButton titleId="landing.buttons.request" modifier="primary" />
+              <CustomButton
+                titleId="landing.buttons.request"
+                modifier="primary"
+              />
             </Link>
             <Link to="/app">
               <CustomButton titleId="iWantToHelp" modifier="secondary" />
             </Link>
-           </div>
+          </div>
         </Grid>
       </Grid>
     </Grid>

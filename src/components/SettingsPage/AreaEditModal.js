@@ -1,15 +1,15 @@
 import React from "react";
-import {Formik, Field, Form} from "formik";
-import { withStyles } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import MuiDialogContent from '@material-ui/core/DialogContent';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
+import { Formik, Field, Form } from "formik";
+import { withStyles } from "@material-ui/core/styles";
+import MuiDialogTitle from "@material-ui/core/DialogTitle";
+import MuiDialogContent from "@material-ui/core/DialogContent";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import Typography from "@material-ui/core/Typography";
 import CustomButton from "../../components/CustomButton/CustomButton";
-import CustomInput from "../../components/CustomInput/CustomInput";
 import axios from "../../utils/axios";
+import DialogForm from "../../components/CustomInput/DialogForm";
+import FormInput from "../../components/CustomInput/FormInput";
 
 const styles = (theme) => ({
   root: {
@@ -17,7 +17,7 @@ const styles = (theme) => ({
     padding: theme.spacing(2),
   },
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500],
@@ -30,7 +30,11 @@ const DialogTitle = withStyles(styles)((props) => {
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
       <Typography variant="h6">{children}</Typography>
       {onClose ? (
-        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+        <IconButton
+          aria-label="close"
+          className={classes.closeButton}
+          onClick={onClose}
+        >
           <CloseIcon />
         </IconButton>
       ) : null}
@@ -44,20 +48,23 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-
-export const AreaEditModal = ({data, deleteArea, areaEdited}) => {
+export const AreaEditModal = ({ data, deleteArea, areaEdited }) => {
   const { action, selected: area } = data;
   const handleDelete = () => {
     deleteArea(area);
     areaEdited();
-  }
+  };
 
   return (
-    <Dialog onClose={() => areaEdited()} aria-labelledby="customized-dialog-title" open={true}>
-    <DialogTitle id="customized-dialog-title" onClose={() => areaEdited()}>
-      {`${action === 'edit' ? 'Edit' : 'New'} Area`}
-    </DialogTitle>
-    <DialogContent dividers>
+    <DialogForm
+      onClose={() => areaEdited()}
+      aria-labelledby="customized-dialog-title"
+      open={true}
+    >
+      <DialogTitle id="customized-dialog-title" onClose={() => areaEdited()}>
+        {`${action === "edit" ? "Edit" : "New"} Area`}
+      </DialogTitle>
+      <DialogContent dividers>
         <Formik
           initialValues={{
             name: area?.name || "",
@@ -66,10 +73,9 @@ export const AreaEditModal = ({data, deleteArea, areaEdited}) => {
             try {
               if (action === "add") {
                 await axios.post("/api/areas/", values);
-                  
-                } else {
-              await axios.put(`/api/areas/${area._id}`, values);
-                }
+              } else {
+                await axios.put(`/api/areas/${area._id}`, values);
+              }
               formik.setSubmitting(false);
               areaEdited();
             } catch (e) {
@@ -86,16 +92,11 @@ export const AreaEditModal = ({data, deleteArea, areaEdited}) => {
         >
           <Form>
             <div className="input-container">
-              <Field
-                name="name"
-                as={CustomInput}
-                labelId="name"
-                layout="input"
-              />
+              <FormInput name="name" label={"locale.fieldName"} />
             </div>
             <div className="category-action">
               <Field>
-                {({form}) => (
+                {({ form }) => (
                   <CustomButton
                     titleId="save"
                     modifier="primary"
@@ -110,18 +111,20 @@ export const AreaEditModal = ({data, deleteArea, areaEdited}) => {
                 type="button"
                 onClick={() => areaEdited()}
               />
-              {action === 'edit' ?
-               <CustomButton
-                titleId="delete"
-                modifier="secondary"
-                type="button"
-                onClick={() => handleDelete()}
-              /> : <div/>
-                } 
+              {action === "edit" ? (
+                <CustomButton
+                  titleId="delete"
+                  modifier="secondary"
+                  type="button"
+                  onClick={() => handleDelete()}
+                />
+              ) : (
+                <div />
+              )}
             </div>
           </Form>
         </Formik>
-        </DialogContent>
-       </Dialog>
+      </DialogContent>
+    </DialogForm>
   );
 };

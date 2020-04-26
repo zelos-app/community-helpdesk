@@ -26,40 +26,49 @@ function Request() {
       <Grid item xs={5}>
         <div className="illustration" />
       </Grid>
-      <Grid item xs={7}>
-        <div className="request-children-wrapper">
-          <div className="text-wrapper">
-            <h1 className="text-alpha">
-              <FormattedMessage id="pleaseDescribeYourProblem" />
-            </h1>
-          </div>
+      <Grid item xs={7} className="right-block">
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justify="center"
+          style={{ minHeight: "100vh" }}
+        >
+          <div className="request-children-wrapper">
+            <div className="text-wrapper">
+              <h1 className="text-alpha">
+                <FormattedMessage id="pleaseDescribeYourProblem" />
+              </h1>
+            </div>
 
-          <Field
-            name="request"
-            as={TextField}
-            label={<FormattedMessage id="describeYourRequest" />}
-            variant="outlined"
-            multiline
-            rows="5"
-            required
-            fullWidth
-          />
+            <Field
+              name="request"
+              as={TextField}
+              label={<FormattedMessage id="describeYourRequest" />}
+              variant="outlined"
+              multiline
+              rows="5"
+              required
+              fullWidth
+            />
 
-          <div className="action-wrapper">
-            <Button type="button" onClick={back} variant="contained">
-              <FormattedMessage id="goBack" />
-            </Button>
-            <Button
-              color="primary"
-              onClick={next}
-              type="button"
-              disabled={!values.request}
-              variant="contained"
-            >
-              <FormattedMessage id="next" />
-            </Button>
+            <div className="action-wrapper">
+              <Button type="button" onClick={back} variant="contained">
+                <FormattedMessage id="goBack" />
+              </Button>
+              <Button
+                color="primary"
+                onClick={next}
+                type="button"
+                disabled={!values.request}
+                variant="contained"
+              >
+                <FormattedMessage id="next" />
+              </Button>
+            </div>
           </div>
-        </div>
+        </Grid>
       </Grid>
     </Grid>
   );

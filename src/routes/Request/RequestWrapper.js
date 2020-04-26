@@ -17,7 +17,7 @@ export default function RequestWrapper(props) {
       try {
         const {
           data: { categories, areas },
-        } = await axios.get("/api/submit");
+        } = await axios.get("/api/public/options");
 
         setRequestOptions({ categories, areas });
 
@@ -37,11 +37,11 @@ export default function RequestWrapper(props) {
         <RequestOptionsContext.Provider value={requestOptions}>
           <Formik
             initialValues={{
-              phone: "+372"
+              phone: "+372",
             }}
             onSubmit={(values, form) => {
               async function next() {
-                await axios.post("/api/submit", { ...values });
+                await axios.post("/api/public/tickets", { ...values });
                 form.resetForm();
                 form.setSubmitting(false);
                 history.push("/request/confirmed");
@@ -50,7 +50,7 @@ export default function RequestWrapper(props) {
             }}
             validate={(values) => {
               const errors = {};
-           
+
               if (!values.request) {
                 errors.request = "required";
               }

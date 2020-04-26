@@ -7,7 +7,7 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 
-import DashboardNavigation from "../../components/DashboardNavigation/DashboardNavigation"; 
+import DashboardNavigation from "../../components/DashboardNavigation/DashboardNavigation";
 
 const defaultContext = { categories: [], areas: [], users: [] };
 export const RequestOptionsContext = createContext(defaultContext);
@@ -17,7 +17,7 @@ export default function Dashboard(props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [requestOptions, setRequestOptions] = useState(defaultContext);
 
-  async function fetchData() { 
+  async function fetchData() {
     try {
       const [
         {
@@ -58,7 +58,7 @@ export default function Dashboard(props) {
       <Container maxWidth="lg">
         <Box p={1}>
           <RequestOptionsContext.Provider value={requestOptions}>
-          <DashboardNavigation />
+            <DashboardNavigation />
             {props.children}
           </RequestOptionsContext.Provider>
         </Box>

@@ -10,7 +10,7 @@ function Launch() {
       <Grid item md={5} xs={12}>
         <div className="illustration" />
       </Grid>
-      <Grid item md={7} xs={12}>
+      <Grid item md={7} xs={12} className="right-block">
         <Grid
           container
           spacing={0}
@@ -32,16 +32,22 @@ function Launch() {
           </div>
           <div className="action-wrapper">
             <Link to="/launch/moreinfo">
-              <CustomButton titleId="launch.buttons.moreInfo" modifier="primary" />
+              <CustomButton
+                titleId="launch.buttons.moreInfo"
+                modifier="primary"
+              />
             </Link>
             <Link to="/getstarted">
-              <CustomButton titleId="launch.buttons.getStarted" modifier="secondary" />
+              <CustomButton
+                titleId="launch.buttons.getStarted"
+                modifier="secondary"
+              />
             </Link>
-           </div>
+          </div>
         </Grid>
       </Grid>
     </Grid>
   );
-} 
+}
 
 export default Launch;

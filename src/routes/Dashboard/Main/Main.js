@@ -8,23 +8,24 @@ import { TicketDetails } from "./TicketDetails";
 import {
   fetchTickets,
   ticketInitialState,
-  setActiveTicket,
+  useTickets,
+  startEditing,
 } from "../../../hooks/useTickets";
 import Paper from "@material-ui/core/Paper";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import { FormattedMessage } from "react-intl";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
-    paper: {
-      padding: theme.spacing(2),
-      height: "100%",
-    },
-    grow: {
-      flexGrow: 1,
-    },
     newTicket: {
-      textAlign: "right"
-    }
+      textAlign: "right",
+    },
+    ticketPlaceholder: {
+      padding: theme.spacing(2),
+      minHeight: "400px",
+      textAlign: "center",
+    },
   })
 );
 
@@ -37,36 +38,50 @@ function Main() {
     })();
   }, []);
 
+  const [tickets] = useTickets();
+  const { activeTicket, isEditing } = tickets;
+
   return (
-    <>
-   
-      <Grid container direction="row" alignItems="flex-end">
+    <Grid container spacing={2}>
+      <Grid container item direction="row" alignItems="flex-end">
         <Grid item md={8} xs={12}>
           <Filter />
         </Grid>
         <Grid item md={4} xs={12} className={classes.newTicket}>
-          <CustomButton
-            titleId="newTask"
-            modifier="primary"
-            onClick={() => setActiveTicket(ticketInitialState)}
-          />
+          {!isEditing && (
+            <CustomButton
+              titleId="newTask"
+              modifier="primary"
+              onClick={() => startEditing(ticketInitialState)}
+            />
+          )}
         </Grid>
       </Grid>
-      
-      <Grid container>
+
+      <Grid container item spacing={2}>
         <Grid item sm={12} md={6}>
-          <Paper elevation={0} className={classes.paper}>
+          <Paper elevation={0}>
             <TicketList />
           </Paper>
         </Grid>
 
         <Grid item sm={12} md={6}>
-          <Paper elevation={0} className={classes.paper}>
-            <TicketDetails />
-          </Paper>
+          {activeTicket || isEditing ? (
+            <Paper elevation={3} className={classes.ticketPlaceholder}>
+              <TicketDetails />
+            </Paper>
+          ) : (
+            <Typography
+              variant="h6"
+              color="textSecondary"
+              style={{ textAlign: "center", paddingTop: "30px" }}
+            >
+              <FormattedMessage id="selectTicket" />
+            </Typography>
+          )}
         </Grid>
       </Grid>
-    </>
+    </Grid>
   );
 }
 

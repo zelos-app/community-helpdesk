@@ -11,7 +11,6 @@ import MoreInfo from "./routes/Request/MoreInfo";
 import AuthWrapper from "./routes/Auth/AuthWrapper";
 import Login from "./routes/Auth/Login";
 import Register from "./routes/Auth/Register";
-import ResetEmail from "./routes/Auth/ResetEmail";
 import ResetPassword from "./routes/Auth/ResetPassword";
 
 // Dashboard
@@ -33,7 +32,7 @@ export default () => {
   return (
     <Switch>
       <Route exact path="/" component={Intro} />
-     <Route
+      <Route
         path="/auth"
         render={({ match: { path } }) => (
           <AuthWrapper>
@@ -65,7 +64,7 @@ export default () => {
           </RequestWrapper>
         )}
       />
-       <Route
+      <Route
         path="/launch"
         render={({ match: { path } }) => (
           <RequestWrapper>
