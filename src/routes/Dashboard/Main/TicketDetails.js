@@ -16,31 +16,29 @@ export const TicketDetails = () => {
   const { draftTicket, isEditing, activeTicket } = tickets;
 
   const onSaveOrAdd = async (data) => {
-    return putOrPostTicket(data._id ? "update" : "create", data);
+    return await putOrPostTicket(data._id ? "update" : "create", data);
   };
 
   return (
     <>
-      <>
-        {isEditing && draftTicket && (
-          <TicketEditForm
-            ticket={draftTicket}
-            onSubmit={onSaveOrAdd}
-            onCancel={() => {
-              stopEditing();
-            }}
-          />
-        )}
-        {!isEditing && activeTicket && (
-          <TicketVew
-            ticket={activeTicket}
-            onUpdateStatus={updateActiveTicketStatus}
-            onEdit={() => {
-              startEditing(activeTicket);
-            }}
-          />
-        )}
-      </>
+      {isEditing && draftTicket && (
+        <TicketEditForm
+          ticket={draftTicket}
+          onSubmit={onSaveOrAdd}
+          onCancel={() => {
+            stopEditing();
+          }}
+        />
+      )}
+      {!isEditing && activeTicket && (
+        <TicketVew
+          ticket={activeTicket}
+          onUpdateStatus={updateActiveTicketStatus}
+          onEdit={() => {
+            startEditing(activeTicket);
+          }}
+        />
+      )}
     </>
   );
 };

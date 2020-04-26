@@ -15,11 +15,19 @@ export const TicketList = () => {
       (key) => !!tickets.activeFilter[key]
     );
 
-    return state.length === 0
-      ? true
-      : state.filter((oneFilter) => {
-          return oneTicket.status[oneFilter] === true;
-        }).length !== 0;
+    if (state.length === 0) {
+      return oneTicket.status === "new";
+    }
+
+    return (
+      state.filter((filter) => {
+        if (filter === "notified") {
+          return oneTicket.notified;
+        }
+
+        return oneTicket.status === filter;
+      }).length !== 0
+    );
   };
 
   const onTicketSelected = ({

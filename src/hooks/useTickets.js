@@ -72,17 +72,15 @@ const appendTicket = (newTicket) => {
 };
 
 export const putOrPostTicket = async (method, newTicket) => {
-  try {
+  const idData =
     method === "create"
       ? await axios.post("/api/tickets", newTicket)
       : await axios.put(`/api/tickets/${newTicket._id}`, newTicket);
 
-    setActiveTicket(newTicket);
-    appendTicket(newTicket);
-    stopEditing();
-  } catch (e) {
-    alert(e.message);
-  }
+  const updatedTicket = { _id: idData?.data?.id, ...newTicket };
+  setActiveTicket(updatedTicket);
+  appendTicket(updatedTicket);
+  stopEditing();
 };
 
 export const startEditing = (ticket) => {
@@ -113,8 +111,6 @@ export const updateActiveTicketStatus = async (comment, state) => {
         comment,
       });
     }
-  } catch (error) {
-    console.log(error);
   } finally {
     // TODO: Should not really fetch all, put update the active ticket and set it to the list.
     await fetchTickets();

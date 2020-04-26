@@ -17,6 +17,7 @@ import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import { createStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
+import { ErrorsHandlingHelper } from "../../../utils/errosHandling";
 
 import {
   TICKET_STATE_APPROVE,
@@ -101,6 +102,14 @@ export const TicketVew = (props) => {
         <Typography variant="body2">{value}</Typography>
       </div>
     );
+  };
+
+  const updateStatus = async (comment, modalType) => {
+    try {
+      props.onUpdateStatus && (await props.onUpdateStatus(comment, modalType));
+    } catch (e) {
+      alert(ErrorsHandlingHelper.extractMessage(e));
+    }
   };
 
   return (
@@ -206,8 +215,7 @@ export const TicketVew = (props) => {
           modalType={modalType}
           handleBtnClick={async (comment) => {
             await closeModal();
-            props.onUpdateStatus &&
-              (await props.onUpdateStatus(comment, modalType));
+            await updateStatus(comment, modalType);
           }}
           showCommentField={modalType === "resolve" || modalType === "reject"}
         />

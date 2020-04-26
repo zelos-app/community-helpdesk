@@ -26,10 +26,10 @@ export const Filter = () => {
 
   const filterKeys = [
     "rejected",
-    "approved",
+    "accepted",
     "resolved",
-    "archived",
     "notified",
+    // "archived"
   ];
 
   const filterChanged = async ({ target }) => {
