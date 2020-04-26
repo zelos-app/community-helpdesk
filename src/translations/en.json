@@ -81,5 +81,10 @@
   "walkingAPet": "Walking a Pet",
   "locales": "Locales",
   "locale.field.name": "Field Name",
+  "locale.fieldName": "Name",
+  "locale.fieldFirstName": "First name",
+  "locale.fieldLastName": "Last name",
+  "locale.fieldEmail": "Email",
+  "locale.fieldDescription": "Description",
   "locale.field.value": "Field value"
 }

@@ -1,15 +1,15 @@
 import React from "react";
 import { Formik, Field, Form } from "formik";
 import { withStyles } from "@material-ui/core/styles";
-import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import CustomButton from "../../components/CustomButton/CustomButton";
-import CustomInput from "../../components/CustomInput/CustomInput";
 import axios from "../../utils/axios";
+import DialogForm from "../../components/CustomInput/DialogForm";
+import FormInput from "../../components/CustomInput/FormInput";
 
 const styles = (theme) => ({
   root: {
@@ -56,7 +56,7 @@ export const AreaEditModal = ({ data, deleteArea, areaEdited }) => {
   };
 
   return (
-    <Dialog
+    <DialogForm
       onClose={() => areaEdited()}
       aria-labelledby="customized-dialog-title"
       open={true}
@@ -92,12 +92,7 @@ export const AreaEditModal = ({ data, deleteArea, areaEdited }) => {
         >
           <Form>
             <div className="input-container">
-              <Field
-                name="name"
-                as={CustomInput}
-                labelId="name"
-                layout="input"
-              />
+              <FormInput name="name" label={"locale.fieldName"} />
             </div>
             <div className="category-action">
               <Field>
@@ -130,6 +125,6 @@ export const AreaEditModal = ({ data, deleteArea, areaEdited }) => {
           </Form>
         </Formik>
       </DialogContent>
-    </Dialog>
+    </DialogForm>
   );
 };

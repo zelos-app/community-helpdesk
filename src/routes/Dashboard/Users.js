@@ -20,6 +20,12 @@ import TableBody from "@material-ui/core/TableBody";
 import Button from "@material-ui/core/Button";
 import EditIcon from "@material-ui/icons/Edit";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
+import DialogForm from "../../components/CustomInput/DialogForm";
+import DialogContent from "@material-ui/core/DialogContent";
+import FormInput from "../../components/CustomInput/FormInput";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 const UsersContext = createContext({ data: [], set: () => {} });
 
@@ -27,8 +33,18 @@ const UserEditModal = ({ user, setSelectedUser }) => {
   const { data, set } = useContext(UsersContext);
 
   return (
-    <div className="modal">
-      <div className="modal__content">
+    <DialogForm
+      onClose={() => setSelectedUser(null)}
+      aria-labelledby="customized-dialog-title"
+      open={true}
+    >
+      <DialogTitle
+        id="customized-dialog-title"
+        onClose={() => setSelectedUser(null)}
+      >
+        Edit User
+      </DialogTitle>
+      <DialogContent dividers>
         <Formik
           initialValues={{
             status: { admin: user.status.admin },
@@ -65,43 +81,35 @@ const UserEditModal = ({ user, setSelectedUser }) => {
         >
           <Form>
             <div className="input-container">
-              <Field
-                name="firstName"
-                as={CustomInput}
-                labelId="First name"
-                layout="input"
-              />
-              <Field
-                name="lastName"
-                as={CustomInput}
-                labelId="Last name"
-                layout="input"
-              />
-              <Field
+              <FormInput name="firstName" label={"locale.fieldFirstName"} />
+              <FormInput name="lastName" label={"locale.fieldLastName"} />
+              <FormInput
                 name="email"
-                as={CustomInput}
-                labelId="Email"
-                layout="input"
+                label={"locale.fieldEmail"}
                 type="email"
               />
-              <Field name="status.admin">
-                {({ field }) => (
-                  <CustomInput
-                    name={field.name}
-                    labelId="admin"
-                    layout="checkbox"
-                    modifier="secondary"
-                    checked={field.value}
-                    {...field}
-                  />
-                )}
-              </Field>
+              <FormControlLabel
+                className={"mt-10"}
+                control={
+                  <Field name="status.admin">
+                    {({ field }) => (
+                      <Checkbox
+                        color="primary"
+                        name={field.name}
+                        checked={field.value}
+                        {...field}
+                      />
+                    )}
+                  </Field>
+                }
+                label={<FormattedMessage id="admin" />}
+              />
             </div>
-            <div className="action-wrapper">
+            <div className="category-action">
               <Field>
                 {({ form }) => (
                   <CustomButton
-                    titleId="Save"
+                    titleId="save"
                     modifier="primary"
                     type="submit"
                     disabled={form.isSubmitting || !form.isValid}
@@ -109,7 +117,7 @@ const UserEditModal = ({ user, setSelectedUser }) => {
                 )}
               </Field>
               <CustomButton
-                titleId="Cancel"
+                titleId="cancel"
                 modifier="secondary"
                 type="button"
                 onClick={() => setSelectedUser(null)}
@@ -117,8 +125,8 @@ const UserEditModal = ({ user, setSelectedUser }) => {
             </div>
           </Form>
         </Formik>
-      </div>
-    </div>
+      </DialogContent>
+    </DialogForm>
   );
 };
 

@@ -47,7 +47,7 @@ h3.text-alpha {
   }
 }
 
-$spaces: (10);
+$spaces: (10, 20);
 $sides: (top, bottom, left, right);
 
 @each $space in $spaces {
