@@ -12,7 +12,7 @@ export const ticketInitialState = {
   phone: "",
   area: "",
   owner: "",
-  status: "",
+  status: "new",
 };
 
 export const filterInitialState = {
