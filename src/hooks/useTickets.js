@@ -111,6 +111,8 @@ export const updateActiveTicketStatus = async (comment, state) => {
         comment,
       });
     }
+
+    setActiveTicket(undefined);
   } finally {
     // TODO: Should not really fetch all, put update the active ticket and set it to the list.
     await fetchTickets();

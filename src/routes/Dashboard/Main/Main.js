@@ -13,6 +13,8 @@ import {
 } from "../../../hooks/useTickets";
 import Paper from "@material-ui/core/Paper";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import { FormattedMessage } from "react-intl";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -64,13 +66,19 @@ function Main() {
         </Grid>
 
         <Grid item sm={12} md={6}>
-          <Paper elevation={3} className={classes.ticketPlaceholder}>
-            {activeTicket || isEditing ? (
+          {activeTicket || isEditing ? (
+            <Paper elevation={3} className={classes.ticketPlaceholder}>
               <TicketDetails />
-            ) : (
-              <h3>Select a ticket or create a new one</h3>
-            )}
-          </Paper>
+            </Paper>
+          ) : (
+            <Typography
+              variant="h6"
+              color="textSecondary"
+              style={{ textAlign: "center", paddingTop: "30px" }}
+            >
+              <FormattedMessage id="selectTicket" />
+            </Typography>
+          )}
         </Grid>
       </Grid>
     </Grid>
