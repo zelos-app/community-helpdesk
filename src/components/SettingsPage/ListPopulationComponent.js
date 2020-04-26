@@ -99,7 +99,11 @@ export default function ListPopulationComponent() {
             />
           </Grid>
         )}
-        {slug === "users" && <Users />}
+        {slug === "users" && (
+          <Grid item xs={12}>
+            <Users />
+          </Grid>
+        )}
         {slug === "locales" && (
           <Grid item xs={12}>
             <LocaleTable />

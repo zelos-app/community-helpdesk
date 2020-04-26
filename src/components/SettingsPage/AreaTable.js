@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell/TableCell";
+import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -55,7 +55,7 @@ export const AreaTable = ({ areas, getAreas, deleteArea }) => {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <TableCell align="center">Name</TableCell>
+                  <TableCell>Name</TableCell>
                   <TableCell align="center" />
                 </TableRow>
               </TableHead>
