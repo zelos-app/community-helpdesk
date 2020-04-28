@@ -6,12 +6,17 @@ This project was started for [The Global Hack](https://theglobalhack.com/) to pr
 
 ### Dev team
 
-* [Viktor Lillemäe](https://www.linkedin.com/in/viktor-lillemae/) (design, back-end)
-* Kristjan Suursoho (front-end)
-* [Stepan Bolotnikov](https://github.com/Stopa) (front-end)
-* Triinu Liis Kelder (front-end)
-* [Raner Piibur](https://www.linkedin.com/in/raner-piibur-712858b2/) (front-end)
-* Mariam Reintop (front-end)
+- [Viktor Lillemäe](https://www.linkedin.com/in/viktor-lillemae/) (design, back-end)
+- Kristjan Suursoho (front-end)
+- [Stepan Bolotnikov](https://github.com/Stopa) (front-end)
+- Triinu Liis Kelder (front-end)
+- [Raner Piibur](https://www.linkedin.com/in/raner-piibur-712858b2/) (front-end)
+- Mariam Reintop (front-end)
+- [Andrei Cherepanov](https://axmit.com) (front-end)
+- [Yana Banina](https://axmit.com) (front-end)
+- [Aleksei Turcevich](https://axmit.com) (back-end)
+- [Daniil Vasilev](https://axmit.com) (front-end)
+- [Ilya Lezhnev](https://axmit.com) (front-end)
 
 ## Running in dev environment
 
@@ -20,13 +25,7 @@ This project was started for [The Global Hack](https://theglobalhack.com/) to pr
 
 ## Running in staging/production
 
-1. Set up variables for docker-compose:
-```
-export APP_HOST=yourdomain.com \
-&& export ACME_EMAIL=your@email.com \
-&& export MONGO_USER=root \
-&& export MONGO_PASSWORD=rootpassword \
-&& export STAGE=production|staging|...
-```
-2. Create and configure `${STAGE}.env` for API settings
-3. Run `docker-compose up -d`
+1. Rename `example.env` to `.env` and configure your deployment
+2. Run `docker-compose up -d`
+
+SSL is handled by Traefik using Letsencrypt automatically

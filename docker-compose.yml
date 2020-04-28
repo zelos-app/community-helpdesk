@@ -73,7 +73,7 @@ services:
       - front-end
       - back-end
     env_file:
-      - ${STAGE}.env
+      - ${PWD}/.env
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
 
@@ -96,7 +96,7 @@ services:
     container_name: watchtower
     image: containrrr/watchtower
     volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: always
     command:
       - "--label-enable"
