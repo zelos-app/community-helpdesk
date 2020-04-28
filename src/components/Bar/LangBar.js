@@ -16,18 +16,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const LangBar = ({ langs, selectLanguage }) => {
+export const LangBar = ({ locales, current, selectLanguage }) => {
   const classes = useStyles();
+
+  if (locales.length === 1) {
+    return null;
+  }
 
   return (
     <div className={classes.root}>
       <ButtonGroup size="small" aria-label="small outlined button group">
-        {langs.map((lang) => (
+        {locales.map((lang) => (
           <Button
             key={lang}
             onClick={() => {
               selectLanguage(lang);
             }}
+            color={current === lang ? "primary" : ""}
           >
             {lang}
           </Button>

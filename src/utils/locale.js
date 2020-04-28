@@ -25,6 +25,10 @@ const flattenLocales = (ob) => {
 
 export const loadLocales = async (lang) => {
   const res = await axios.get("/api/public/locales");
+  const locales = res.data;
+  const result = {};
 
-  return flattenLocales(res.data[0]);
+  locales.forEach((l) => (result[l.code] = flattenLocales(l)));
+
+  return result;
 };
