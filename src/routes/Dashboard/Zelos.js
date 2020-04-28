@@ -10,7 +10,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-export const Zelos = () => {
+export default () => {
   const [info, setInfo] = useState();
   const [loading, setLoading] = useState(true);
 

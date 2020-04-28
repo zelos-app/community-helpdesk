@@ -23,9 +23,5 @@ export default createGlobalStyle`
     .dashboard-nav__item--active {
       color: ${({ theme }) => theme.primary};
     }
-
-    .dashboard-nav__item:last-child {
-      margin-left: auto;
-    }
   }
 `;

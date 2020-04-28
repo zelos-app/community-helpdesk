@@ -16,7 +16,7 @@ import ResetPassword from "./routes/Auth/ResetPassword";
 // Dashboard
 import DashboardWrapper from "./routes/Dashboard/DashboardWrapper";
 import MainView from "./routes/Dashboard/Main/Main";
-import Settings from "./routes/Dashboard/Settings";
+import SettingsWrapper from "./routes/Dashboard/SettingsWrapper";
 
 // Request
 import RequestWrapper from "./routes/Request/RequestWrapper";
@@ -24,6 +24,14 @@ import Details from "./routes/Request/Details";
 import Request from "./routes/Request/Request";
 import Category from "./routes/Request/Category";
 import Confirmed from "./routes/Request/Confirmed";
+
+// Settings
+import AreaTable from "./components/SettingsPage/AreaTable";
+import CategoryTable from "./components/SettingsPage/CategoryTable";
+import Users from "./routes/Dashboard/Users";
+import Zelos from "./routes/Dashboard/Zelos";
+import SMS from "./routes/Dashboard/Sms";
+import LocaleTable from "./components/SettingsPage/LocaleTable";
 
 // AppLanding
 import AppLanding from "./routes/AppLanding/AppLanding";
@@ -82,7 +90,25 @@ export default () => {
           <DashboardWrapper>
             <Switch>
               <Route exact path={path} component={MainView} />
-              <Route path={`${path}/settings/:slug?`} component={Settings} />
+              <Route
+                path={`${path}/settings`}
+                render={({ match: { path } }) => (
+                  <SettingsWrapper>
+                    <Switch>
+                      <Redirect exact from={path} to={`${path}/users`} />
+                      <Route path={`${path}/users`} component={Users} />
+                      <Route
+                        path={`${path}/categories`}
+                        component={CategoryTable}
+                      />
+                      <Route path={`${path}/areas`} component={AreaTable} />
+                      <Route path={`${path}/locales`} component={LocaleTable} />
+                      <Route path={`${path}/zelos`} component={Zelos} />
+                      <Route path={`${path}/sms`} component={SMS} />
+                    </Switch>
+                  </SettingsWrapper>
+                )}
+              />
             </Switch>
           </DashboardWrapper>
         )}

@@ -19,20 +19,10 @@ export default function DashboardNavigation() {
         </div>
         <div className="dashboard-nav__item">
           <NavLink
-            exact
             to="/dashboard/settings"
             activeClassName="dashboard-nav__item--active"
           >
             <FormattedMessage id="dashboard.nav.settings" />
-          </NavLink>
-        </div>
-        <div className="dashboard-nav__item">
-          <NavLink
-            exact
-            to="/dashboard/users"
-            activeClassName="dashboard-nav__item--active"
-          >
-            Users
           </NavLink>
         </div>
       </div>

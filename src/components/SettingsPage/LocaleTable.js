@@ -48,7 +48,7 @@ const languages = [
   { id: "et", name: "Estonian" },
 ];
 
-export const LocaleTable = () => {
+export default () => {
   const classes = useStyles();
 
   const [defaultLanguage, setDefaultLanguage] = useState("en");

@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import DashboardNavigationStyle from "../DashboardNavigation/DashboardNavigationStyle";
 
-export const SettingNavigation = () => {
+export default () => {
   return (
     <Fragment>
       <DashboardNavigationStyle />
@@ -20,7 +20,7 @@ export const SettingNavigation = () => {
         <div className="dashboard-nav__item">
           <NavLink
             exact
-            to="/dashboard/settings/category"
+            to="/dashboard/settings/categories"
             activeClassName="dashboard-nav__item--active"
           >
             <FormattedMessage id="category" />
@@ -29,7 +29,7 @@ export const SettingNavigation = () => {
         <div className="dashboard-nav__item">
           <NavLink
             exact
-            to="/dashboard/settings/area"
+            to="/dashboard/settings/areas"
             activeClassName="dashboard-nav__item--active"
           >
             <FormattedMessage id="area" />
