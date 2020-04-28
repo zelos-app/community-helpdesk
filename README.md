@@ -11,7 +11,7 @@ This project was started for [The Global Hack](https://theglobalhack.com/) to pr
 - [Stepan Bolotnikov](https://github.com/Stopa) (front-end)
 - Triinu Liis Kelder (front-end)
 - [Raner Piibur](https://www.linkedin.com/in/raner-piibur-712858b2/) (front-end)
-- Mariam Reintop (front-end)
+- [Mariam Reintop](https://www.linkedin.com/in/mariam-reintop-8a856319a/) (front-end)
 - [Andrei Cherepanov](https://axmit.com) (front-end)
 - [Yana Banina](https://axmit.com) (front-end)
 - [Aleksei Turcevich](https://axmit.com) (back-end)
