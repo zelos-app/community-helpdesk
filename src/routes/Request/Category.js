@@ -47,11 +47,11 @@ function Category() {
           <div className="request-children-wrapper">
             <div className="text-wrapper">
               <h1 className="text-alpha">
-                <FormattedMessage id="categoryHead" />
+                <FormattedMessage id="selectCategory.content.header" />
               </h1>
               <h3 className="text-alpha">
                 <FormattedMessage
-                  id="categoryBody"
+                  id="selectCategory.content.body"
                   values={{ p: (...chunks) => <p>{chunks}</p> }}
                 />
               </h3>
@@ -61,11 +61,11 @@ function Category() {
               <SelectorButtons />
             </Grid>
             <div className="action-wrapper">
-              <FormattedMessage id="or" />
+              <FormattedMessage id="selectCategory.content.or" />
             </div>
             <div className="action-wrapper">
               <Button onClick={() => history.go(-1)}>
-                <FormattedMessage id="back" />
+                <FormattedMessage id="selectCategory.buttons.back" />
               </Button>
             </div>
           </div>
