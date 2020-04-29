@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { IntlProvider } from "react-intl";
+import { Switch, Route } from "react-router";
 import Container from "@material-ui/core/Container";
 
 import Router from "./Router";
@@ -53,13 +54,16 @@ export default () => {
         <LoggedInContext.Provider value={{ data: isLogged, set: setLogged }}>
           <GlobalStyles />
           <Container maxWidth="xl">
-            {!isLogged && (
-              <LangBar
-                locales={Object.keys(messages)}
-                current={locale}
-                selectLanguage={selectLanguage}
-              />
-            )}
+            <Switch>
+              <Route path="/dashboard" />
+              <Route path="*">
+                <LangBar
+                  locales={Object.keys(messages)}
+                  current={locale}
+                  selectLanguage={selectLanguage}
+                />
+              </Route>
+            </Switch>
             <Router />
           </Container>
         </LoggedInContext.Provider>
