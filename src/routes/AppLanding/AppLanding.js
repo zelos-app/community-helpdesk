@@ -6,7 +6,7 @@ import { FormattedMessage } from "react-intl";
 
 function AppLanding() {
   return (
-    <div className="app-landing vertical-center">
+    <div className="app-landing absolute-center">
       <div className="app-landing__text">
         <h1 className="text-alpha">
           <FormattedMessage id="appLanding.content.header" />
