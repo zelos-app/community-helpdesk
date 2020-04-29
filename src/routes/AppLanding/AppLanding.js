@@ -4,23 +4,15 @@ import { ReactComponent as AppStore } from "../../assets/appStore.svg";
 import { ReactComponent as PlayStore } from "../../assets/playStore.svg";
 import { FormattedMessage } from "react-intl";
 
-const listItems = ["install", "register", "group", "wait", "help"];
-
 function AppLanding() {
   return (
-    <div className="app-landing">
+    <div className="app-landing vertical-center">
       <div className="app-landing__text">
         <h1 className="text-alpha">
-          <FormattedMessage id="appLandingHead" />
+          <FormattedMessage id="appLanding.content.header" />
         </h1>
         <h3 className="text-alpha">
-          <ol className="app-landing__list">
-            {listItems.map((item) => (
-              <li>
-                <FormattedMessage id={`appLandingBody.${item}`} />
-              </li>
-            ))}
-          </ol>
+          <FormattedMessage id="appLanding.content.body" />
         </h3>
         <div className="app-landing__links">
           <a
