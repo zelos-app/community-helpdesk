@@ -94,21 +94,15 @@ export default () => {
       key={currentLanguage._id}
       initialValues={currentLanguage}
       onSubmit={async (values) => {
-        const {
-          landing,
-          selectCategory,
-          writeRequest,
-          addContact,
-          confirmation,
-        } = values;
+        const updateValues = {};
 
-        await axios.put(`/api/locales/${values._id}`, {
-          landing,
-          selectCategory,
-          writeRequest,
-          addContact,
-          confirmation,
+        Object.keys(values).forEach((k) => {
+          if (typeof values[k] === "object") {
+            updateValues[k] = values[k];
+          }
         });
+
+        await axios.put(`/api/locales/${values._id}`, updateValues);
         getLocales();
       }}
     >

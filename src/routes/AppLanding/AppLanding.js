@@ -11,7 +11,7 @@ function AppLanding() {
         <h1 className="text-alpha">
           <FormattedMessage id="appLanding.content.header" />
         </h1>
-        <h3 className="text-alpha">
+        <h3 className="text-alpha" style={{ whiteSpace: "pre-line" }}>
           <FormattedMessage id="appLanding.content.body" />
         </h3>
         <div className="app-landing__links">
