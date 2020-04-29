@@ -31,19 +31,16 @@ function Confirmed() {
           <div className="request-children-wrapper">
             <div className="text-wrapper">
               <h1 className="text-alpha">
-                <FormattedMessage id="confirmedHead" />
+                <FormattedMessage id="confirmation.content.header" />
               </h1>
               <h3 className="text-alpha">
-                <FormattedMessage
-                  id="confirmedBody"
-                  values={{ p: (...chunks) => <p>{chunks}</p> }}
-                />
+                <FormattedMessage id="confirmation.content.body" />
               </h3>
 
               <div className="action-wrapper">
                 <Link to="/">
                   <Button color="primary" variant="contained">
-                    <FormattedMessage id="back" />
+                    <FormattedMessage id="confirmation.buttons.home" />
                   </Button>
                 </Link>
               </div>

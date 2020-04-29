@@ -21,13 +21,10 @@ function Intro() {
         >
           <div className="text-wrapper">
             <h1 className="text-alpha">
-              <FormattedMessage id="introHead" />
+              <FormattedMessage id="landing.content.header" />
             </h1>
             <h3 className="text-alpha">
-              <FormattedMessage
-                id="introBody"
-                values={{ p: (...chunks) => <p>{chunks}</p> }}
-              />
+              <FormattedMessage id="landing.content.body" />
             </h3>
           </div>
           <div className="action-wrapper">
@@ -38,7 +35,10 @@ function Intro() {
               />
             </Link>
             <Link to="/app">
-              <CustomButton titleId="iWantToHelp" modifier="secondary" />
+              <CustomButton
+                titleId="landing.buttons.offer"
+                modifier="secondary"
+              />
             </Link>
           </div>
         </Grid>

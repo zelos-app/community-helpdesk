@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
-import Switch from "@material-ui/core/Switch";
+import { Switch, FormControlLabel } from "@material-ui/core";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -13,6 +13,8 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import { Paper } from "@material-ui/core";
 import { NewLocaleModal } from "./newLocaleModal";
 import Typography from "@material-ui/core/Typography";
+import langmap from "langmap";
+import { Formik, Form, Field } from "formik";
 
 import { FormattedMessage } from "react-intl";
 
@@ -32,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     color: theme.palette.text.secondary,
   },
-  wapper: {
+  wrapper: {
     padding: "24px",
     backgroundColor: "#f5f5f5",
   },
@@ -43,131 +45,186 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const languages = [
-  { id: "en", name: "English" },
-  { id: "et", name: "Estonian" },
-];
-
-export const LocaleTable = () => {
+export default () => {
   const classes = useStyles();
+  const [locales, setLocales] = useState([]);
 
-  const [defaultLanguage, setDefaultLanguage] = useState("en");
-  const [locales, setLocales] = useState(null);
+  const [activeLanguage, setActiveLanguage] = useState(0);
   const [localeModal, setLocaleModal] = useState(null);
 
+  const currentLanguage = locales[activeLanguage];
+
   const getLocales = async () => {
+    setLocales([]);
     const { data = {} } = await axios.get("/api/locales");
-    console.log("---dapi", data);
-    setLocales(data || []);
+    setLocales(data || {});
   };
 
   useEffect(() => {
     getLocales();
   }, []);
 
-  // const createLocale = () => {
-  //   console.log("===creat elocales");
-  // };
-
   const openLocaleModal = () => {
-    const langList = languages.map((lang) => lang.id);
+    const langList = locales.map((lang) => lang.code);
     setLocaleModal(langList);
   };
 
-  const saveNewLocale = (newLocale) => {
-    console.log("newlocale", newLocale);
+  const createLocale = async (localeCode) => {
+    try {
+      await axios.post("/api/locales", {
+        code: localeCode,
+        name: langmap[localeCode].englishName,
+      });
+      getLocales();
+    } catch (error) {
+      window.alert(error.message);
+    }
     setLocaleModal(null);
   };
 
-  const setActiveLanguage = (lang) => {
-    setDefaultLanguage(lang);
+  const setCurrentLanguageActive = async (value) => {
+    await axios.put(`/api/locales/${currentLanguage._id}`, {
+      active: value,
+    });
+    getLocales();
   };
 
-  return (
-    <>
-      <Grid container spacing={0} justify="space-between">
-        <Grid item xs={6}>
-          <Box m={2}>
-            {languages.map((lang) => (
-              <Button
-                variant={lang.id === defaultLanguage ? "contained" : "outlined"}
-                size="small"
-                color="primary"
-                className={classes.margin}
-                key={lang.id}
-                onClick={() => setActiveLanguage(lang.id)}
+  return locales.length ? (
+    <Formik
+      key={currentLanguage._id}
+      initialValues={currentLanguage}
+      onSubmit={async (values) => {
+        const {
+          landing,
+          selectCategory,
+          writeRequest,
+          addContact,
+          confirmation,
+        } = values;
+
+        await axios.put(`/api/locales/${values._id}`, {
+          landing,
+          selectCategory,
+          writeRequest,
+          addContact,
+          confirmation,
+        });
+        getLocales();
+      }}
+    >
+      <Form>
+        <Grid container spacing={0} justify="space-between">
+          <Grid item xs={6}>
+            <Box m={2}>
+              {locales.map((lang, i) => (
+                <Button
+                  variant={i === activeLanguage ? "contained" : "outlined"}
+                  size="small"
+                  color="primary"
+                  type="button"
+                  className={classes.margin}
+                  key={lang._id}
+                  onClick={() => setActiveLanguage(i)}
+                >
+                  {lang.name}
+                </Button>
+              ))}
+
+              <IconButton
+                aria-label="Add"
+                onClick={() => openLocaleModal()}
+                type="button"
               >
-                {lang.name}
+                <AddIcon fontSize="small" />
+              </IconButton>
+            </Box>
+          </Grid>
+          <Grid item xs={6} style={{ flexBasis: "auto" }}>
+            <Box m={2}>
+              <FormControlLabel
+                labelPlacement="start"
+                label="Active"
+                control={
+                  <Switch
+                    color="primary"
+                    name="newlocale"
+                    className={classes.margin}
+                    checked={currentLanguage.active}
+                    onChange={() =>
+                      setCurrentLanguageActive(!currentLanguage.active)
+                    }
+                  />
+                }
+              />
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classes.margin}
+                type="submit"
+              >
+                Save
               </Button>
-            ))}
-
-            <IconButton aria-label="delete" onClick={() => openLocaleModal()}>
-              <AddIcon fontSize="small" />
-            </IconButton>
-          </Box>
-        </Grid>
-        <Grid item xs={6} style={{ flexBasis: "auto" }}>
-          <Box m={2}>
-            <Switch
-              color="primary"
-              name="newlocale"
-              className={classes.margin}
-            />
-            <Button
-              variant="contained"
-              color="secondary"
-              className={classes.margin}
-            >
-              Save
-            </Button>
-          </Box>
-        </Grid>
-      </Grid>
-      {locales ? (
-        <div className={classes.wapper}>
-          <Grid container alignItems="center">
-            <Grid item xs>
-              <Typography gutterBottom variant="h4">
-                Page/Location
-              </Typography>
-            </Grid>
+            </Box>
           </Grid>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <form className={classes.root} noValidate autoComplete="off">
-                  <Box m={2}>
-                    <TextField
-                      id="outlined-basic"
-                      label={<FormattedMessage id="locale.field.name" />}
-                      variant="outlined"
-                      margin="normal"
-                      fullWidth
-                    />
-                  </Box>
-                  <Box m={2}>
-                    <TextField
-                      id="outlined-multiline-static"
-                      label={<FormattedMessage id="locale.field.value" />}
-                      multiline
-                      rows={4}
-                      variant="outlined"
-                      margin="normal"
-                      fullWidth
-                    />
-                  </Box>
-                </form>
-              </Paper>
-            </Grid>
-          </Grid>
+        </Grid>
+        <div className={classes.wrapper}>
+          {Object.keys(currentLanguage).map((key) => {
+            if (typeof currentLanguage[key] !== "object") return null;
 
-          {localeModal && (
-            <NewLocaleModal data={localeModal} saveNewLocale={saveNewLocale} />
-          )}
+            return (
+              <>
+                <Grid container alignItems="center">
+                  <Grid item xs>
+                    <Typography gutterBottom variant="h4">
+                      {key}
+                    </Typography>
+                  </Grid>
+                </Grid>
+                {Object.keys(currentLanguage[key]).map((subkey) => {
+                  return (
+                    <>
+                      <Grid container alignItems="center">
+                        <Grid item xs>
+                          <Typography gutterBottom variant="h5">
+                            {subkey}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                      <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                          <Paper className={classes.paper}>
+                            {Object.keys(currentLanguage[key][subkey]).map(
+                              (field) => {
+                                return (
+                                  <Box m={2}>
+                                    <Field
+                                      name={`${key}.${subkey}.${field}`}
+                                      as={TextField}
+                                      label={field}
+                                      variant="outlined"
+                                      margin="normal"
+                                      fullWidth
+                                    />
+                                  </Box>
+                                );
+                              }
+                            )}
+                          </Paper>
+                        </Grid>
+                      </Grid>
+                    </>
+                  );
+                })}
+              </>
+            );
+          })}
         </div>
-      ) : (
-        <LoadingSpinner />
-      )}
-    </>
+        {localeModal && (
+          <NewLocaleModal data={localeModal} createLocale={createLocale} />
+        )}
+      </Form>
+    </Formik>
+  ) : (
+    <LoadingSpinner />
   );
 };

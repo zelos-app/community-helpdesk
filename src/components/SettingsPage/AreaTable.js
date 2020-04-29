@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import EditIcon from "@material-ui/icons/Edit";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { AreaEditModal } from "./AreaEditModal";
@@ -14,6 +14,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import { Paper } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import { FormattedMessage } from "react-intl";
+import axios from "../../utils/axios";
 
 const useStyles = makeStyles({
   container: {
@@ -34,9 +35,19 @@ const useStyles = makeStyles({
   },
 });
 
-export const AreaTable = ({ areas, getAreas, deleteArea }) => {
+export default () => {
   const classes = useStyles();
   const [area, setArea] = useState(null);
+  const [areas, setAreas] = useState();
+
+  const getAreas = async () => {
+    const { data = {} } = await axios.get("/api/areas");
+    setAreas(data.areas || []);
+  };
+
+  const deleteArea = (area) => {
+    axios.delete(`/api/areas/${area._id}`).then(() => getAreas());
+  };
 
   const areaEdited = () => {
     setArea(null);
@@ -46,6 +57,10 @@ export const AreaTable = ({ areas, getAreas, deleteArea }) => {
   const createArea = () => {
     setArea({ action: "add", selected: null });
   };
+
+  useEffect(() => {
+    getAreas();
+  }, []);
 
   return (
     <>

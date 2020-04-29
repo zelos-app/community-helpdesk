@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useFormikContext, Field } from "formik";
 import history from "../../utils/history";
 import { TextField, Button, Grid } from "@material-ui/core";
 
 function Request() {
   const { values } = useFormikContext();
+  const intl = useIntl();
 
   useEffect(() => {
     if (!values.category) {
@@ -38,14 +39,17 @@ function Request() {
           <div className="request-children-wrapper">
             <div className="text-wrapper">
               <h1 className="text-alpha">
-                <FormattedMessage id="pleaseDescribeYourProblem" />
+                <FormattedMessage id="writeRequest.content.header" />
               </h1>
             </div>
 
             <Field
               name="request"
               as={TextField}
-              label={<FormattedMessage id="describeYourRequest" />}
+              label={<FormattedMessage id="writeRequest.content.body" />}
+              placeholder={intl.formatMessage({
+                id: "writeRequest.placeholders.request",
+              })}
               variant="outlined"
               multiline
               rows="5"
@@ -55,7 +59,7 @@ function Request() {
 
             <div className="action-wrapper">
               <Button type="button" onClick={back} variant="contained">
-                <FormattedMessage id="goBack" />
+                <FormattedMessage id="writeRequest.buttons.back" />
               </Button>
               <Button
                 color="primary"
@@ -64,7 +68,7 @@ function Request() {
                 disabled={!values.request}
                 variant="contained"
               >
-                <FormattedMessage id="next" />
+                <FormattedMessage id="writeRequest.buttons.next" />
               </Button>
             </div>
           </div>

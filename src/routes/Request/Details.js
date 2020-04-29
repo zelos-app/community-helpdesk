@@ -39,9 +39,12 @@ function Details() {
           <div className="request-children-wrapper">
             <div className="text-wrapper">
               <h1 className="text-alpha">
-                <FormattedMessage id="enterYourDetails" />
+                <FormattedMessage id="addContact.content.header" />
               </h1>
             </div>
+            <h3 className="text-alpha">
+              <FormattedMessage id="addContact.content.body" />
+            </h3>
 
             <div className="input-container">
               <Grid
@@ -54,7 +57,9 @@ function Details() {
                   <Field
                     name="name"
                     as={TextField}
-                    label={<FormattedMessage id="fullName" />}
+                    label={
+                      <FormattedMessage id="addContact.placeholders.name" />
+                    }
                     variant="outlined"
                     fullWidth
                     required
@@ -64,7 +69,9 @@ function Details() {
                   <Field
                     name="phone"
                     as={TextField}
-                    label={<FormattedMessage id="phone" />}
+                    label={
+                      <FormattedMessage id="addContact.placeholders.phone" />
+                    }
                     variant="outlined"
                     fullWidth
                     required
@@ -75,7 +82,9 @@ function Details() {
                     <Field
                       name="address"
                       as={TextField}
-                      label={<FormattedMessage id="address" />}
+                      label={
+                        <FormattedMessage id="addContact.placeholders.address" />
+                      }
                       fullWidth
                       variant="outlined"
                     />
@@ -85,7 +94,9 @@ function Details() {
                   <Field
                     name="area"
                     as={TextField}
-                    label={<FormattedMessage id="area" />}
+                    label={
+                      <FormattedMessage id="addContact.placeholders.area" />
+                    }
                     variant="outlined"
                     fullWidth
                     required
@@ -107,7 +118,7 @@ function Details() {
               ) : (
                 <Fragment>
                   <Button type="button" variant="contained" onClick={back}>
-                    <FormattedMessage id="goBack" />
+                    <FormattedMessage id="addContact.buttons.back" />
                   </Button>
                   <Button
                     color="primary"
@@ -115,7 +126,7 @@ function Details() {
                     variant="contained"
                     disabled={!isValid}
                   >
-                    <FormattedMessage id="next" />
+                    <FormattedMessage id="addContact.buttons.next" />
                   </Button>
                 </Fragment>
               )}

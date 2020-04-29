@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import EditIcon from "@material-ui/icons/Edit";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import Button from "@material-ui/core/Button";
@@ -16,6 +16,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import { Paper } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import { FormattedMessage } from "react-intl";
+import axios from "../../utils/axios";
 
 const useStyles = makeStyles({
   container: {
@@ -36,14 +37,24 @@ const useStyles = makeStyles({
   },
 });
 
-export const CategoryTable = ({
-  categories,
-  getCategories,
-  deleteCategory,
-}) => {
+export default () => {
   const classes = useStyles();
 
   const [category, setCategory] = useState(null);
+  const [categories, setCategories] = useState();
+
+  const getCategories = async () => {
+    const { data = {} } = await axios.get("/api/categories");
+    setCategories(data.categories || []);
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  const deleteCategory = (category) => {
+    axios.delete(`/api/categories/${category._id}`).then(() => getCategories());
+  };
 
   const categoryEdited = () => {
     setCategory(null);

@@ -8,6 +8,9 @@ import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 
 import DashboardNavigation from "../../components/DashboardNavigation/DashboardNavigation";
+import { IntlProvider } from "react-intl";
+
+import translations from "../../translations/en.json";
 
 const defaultContext = { categories: [], areas: [], users: [] };
 export const RequestOptionsContext = createContext(defaultContext);
@@ -54,7 +57,7 @@ export default function Dashboard(props) {
   if (!loginChecked || !isLoaded) return <LoadingSpinner />;
 
   return (
-    <>
+    <IntlProvider messages={translations}>
       <Container maxWidth="lg">
         <Box p={1}>
           <RequestOptionsContext.Provider value={requestOptions}>
@@ -63,6 +66,6 @@ export default function Dashboard(props) {
           </RequestOptionsContext.Provider>
         </Box>
       </Container>
-    </>
+    </IntlProvider>
   );
 }

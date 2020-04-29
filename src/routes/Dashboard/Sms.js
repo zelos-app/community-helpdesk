@@ -1,5 +1,5 @@
 import React from "react";
 
-export const Sms = () => {
+export default () => {
   return null;
 };

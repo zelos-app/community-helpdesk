@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Formik, Field, Form } from "formik";
 import { withStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
-import Select from "@material-ui/core/Select/Select";
+import { TextField } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import CustomButton from "../../components/CustomButton/CustomButton";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
+import langmap from "langmap";
 import { FormattedMessage } from "react-intl";
 
 const styles = (theme) => ({
@@ -51,75 +50,42 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-export const NewLocaleModal = ({ data, saveNewLocale }) => {
-  const [locale, setLocale] = useState();
-
-  useEffect(() => {
-    setLocale(data[0]);
-  }, [data]);
-
-  const handleInputChange = ({ target }) => {
-    setLocale(target.value);
-  };
-
+export const NewLocaleModal = ({ createLocale }) => {
   return (
-    <Dialog
-      onClose={() => saveNewLocale()}
-      aria-labelledby="customized-dialog-title"
-      open={true}
-    >
-      <DialogTitle id="customized-dialog-title" onClose={() => saveNewLocale()}>
-        New Locale
-      </DialogTitle>
+    <Dialog aria-labelledby="customized-dialog-title" open={true}>
+      <DialogTitle id="customized-dialog-title">New Locale</DialogTitle>
       <DialogContent dividers>
         <Formik
           initialValues={{
-            locales: locale || [],
+            locale: "",
           }}
-          onSubmit={async (values, formik) => {
-            try {
-              formik.setSubmitting(false);
-              saveNewLocale();
-            } catch (e) {
-              alert(e.message);
-            }
+          onSubmit={(values, formik) => {
+            createLocale(values.locale);
           }}
           validate={(values) => {
             const errors = {};
-            if (!values.locales) {
-              errors.locales = "required";
+            if (!values.locale) {
+              errors.locale = "required";
             }
             return errors;
           }}
         >
           <Form>
             <div className="inputContainer">
-              <Field name="locales">
-                {({ field }) => (
-                  <FormControl className="input" variant="outlined" fullWidth>
-                    <InputLabel>
-                      <FormattedMessage id="locales" />
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-outlined-label"
-                      id="demo-simple-select-outlined"
-                      name="Locales"
-                      variant="outlined"
-                      value={locale}
-                      onChange={handleInputChange}
-                      label={<FormattedMessage id="locales" />}
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      {data.map((option) => (
-                        <MenuItem value={option} key={option}>
-                          {option}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                )}
+              <Field
+                name="locale"
+                as={TextField}
+                label={<FormattedMessage id="locales" />}
+                variant="outlined"
+                fullWidth
+                required
+                select
+              >
+                {Object.keys(langmap).map((code) => (
+                  <MenuItem value={code} key={code}>
+                    {langmap[code].englishName}
+                  </MenuItem>
+                ))}
               </Field>
             </div>
             <div className="category-action">
@@ -137,7 +103,6 @@ export const NewLocaleModal = ({ data, saveNewLocale }) => {
                 titleId="cancel"
                 modifier="secondary"
                 type="button"
-                onClick={() => saveNewLocale()}
               />
             </div>
           </Form>
