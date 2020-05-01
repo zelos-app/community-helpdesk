@@ -16,8 +16,6 @@ import Typography from "@material-ui/core/Typography";
 import langmap from "langmap";
 import { Formik, Form, Field } from "formik";
 
-import { FormattedMessage } from "react-intl";
-
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: "8 0 8 0",
@@ -166,7 +164,7 @@ export default () => {
             if (typeof currentLanguage[key] !== "object") return null;
 
             return (
-              <>
+              <React.Fragment key={key}>
                 <Grid container alignItems="center">
                   <Grid item xs>
                     <Typography gutterBottom variant="h4">
@@ -176,7 +174,7 @@ export default () => {
                 </Grid>
                 {Object.keys(currentLanguage[key]).map((subkey) => {
                   return (
-                    <>
+                    <React.Fragment key={`${key}.${subkey}`}>
                       <Grid container alignItems="center">
                         <Grid item xs>
                           <Typography gutterBottom variant="h5">
@@ -188,9 +186,9 @@ export default () => {
                         <Grid item xs={12}>
                           <Paper className={classes.paper}>
                             {Object.keys(currentLanguage[key][subkey]).map(
-                              (field) => {
+                              (field, idx) => {
                                 return (
-                                  <Box m={2}>
+                                  <Box m={2} key={`${key}.${subkey}.${idx}`}>
                                     <Field
                                       name={`${key}.${subkey}.${field}`}
                                       as={TextField}
@@ -206,10 +204,10 @@ export default () => {
                           </Paper>
                         </Grid>
                       </Grid>
-                    </>
+                    </React.Fragment>
                   );
                 })}
-              </>
+              </React.Fragment>
             );
           })}
         </div>

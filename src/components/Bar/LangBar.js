@@ -8,8 +8,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    position: "absolute",
-    right: "10px",
     "& > *": {
       margin: theme.spacing(1),
     },
@@ -25,16 +23,16 @@ export const LangBar = ({ locales, current, selectLanguage }) => {
 
   return (
     <div className={classes.root}>
-      <ButtonGroup size="small" aria-label="small outlined button group">
-        {locales.map((lang) => (
+      <ButtonGroup size="small" aria-label="medium button group">
+        {locales.map(({ key, name }) => (
           <Button
-            key={lang}
+            key={key}
             onClick={() => {
-              selectLanguage(lang);
+              selectLanguage(key);
             }}
-            color={current === lang ? "primary" : ""}
+            color={current === key ? "secondary" : ""}
           >
-            {lang}
+            {name}
           </Button>
         ))}
       </ButtonGroup>

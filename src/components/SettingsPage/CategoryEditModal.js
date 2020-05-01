@@ -84,7 +84,6 @@ export const CategoryEditModal = ({
           }}
           onSubmit={async (values, formik) => {
             try {
-              console.log("====", action, values);
               if (action === "add") {
                 await axios.post("/api/categories/", values);
               } else {
