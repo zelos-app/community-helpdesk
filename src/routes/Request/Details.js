@@ -5,8 +5,22 @@ import history from "../../utils/history";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { RequestOptionsContext } from "./RequestWrapper";
 import { TextField, Button, MenuItem, Grid } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    justifyContent: "center",
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+}));
 
 function Details() {
+  const classes = useStyles();
+
   const { categories, areas } = useContext(RequestOptionsContext);
   const { values, isValid, isSubmitting } = useFormikContext();
 
@@ -24,95 +38,83 @@ function Details() {
 
   return (
     <Grid container spacing={0}>
-      <Grid item xs={5}>
+      <Grid item md={5} xs={12}>
         <div className="illustration" />
       </Grid>
-      <Grid item xs={7}>
+
+      <Grid item md={7} xs={12}>
         <Grid
           container
           spacing={0}
           direction="column"
           alignItems="center"
           justify="center"
-          style={{ minHeight: "100vh" }}
+          style={{ minHeight: "100%" }}
         >
-          <div className="request-children-wrapper">
-            <div className="text-wrapper">
-              <h1 className="text-alpha">
-                <FormattedMessage id="addContact.content.header" />
-              </h1>
-            </div>
+          <Box m={2}>
+            <h1 className="text-alpha">
+              <FormattedMessage id="addContact.content.header" />
+            </h1>
             <h3 className="text-alpha">
               <FormattedMessage id="addContact.content.body" />
             </h3>
 
-            <div className="input-container">
-              <Grid
-                container
-                spacing={2}
-                direction="column"
-                alignItems="stretch"
-              >
-                <Grid item>
-                  <Field
-                    name="name"
-                    as={TextField}
-                    label={
-                      <FormattedMessage id="addContact.placeholders.name" />
-                    }
-                    variant="outlined"
-                    fullWidth
-                    required
-                  />
-                </Grid>
-                <Grid item>
-                  <Field
-                    name="phone"
-                    as={TextField}
-                    label={
-                      <FormattedMessage id="addContact.placeholders.phone" />
-                    }
-                    variant="outlined"
-                    fullWidth
-                    required
-                  />
-                </Grid>
-                {selectedCategory && selectedCategory.needsAddress && (
-                  <Grid item>
-                    <Field
-                      name="address"
-                      as={TextField}
-                      label={
-                        <FormattedMessage id="addContact.placeholders.address" />
-                      }
-                      fullWidth
-                      variant="outlined"
-                    />
-                  </Grid>
-                )}
-                <Grid item>
-                  <Field
-                    name="area"
-                    as={TextField}
-                    label={
-                      <FormattedMessage id="addContact.placeholders.area" />
-                    }
-                    variant="outlined"
-                    fullWidth
-                    required
-                    select
-                  >
-                    {areas.map((area) => (
-                      <MenuItem value={area._id} key={area._id}>
-                        {area.name}
-                      </MenuItem>
-                    ))}
-                  </Field>
-                </Grid>
+            <Grid container spacing={2} direction="column" alignItems="stretch">
+              <Grid item>
+                <Field
+                  name="name"
+                  as={TextField}
+                  label={<FormattedMessage id="addContact.placeholders.name" />}
+                  variant="outlined"
+                  fullWidth
+                  required
+                />
               </Grid>
-            </div>
+              <Grid item>
+                <Field
+                  name="phone"
+                  as={TextField}
+                  label={
+                    <FormattedMessage id="addContact.placeholders.phone" />
+                  }
+                  variant="outlined"
+                  fullWidth
+                  required
+                />
+              </Grid>
+              {selectedCategory && selectedCategory.needsAddress && (
+                <Grid item>
+                  <Field
+                    name="address"
+                    as={TextField}
+                    label={
+                      <FormattedMessage id="addContact.placeholders.address" />
+                    }
+                    fullWidth
+                    variant="outlined"
+                  />
+                </Grid>
+              )}
+              <Grid item>
+                <Field
+                  name="area"
+                  as={TextField}
+                  label={<FormattedMessage id="addContact.placeholders.area" />}
+                  variant="outlined"
+                  fullWidth
+                  required
+                  select
+                >
+                  {areas.map((area) => (
+                    <MenuItem value={area._id} key={area._id}>
+                      {area.name}
+                    </MenuItem>
+                  ))}
+                </Field>
+              </Grid>
+            </Grid>
 
-            <div className="action-wrapper">
+            <div className={classes.root}>
               {isSubmitting ? (
                 <LoadingSpinner />
               ) : (
@@ -131,7 +133,7 @@ function Details() {
                 </Fragment>
               )}
             </div>
-          </div>
+          </Box>
         </Grid>
       </Grid>
     </Grid>

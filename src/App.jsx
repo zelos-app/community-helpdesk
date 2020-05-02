@@ -40,7 +40,7 @@ export default () => {
               value={{ data: isLogged, set: setLogged }}
             >
               <GlobalStyles />
-              <Container maxWidth="xl">
+              <Container maxWidth="xl" disableGutters>
                 <Router />
               </Container>
             </LoggedInContext.Provider>

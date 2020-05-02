@@ -5,8 +5,19 @@ import history from "../../utils/history";
 import { RequestOptionsContext } from "./RequestWrapper";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  flex: {
+    display: "flex",
+    justifyContent: "center",
+  },
+}));
 
 function Category() {
+  const classes = useStyles();
+
   const { categories } = useContext(RequestOptionsContext);
   const { setFieldValue } = useFormikContext();
 
@@ -32,43 +43,47 @@ function Category() {
 
   return (
     <Grid container spacing={0}>
-      <Grid item xs={5}>
+      <Grid item md={5} xs={12}>
         <div className="illustration" />
       </Grid>
-      <Grid item xs={7}>
+
+      <Grid item md={7} xs={12}>
         <Grid
           container
           spacing={0}
           direction="column"
           alignItems="center"
           justify="center"
-          style={{ minHeight: "100vh" }}
+          style={{ minHeight: "100%" }}
         >
-          <div className="request-children-wrapper">
-            <div className="text-wrapper">
-              <h1 className="text-alpha">
-                <FormattedMessage id="selectCategory.content.header" />
-              </h1>
-              <h3 className="text-alpha">
-                <FormattedMessage
-                  id="selectCategory.content.body"
-                  values={{ p: (...chunks) => <p>{chunks}</p> }}
-                />
-              </h3>
-            </div>
+          <Box m={2}>
+            <h1 className="text-alpha">
+              <FormattedMessage id="selectCategory.content.header" />
+            </h1>
+
+            <h3 className="text-alpha">
+              <FormattedMessage
+                id="selectCategory.content.body"
+                values={{ p: (...chunks) => <p>{chunks}</p> }}
+              />
+            </h3>
 
             <Grid container direction="row" justify="center" spacing={2}>
               <SelectorButtons />
             </Grid>
-            <div className="action-wrapper">
-              <FormattedMessage id="selectCategory.content.or" />
-            </div>
-            <div className="action-wrapper">
-              <Button onClick={() => history.go(-1)}>
+
+            <Grid container direction="row" justify="center" spacing={0}>
+              <Box pt={1}>
+                <FormattedMessage id="selectCategory.content.or" />
+              </Box>
+            </Grid>
+
+            <Grid container direction="row" justify="center" spacing={0}>
+              <Button onClick={() => history.push("/")}>
                 <FormattedMessage id="selectCategory.buttons.back" />
               </Button>
-            </div>
-          </div>
+            </Grid>
+          </Box>
         </Grid>
       </Grid>
     </Grid>
