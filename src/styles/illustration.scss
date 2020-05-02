@@ -1,11 +1,11 @@
 .illustration {
   background-image: url("../assets/bg.jpg");
-  width: 100%;
+  max-width: 100vw;
   height: 100vh;
   background-size: cover;
   background-position: center;
-  @media only screen and (max-width: 900px) {
-    height: 50vh;
-    margin: 0px;
+  @media only screen and (max-width: 960px) {
+    height: 160px;
+    background-position: 50% 80%;
   }
 }

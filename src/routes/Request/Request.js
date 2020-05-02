@@ -49,49 +49,42 @@ function Request() {
           direction="column"
           alignItems="center"
           justify="center"
-          style={{ minHeight: "100vh" }}
+          style={{ minHeight: "100%" }}
         >
-          <Grid
-            container
-            justify="center"
-            alignItems="center"
-            direction="column"
-          >
-            <Box mx={1}>
-              <h1 className="text-alpha">
-                <FormattedMessage id="writeRequest.content.header" />
-              </h1>
+          <Box m={2}>
+            <h1 className="text-alpha">
+              <FormattedMessage id="writeRequest.content.header" />
+            </h1>
 
-              <Field
-                name="request"
-                as={TextField}
-                label={<FormattedMessage id="writeRequest.content.body" />}
-                placeholder={intl.formatMessage({
-                  id: "writeRequest.placeholders.request",
-                })}
-                variant="outlined"
-                multiline
-                rows="5"
-                required
-                fullWidth
-              />
+            <Field
+              name="request"
+              as={TextField}
+              label={<FormattedMessage id="writeRequest.content.body" />}
+              placeholder={intl.formatMessage({
+                id: "writeRequest.placeholders.request",
+              })}
+              variant="outlined"
+              multiline
+              rows="5"
+              required
+              fullWidth
+            />
 
-              <div className={classes.root}>
-                <Button type="button" onClick={back} variant="contained">
-                  <FormattedMessage id="writeRequest.buttons.back" />
-                </Button>
-                <Button
-                  color="primary"
-                  onClick={next}
-                  type="button"
-                  disabled={!values.request}
-                  variant="contained"
-                >
-                  <FormattedMessage id="writeRequest.buttons.next" />
-                </Button>
-              </div>
-            </Box>
-          </Grid>
+            <div className={classes.root}>
+              <Button type="button" onClick={back} variant="contained">
+                <FormattedMessage id="writeRequest.buttons.back" />
+              </Button>
+              <Button
+                color="primary"
+                onClick={next}
+                type="button"
+                disabled={!values.request}
+                variant="contained"
+              >
+                <FormattedMessage id="writeRequest.buttons.next" />
+              </Button>
+            </div>
+          </Box>
         </Grid>
       </Grid>
     </Grid>
