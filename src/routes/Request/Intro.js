@@ -5,8 +5,21 @@ import { Link } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import { LangBar } from "../../components/Bar";
 import useLocale, { setLocale } from "../../hooks/useLocale";
+import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    justifyContent: "center",
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+}));
 
 const Intro = () => {
+  const classes = useStyles();
   const [{ locale, locales, loading }] = useLocale();
 
   return (
@@ -16,45 +29,34 @@ const Intro = () => {
       </Grid>
 
       <Grid item md={7} xs={12}>
-        <Grid
-          container
-          spacing={0}
-          direction="column"
-          alignItems="center"
-          justify="center"
-          style={{ minHeight: "100%" }}
-        >
-          <>
-            <Grid
-              container
-              justify="center"
-              alignItems="center"
-              direction="column"
-            >
-              {!loading && (
-                <Grid item xs={12}>
-                  <LangBar
-                    locales={locales}
-                    selectLanguage={(languageCode) => setLocale(languageCode)}
-                    current={locale}
-                  />
-                </Grid>
-              )}
+        <Box p={2} style={{ height: "100%" }}>
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justify="center"
+            style={{ minHeight: "100%" }}
+          >
+            {!loading && (
+              <Box p={2}>
+                <LangBar
+                  locales={locales}
+                  selectLanguage={(languageCode) => setLocale(languageCode)}
+                  current={locale}
+                />
+              </Box>
+            )}
 
-              <Grid item xs={12}>
-                <h1 className="text-alpha">
-                  <FormattedMessage id="landing.content.header" />
-                </h1>
-              </Grid>
+            <h1 className="text-alpha">
+              <FormattedMessage id="landing.content.header" />
+            </h1>
 
-              <Grid item xs={12}>
-                <h3 className="text-alpha">
-                  <FormattedMessage id="landing.content.body" />
-                </h3>
-              </Grid>
-            </Grid>
+            <h3 className="text-alpha">
+              <FormattedMessage id="landing.content.body" />
+            </h3>
 
-            <Grid container justify="center">
+            <div className={classes.root}>
               <Link to="/request">
                 <CustomButton
                   titleId="landing.buttons.request"
@@ -68,9 +70,9 @@ const Intro = () => {
                   modifier="secondary"
                 />
               </Link>
-            </Grid>
-          </>
-        </Grid>
+            </div>
+          </Grid>
+        </Box>
       </Grid>
     </Grid>
   );
