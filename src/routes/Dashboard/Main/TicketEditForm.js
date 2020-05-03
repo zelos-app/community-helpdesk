@@ -140,6 +140,7 @@ export const TicketEditForm = (props) => {
             />
 
             {ticket.category &&
+              getSelectedCategory(ticket.category) &&
               getSelectedCategory(ticket.category).needsAddress && (
                 <TextField
                   className="input"
