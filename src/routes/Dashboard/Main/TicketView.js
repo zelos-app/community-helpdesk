@@ -24,6 +24,7 @@ import {
   TICKET_STATE_REJECT,
   TICKET_STATE_RESOLVE,
 } from "../../../hooks/useTickets";
+import CustomButton from "../../../components/CustomButton/CustomButton";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -139,14 +140,14 @@ export const TicketVew = (props) => {
               ref={anchorRef}
               aria-label="split button"
             >
-              <Button
+              <CustomButton
                 onClick={async () => {
                   await openModal(dropdownOptions[selectedIndex]);
                 }}
               >
                 {dropdownOptions[selectedIndex]}
-              </Button>
-              <Button
+              </CustomButton>
+              <CustomButton
                 color="primary"
                 aria-controls={open ? "split-button-menu" : undefined}
                 aria-expanded={open ? "true" : undefined}
@@ -155,19 +156,19 @@ export const TicketVew = (props) => {
                 onClick={handleToggle}
               >
                 <ArrowDropDownIcon />
-              </Button>
+              </CustomButton>
             </ButtonGroup>
           </>
         )}
 
         <Box ml={1}>
-          <Button
+          <CustomButton
             variant="contained"
             color="secondary"
             onClick={() => props.onEdit && props.onEdit()}
           >
             <FormattedMessage id="edit" />
-          </Button>
+          </CustomButton>
         </Box>
       </Grid>
 

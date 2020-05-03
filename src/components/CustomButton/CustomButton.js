@@ -8,12 +8,6 @@ import Button from "@material-ui/core/Button";
 import { lightBlue, lightGreen } from "@material-ui/core/colors";
 import { FormattedMessage } from "react-intl";
 
-const useStyles = makeStyles((theme) => ({
-  margin: {
-    margin: theme.spacing(1),
-  },
-}));
-
 const theme = createMuiTheme({
   palette: {
     primary: lightGreen,
@@ -22,18 +16,18 @@ const theme = createMuiTheme({
 });
 
 export default (props) => {
-  const { modifier = "primary", titleId = "", title = "", ...rest } = props;
-
-  const classes = useStyles();
+  const {
+    children,
+    modifier = "primary",
+    titleId = "",
+    title = "",
+    ...rest
+  } = props;
 
   return (
     <ThemeProvider theme={theme}>
-      <Button
-        variant="contained"
-        color={modifier}
-        className={classes.margin}
-        {...rest}
-      >
+      <Button variant="contained" color={modifier} {...rest}>
+        {children}
         {titleId === "" ? title : <FormattedMessage id={titleId} />}
       </Button>
     </ThemeProvider>
