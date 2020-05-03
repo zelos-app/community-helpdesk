@@ -45,7 +45,6 @@ export default () => {
               </Container>
             </LoggedInContext.Provider>
           </ThemeProvider>
-          ~
         </IntlProvider>
       )}
     </>
