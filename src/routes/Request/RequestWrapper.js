@@ -16,10 +16,14 @@ export default function RequestWrapper(props) {
     async function fetchData() {
       try {
         const {
-          data: { categories, areas },
+          data: {
+            categories,
+            areas,
+            phone: { prefix: phonePrefix },
+          },
         } = await axios.get("/api/public/options");
 
-        setRequestOptions({ categories, areas });
+        setRequestOptions({ categories, areas, phonePrefix });
 
         setIsLoaded(true);
       } catch (e) {
@@ -37,7 +41,7 @@ export default function RequestWrapper(props) {
         <RequestOptionsContext.Provider value={requestOptions}>
           <Formik
             initialValues={{
-              phone: "+372",
+              phone: requestOptions.phonePrefix,
             }}
             onSubmit={(values, form) => {
               async function next() {
