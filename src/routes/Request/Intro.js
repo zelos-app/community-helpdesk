@@ -64,12 +64,12 @@ const Intro = () => {
                 />
               </Link>
 
-              <Link to="/app">
+              {/* <Link to="/app">
                 <CustomButton
                   titleId="landing.buttons.offer"
                   modifier="secondary"
                 />
-              </Link>
+              </Link> */}
             </div>
           </Grid>
         </Box>

@@ -41,7 +41,7 @@ export default function RequestWrapper(props) {
         <RequestOptionsContext.Provider value={requestOptions}>
           <Formik
             initialValues={{
-              phone: requestOptions.phonePrefix,
+              phone: `+${requestOptions.phonePrefix}`
             }}
             onSubmit={(values, form) => {
               async function next() {
