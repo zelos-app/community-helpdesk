@@ -50,13 +50,13 @@ function Category() {
       <Grid item md={7} xs={12}>
         <Grid
           container
-          spacing={0}
+          spacing={2}
           direction="column"
           alignItems="center"
           justify="center"
           style={{ minHeight: "100%" }}
         >
-          <Box m={2}>
+          {/* <Box m={2}> */}
             <h1 className="text-alpha">
               <FormattedMessage id="selectCategory.content.header" />
             </h1>
@@ -83,7 +83,7 @@ function Category() {
                 <FormattedMessage id="selectCategory.buttons.back" />
               </Button>
             </Grid>
-          </Box>
+          {/* </Box> */}
         </Grid>
       </Grid>
     </Grid>
