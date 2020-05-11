@@ -41,11 +41,16 @@ export default function RequestWrapper(props) {
         <RequestOptionsContext.Provider value={requestOptions}>
           <Formik
             initialValues={{
-              phone: `+${requestOptions.phonePrefix}`
+              phone: `+${requestOptions.phonePrefix}`,
             }}
             onSubmit={(values, form) => {
+              const decoratedValues = {
+                ...values,
+                phone: values.phone.replace(/ /g, ""),
+              };
+
               async function next() {
-                await axios.post("/api/public/tickets", { ...values });
+                await axios.post("/api/public/tickets", { ...decoratedValues });
                 form.resetForm();
                 form.setSubmitting(false);
                 history.push("/request/confirmed");
@@ -65,6 +70,10 @@ export default function RequestWrapper(props) {
 
               if (!values.phone) {
                 errors.phone = "required";
+              }
+
+              if (!/^\+?[\d\s]+$/i.test(values.phone)) {
+                errors.phone = "the phone number contains illegal characters";
               }
 
               const selectedCategory = requestOptions.categories.find(
