@@ -3,6 +3,7 @@ import { Field, useFormikContext } from "formik";
 import { FormattedMessage } from "react-intl";
 import history from "../../utils/history";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import { RequestOptionsContext } from "./RequestWrapper";
 import { TextField, Button, MenuItem, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
@@ -61,6 +62,7 @@ function Details() {
 
             <Grid container spacing={2} direction="column" alignItems="stretch">
               <Grid item>
+                <ErrorMessage name="name" />
                 <Field
                   name="name"
                   as={TextField}
@@ -71,6 +73,7 @@ function Details() {
                 />
               </Grid>
               <Grid item>
+                <ErrorMessage name="phone" />
                 <Field
                   name="phone"
                   as={TextField}
@@ -84,6 +87,7 @@ function Details() {
               </Grid>
               {selectedCategory && selectedCategory.needsAddress && (
                 <Grid item>
+                  <ErrorMessage name="address" />
                   <Field
                     name="address"
                     as={TextField}
@@ -96,6 +100,7 @@ function Details() {
                 </Grid>
               )}
               <Grid item>
+                <ErrorMessage name="area" />
                 <Field
                   name="area"
                   as={TextField}
