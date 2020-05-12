@@ -96,5 +96,14 @@
   "locale.fieldZelosPassword": "Zelos password",
   "locale.fieldZelosSubdomain": "Zelos subdomain",
   "locale.fieldDescription": "Description",
-  "locale.field.value": "Field value"
+  "locale.field.value": "Field value",
+  "messages": "SMS",
+  "messages.provider": "Messaging provider",
+  "messages.infobip.baseUrl": "Infobip base URL",
+  "messages.infobip.apiKey": "Infobip API key",
+  "messages.prefix": "Phone number prefix",
+  "messages.sendAcceptText": "Send acceptance text message",
+  "messages.acceptText": "Content of the acceptance message",
+  "messages.sendRejectText": "Send rejection text message",
+  "messages.rejectText": "Content of the rejection message"
 }
