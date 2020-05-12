@@ -139,9 +139,9 @@ export const TicketEditForm = (props) => {
               helperText={fProps.errors.phone}
             />
 
-            {ticket.category &&
-              getSelectedCategory(ticket.category) &&
-              getSelectedCategory(ticket.category).needsAddress && (
+            {fProps.values.category &&
+              getSelectedCategory(fProps.values.category) &&
+              getSelectedCategory(fProps.values.category).needsAddress && (
                 <TextField
                   className="input"
                   id="address"
